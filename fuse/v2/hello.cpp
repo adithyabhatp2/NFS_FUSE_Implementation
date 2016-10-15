@@ -23,16 +23,23 @@
 
 #include <iostream>
 
+#include "RPCClient.h"
 
 
+unsigned long int serverPort;
+unsigned long numPkts;
+unsigned long msgLen;
 
+char *hostName;
+
+static RPCClient client;
 
 static const char *hello_str = "Hello World!\n";
 static const char *hello_path = "/hello";
 
 static int hello_getattr(const char *path, struct stat *stbuf) {
     int res = 0;
-
+    client.communicatewithServer(hostName, serverPort, numPkts, msgLen); //adbhat
     memset(stbuf, 0, sizeof(struct stat));
     if (strcmp(path, "/") == 0) {
         stbuf->st_mode = S_IFDIR | 0755;
@@ -51,6 +58,8 @@ static int hello_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                          off_t offset, struct fuse_file_info *fi) {
     (void) offset;
     (void) fi;
+
+    client.communicatewithServer(hostName, serverPort, numPkts, msgLen); //adbhat
 
     if (strcmp(path, "/") != 0)
         return -ENOENT;
@@ -99,51 +108,45 @@ static struct hello_operations : fuse_operations {
     }
 }hello_oper;
 
+
+
+
 int main(int argc, char *argv[]) {
 
-    if (argc < 9) {
-        printf("Insufficient parameters!\n");
-        clientUsage();
-    }
 
-    unsigned long int serverPort = UINT_MAX;
-    unsigned long numPkts = 10;
-    unsigned long msgLen = 10;
-
-    char *hostName;
-    int ch;
+//    int ch;
 
     // Read input params from cmd line
-    while ((ch = getopt(argc, argv, "s:p:n:l:")) != -1) {
-        switch (ch) {
-            case 's':
-                hostName = strdup(optarg);
-                break;
-            case 'p':
-                serverPort = strtoul(optarg, NULL, 10);
-                if (serverPort <= 1024 || serverPort > 65536) {
-                    printf("Invalid Port\n");
-                    clientUsage();
-                }
-                break;
-            case 'n':
-                numPkts = strtoul(optarg, NULL, 10);
-                if (numPkts == 0 && errno == EINVAL) {
-                    clientUsage();
-                }
-                break;
-            case 'l':
-                msgLen = strtoul(optarg, NULL, 10);
-                if (msgLen == 0 && errno == EINVAL) {
-                    clientUsage();
-                }
-                break;
-            case '?':
-            default:
-                clientUsage();
-                return 0;
-        }
-    }
+//    while ((ch = getopt(argc, argv, "s:p:n:l:")) != -1) {
+//        switch (ch) {
+//            case 's':
+//                hostName = strdup(optarg);
+//                break;
+//            case 'p':
+//                serverPort = strtoul(optarg, NULL, 10);
+//                if (serverPort <= 1024 || serverPort > 65536) {
+//                    printf("Invalid Port\n");
+//                    client.clientUsage();
+//                }
+//                break;
+//            case 'n':
+//                numPkts = strtoul(optarg, NULL, 10);
+//                if (numPkts == 0 && errno == EINVAL) {
+//                    client.clientUsage();
+//                }
+//                break;
+//            case 'l':
+//                msgLen = strtoul(optarg, NULL, 10);
+//                if (msgLen == 0 && errno == EINVAL) {
+//                    client.clientUsage();
+//                }
+//                break;
+//            case '?':
+//            default:
+//                client.clientUsage();
+//                return 0;
+//        }
+//    }
 
 
 //    communicatewithServer(hostName, serverPort, numPkts, msgLen);
@@ -152,7 +155,11 @@ int main(int argc, char *argv[]) {
 //    char exitCh = 0;
 //    cin >> exitCh;
 
-    RPCClient client;
+
+    hostName = strdup("localhost");
+    serverPort = 9090;
+    numPkts = 10;
+    msgLen = 5;
 
     return fuse_main(argc, argv, &hello_oper, NULL);
 }

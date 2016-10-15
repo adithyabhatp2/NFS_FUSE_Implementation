@@ -149,60 +149,60 @@ void RPCClient::calculateBandwidth(char *hostName, int port, unsigned long numPk
 }
 
 
-int main(int argc, char *argv[]) {
-
-    RPCClient client;
-
-    if (argc < 9) {
-        printf("Insufficient parameters!\n");
-        client.clientUsage();
-    }
-
-    unsigned long int serverPort = UINT_MAX;
-    unsigned long numPkts = 10;
-    unsigned long msgLen = 10;
-
-    char *hostName;
-    int ch;
-
-    // Read input params from cmd line
-    while ((ch = getopt(argc, argv, "s:p:n:l:")) != -1) {
-        switch (ch) {
-            case 's':
-                hostName = strdup(optarg);
-                break;
-            case 'p':
-                serverPort = strtoul(optarg, NULL, 10);
-                if (serverPort <= 1024 || serverPort > 65536) {
-                    printf("Invalid Port\n");
-                    client.clientUsage();
-                }
-                break;
-            case 'n':
-                numPkts = strtoul(optarg, NULL, 10);
-                if (numPkts == 0 && errno == EINVAL) {
-                    client.clientUsage();
-                }
-                break;
-            case 'l':
-                msgLen = strtoul(optarg, NULL, 10);
-                if (msgLen == 0 && errno == EINVAL) {
-                    client.clientUsage();
-                }
-                break;
-            case '?':
-            default:
-                client.clientUsage();
-                return 0;
-        }
-    }
-
-
-//    communicatewithServer(hostName, serverPort, numPkts, msgLen);
-
-
-//    char exitCh = 0;
-//    cin >> exitCh;
-
-    client.calculateBandwidth(hostName, serverPort, numPkts, msgLen, CLOCK_MONOTONIC);
-}
+//int main(int argc, char *argv[]) {
+//
+//    RPCClient client;
+//
+//    if (argc < 9) {
+//        printf("Insufficient parameters!\n");
+//        client.clientUsage();
+//    }
+//
+//    unsigned long int serverPort = UINT_MAX;
+//    unsigned long numPkts = 10;
+//    unsigned long msgLen = 10;
+//
+//    char *hostName;
+//    int ch;
+//
+//    // Read input params from cmd line
+//    while ((ch = getopt(argc, argv, "s:p:n:l:")) != -1) {
+//        switch (ch) {
+//            case 's':
+//                hostName = strdup(optarg);
+//                break;
+//            case 'p':
+//                serverPort = strtoul(optarg, NULL, 10);
+//                if (serverPort <= 1024 || serverPort > 65536) {
+//                    printf("Invalid Port\n");
+//                    client.clientUsage();
+//                }
+//                break;
+//            case 'n':
+//                numPkts = strtoul(optarg, NULL, 10);
+//                if (numPkts == 0 && errno == EINVAL) {
+//                    client.clientUsage();
+//                }
+//                break;
+//            case 'l':
+//                msgLen = strtoul(optarg, NULL, 10);
+//                if (msgLen == 0 && errno == EINVAL) {
+//                    client.clientUsage();
+//                }
+//                break;
+//            case '?':
+//            default:
+//                client.clientUsage();
+//                return 0;
+//        }
+//    }
+//
+//
+////    communicatewithServer(hostName, serverPort, numPkts, msgLen);
+//
+//
+////    char exitCh = 0;
+////    cin >> exitCh;
+//
+//    client.calculateBandwidth(hostName, serverPort, numPkts, msgLen, CLOCK_MONOTONIC);
+//}
