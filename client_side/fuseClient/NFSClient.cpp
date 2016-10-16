@@ -20,7 +20,7 @@ int NFSClient::xmp_open(const char *path, struct fuse_file_info *fi)
 {
     int res;
 
-    // // res = rpcGateway.xmp_open(path, fi);
+     // res = rpcGateway.xmp_open(path, fi);
     if (res == -1)
         return -errno;
 
@@ -32,7 +32,7 @@ int NFSClient::xmp_access(const char *path, int mask)
 {
 	int res;
 
-	// // res = rpcGateway.xmp_access(path, mask);
+	 // res = rpcGateway.xmp_access(path, mask);
 	if (res == -1)
 		return -errno;
 
@@ -55,7 +55,7 @@ int NFSClient::xmp_mknod(const char *path, mode_t mode, dev_t rdev)
 {
     int res;
 
-    // // res = rpcGateway.xmp_mknod(path, mode, rdev);
+     // res = rpcGateway.xmp_mknod(path, mode, rdev);
     if (res == -1)
         return -errno;
 
