@@ -3,10 +3,10 @@ project(v1 C CXX)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES hello.c)
+set(SOURCE_FILES hello.cpp)
 
 #-D_FILE_OFFSET_BITS=64
-set_source_files_properties( hello.c PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64" )
+set_source_files_properties(hello.cpp PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64" )
 
 # -pthread
 

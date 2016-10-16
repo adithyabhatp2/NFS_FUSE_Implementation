@@ -5,7 +5,7 @@
   This program can be distributed under the terms of the GNU GPL.
   See the file COPYING.
 
-  gcc -Wall hello.c `pkg-config fuse --cflags --libs` -o hello
+  gcc -Wall hello.cpp `pkg-config fuse --cflags --libs` -o hello
 
   echo `pkg-config fuse --cflags --libs`
   -D_FILE_OFFSET_BITS=64 -I/u/a/d/adbhat/Software/include/fuse -pthread -L/u/a/d/adbhat/Software/lib -lfuse
@@ -87,12 +87,14 @@ static int hello_read(const char *path, char *buf, size_t size, off_t offset,
 	return size;
 }
 
-static struct fuse_operations hello_oper = {
-	.getattr	= hello_getattr,
-	.readdir	= hello_readdir,
-	.open		= hello_open,
-	.read		= hello_read,
-};
+static struct hello_operations : fuse_operations {
+    hello_operations() {
+        getattr = hello_getattr;
+        readdir = hello_readdir;
+        open = hello_open;
+        read = hello_read;
+    }
+}hello_oper;
 
 int main(int argc, char *argv[])
 {
