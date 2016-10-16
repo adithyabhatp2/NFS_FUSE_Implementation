@@ -2,6 +2,18 @@
 
 You'll be building a simple distributed file system. The file system will assume an NFS-like protocol; Your file system will integrate into the Linux client side using FUSE.
 
+
+On Google Cloud
+https://thrift.apache.org/docs/install/debian
+sudo apt-get install thrift-compiler
+apt-cache search thrift, libfuse-dev
+Didnt see ehader files, so created /unsup/thrift-0.9.3 , make install etc
+https://thrift.apache.org/docs/BuildingFromSource
+Libraries have been installed in:   /usr/local/lib
+Include : /usr/local/include
+Also, added local/lib to LD_LIBRARY_PATH
+
+
 Building FUSE
 --------------
 
