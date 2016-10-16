@@ -9,32 +9,12 @@
   gcc -Wall fusexmp.c `pkg-config fuse --cflags --libs` -o fusexmp
 */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "NFSServer.h"
 
-#ifdef linux
-/* For pread()/pwrite()/utimensat() */
-#define _XOPEN_SOURCE 700
-#endif
+#include<iostream>
+using namespace std;
 
-#include <fuse.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <errno.h>
-#include <sys/time.h>
-#ifdef HAVE_SETXATTR
-#include <sys/xattr.h>
-#endif
-
-
-
-
-int xmp_open(const char *path, struct fuse_file_info *fi)
+int NFSServer::xmp_open(const char *path, struct fuse_file_info *fi)
 {
     int res;
 
@@ -46,7 +26,7 @@ int xmp_open(const char *path, struct fuse_file_info *fi)
     return 0;
 }
 
-int xmp_access(const char *path, int mask)
+int NFSServer::xmp_access(const char *path, int mask)
 {
 	int res;
 
@@ -58,8 +38,8 @@ int xmp_access(const char *path, int mask)
 }
 
 
-
 // Start necessary as per NFS protocol
+
 
 /// The system call mknod() creates a file system node (file..)
 /// https://linux.die.net/man/2/mknod
@@ -69,7 +49,7 @@ int xmp_access(const char *path, int mask)
 /// \param mode - unsigned int (32?)
 /// \param rdev - unsigned long int
 /// \return
-int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
+int NFSServer::xmp_mknod(const char *path, mode_t mode, dev_t rdev)
 {
     int res;
 
@@ -89,7 +69,8 @@ int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
     return 0;
 }
 
-int xmp_remove(const char *path) {
+int NFSServer::xmp_remove(const char *path)
+{
     int res;
 
     res = remove(path);
@@ -99,7 +80,7 @@ int xmp_remove(const char *path) {
     return 0;
 }
 
-int xmp_getattr(const char *path, struct stat *stbuf)
+int NFSServer::xmp_getattr(const char *path, struct stat *stbuf)
 {
     int res;
 
@@ -111,14 +92,14 @@ int xmp_getattr(const char *path, struct stat *stbuf)
 }
 
 // TODO
-int xmp_setattr(const char *path, struct stat *stbuf)
+int NFSServer::xmp_setattr(const char *path, struct stat *stbuf)
 {
 
     return 0;
 }
 
 
-int xmp_read(const char *path, char *buf, size_t size, off_t offset,
+int NFSServer::xmp_read(const char *path, char *buf, size_t size, off_t offset,
                     struct fuse_file_info *fi)
 {
     int fd;
@@ -138,7 +119,7 @@ int xmp_read(const char *path, char *buf, size_t size, off_t offset,
 }
 
 
-int xmp_write(const char *path, const char *buf, size_t size,
+int NFSServer::xmp_write(const char *path, const char *buf, size_t size,
                      off_t offset, struct fuse_file_info *fi)
 {
     int fd;
@@ -157,7 +138,7 @@ int xmp_write(const char *path, const char *buf, size_t size,
     return res;
 }
 
-int xmp_rename(const char *from, const char *to)
+int NFSServer::xmp_rename(const char *from, const char *to)
 {
     int res;
 
@@ -169,7 +150,7 @@ int xmp_rename(const char *from, const char *to)
 }
 
 
-int xmp_mkdir(const char *path, mode_t mode)
+int NFSServer::xmp_mkdir(const char *path, mode_t mode)
 {
 	int res;
 
@@ -180,7 +161,7 @@ int xmp_mkdir(const char *path, mode_t mode)
 	return 0;
 }
 
-int xmp_rmdir(const char *path)
+int NFSServer::xmp_rmdir(const char *path)
 {
 	int res;
 
@@ -192,7 +173,7 @@ int xmp_rmdir(const char *path)
 }
 
 
-int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
+int NFSServer::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                        off_t offset, struct fuse_file_info *fi)
 {
     DIR *dp;
@@ -219,7 +200,7 @@ int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 }
 
 
-int xmp_statfs(const char *path, struct statvfs *stbuf)
+int NFSServer::xmp_statfs(const char *path, struct statvfs *stbuf)
 {
     int res;
 
@@ -290,7 +271,10 @@ int xmp_fsync(const char *path, int isdatasync,
 */
 
 
-int main(int argc, char *argv[])
-{
-    return 0;
-}
+//int main(int argc, char *argv[])
+//{
+//    cout << "NFS Server.cpp - main "<< endl;
+//    NFSServer server;
+//    server.xmp_remove("tempfile.txt");
+//    return 0;
+//}
