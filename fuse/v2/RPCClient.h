@@ -20,7 +20,6 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
 
-
 #define BILLION 1000000000L
 #define MEGA 1000000L
 
