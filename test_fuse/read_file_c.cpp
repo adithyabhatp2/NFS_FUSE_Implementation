@@ -8,32 +8,36 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+# include <unistd.h>
+#include <fcntl.h>
 
 using namespace std;
-
 
 void print_client_usage() {
     cout << "<read.o> -p <pathToFileToRead>" << endl;
 }
 
+void read_and_print_file(char * path) {
 
-void read_and_print_file(string path) {
+    int fd = open(path, O_RDONLY);
 
-    ifstream myReadFile;
+    cout << "FD : "<< fd << endl;
 
-    myReadFile.open(path);
-
-    char output[100];
-    if (myReadFile.is_open()) {
-        while (!myReadFile.eof()) {
-            myReadFile >> output;
-            cout << output;
-        }
+    if(fd <=0) {
+        exit(-1);
     }
-    myReadFile.close();
+
+    char * buff = (char *)malloc(sizeof(char)*10);
+    while (read(fd, buff, 10) > 0) {
+        cout<<buff;
+    }
+
+    close(fd);
 }
 
 int main(int argc, char **argv) {
+
+    cout << "Reading a file in C-style with FDs"<<endl;
 
     if (argc != 3) {
         cout << "Wrong number of params, argc : " << argc << endl;
@@ -41,8 +45,7 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
-
-    char *pathToFile;
+    char * pathToFile;
     int ch;
     while ((ch = getopt(argc, argv, "p:")) != -1) {
         switch (ch) {
@@ -56,4 +59,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-
