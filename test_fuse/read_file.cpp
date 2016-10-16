@@ -12,6 +12,11 @@
 using namespace std;
 
 
+void print_client_usage() {
+    cout << "<read.o> -p <pathToFileToRead>" << endl;
+}
+
+
 void read_and_print_file(string path) {
 
     ifstream myReadFile;
@@ -29,6 +34,13 @@ void read_and_print_file(string path) {
 }
 
 int main(int argc, char **argv) {
+
+    if (argc != 3) {
+        cout << "Wrong number of params, argc : " << argc << endl;
+        print_client_usage();
+        exit(0);
+    }
+
 
     char *pathToFile;
     int ch;
