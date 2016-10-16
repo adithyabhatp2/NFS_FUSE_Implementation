@@ -3,7 +3,23 @@
 You'll be building a simple distributed file system. The file system will assume an NFS-like protocol; Your file system will integrate into the Linux client side using FUSE.
 
 
+Design
+-------
+FUSE Client
+	Per FUSE method, one entry in RPCGateway/RPCClient
+RPC Gateway - serialization + convert method params to RPC compatible types.
+RPC Client - sends the messages
+RPC Server - recvs the messaages
+RPC Gateway - deserializes + converts param types back to FUSE types
+NFS Server - executes the method on the underlying FS
+
+NOTE:
+write FUSE call returns int, and buf passed is filled.
+Hence the RPCGateway will have to convert to GRPC Request/Response types.
+
+
 On Google Cloud
+----------------
 https://thrift.apache.org/docs/install/debian
 sudo apt-get install thrift-compiler
 apt-cache search thrift, libfuse-dev

@@ -13,8 +13,6 @@ include_directories(/u/a/d/adbhat/Software/include/fuse)
 
 add_executable(v1 NFSServer.cpp NFSServer.h)
 
-add_executable(fuseParamData NFSServer.cpp NFSServer.h)
-
 # -L/u/a/d/adbhat/Software/lib -lfuse
 find_library(FUSE_LIBRARY fuse HINTS /u/a/d/adbhat/Software/lib)
-target_link_libraries(v1 PUBLIC ${THRIFT_LIBRARY})
+target_link_libraries(v1 PUBLIC ${FUSE_LIBRARY})

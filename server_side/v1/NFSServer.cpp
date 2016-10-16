@@ -271,10 +271,10 @@ int xmp_fsync(const char *path, int isdatasync,
 */
 
 
-//int main(int argc, char *argv[])
-//{
-//    cout << "NFS Server.cpp - main "<< endl;
-//    NFSServer server;
-//    server.xmp_remove("tempfile.txt");
-//    return 0;
-//}
+int main(int argc, char *argv[])
+{
+    cout << "NFS Server.cpp - main "<< endl;
+    NFSServer server;
+    server.xmp_remove("test.txt");
+    return 0;
+}
