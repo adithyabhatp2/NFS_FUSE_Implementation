@@ -35,6 +35,16 @@ public:
 
 
     int xmp_open(string path, thrift_fuse_file_info fi);
+    int xmp_mknod(string path, int mode, long int rdev);
+    
+    int xmp_getattr(string path, thrift_stat stbuf);
+    int xmp_setattr(string path, thrift_stat stbuf);
+    int xmp_read(string path, string buf, long int size, long int offset, thrift_fuse_file_info fi);
+    int xmp_write(string path, string buf, long int size, long int offset, thrift_fuse_file_info fi);
+    int xmp_rename(string fromName, string to);
+    int xmp_mkdir(string path, int mode);
+    int xmp_rmdir(string path);
+    int xmp_statfs(string path, thrift_statvfs stbuf);
 
 };
 

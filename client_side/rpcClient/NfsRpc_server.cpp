@@ -23,11 +23,12 @@ class NfsRpcHandler : virtual public NfsRpcIf {
     // Your initialization goes here
   }
 
-  int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi) {
-    // Your implementation goes here
-    printf("xmp_open\n");
-      return 0;
-  }
+    void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) {
+        // Your implementation goes here
+        printf("xmp_open\n");
+        _return.fi.fh = -3;
+        _return.retVal = -1;
+    }
 
   int32_t xmp_access(const std::string& path, const int32_t mask) {
     // Your implementation goes here

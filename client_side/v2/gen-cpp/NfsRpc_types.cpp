@@ -1198,3 +1198,109 @@ void thrift_statvfs::printTo(std::ostream& out) const {
 }
 
 
+thrift_open_reply::~thrift_open_reply() throw() {
+}
+
+
+void thrift_open_reply::__set_retVal(const int32_t val) {
+  this->retVal = val;
+}
+
+void thrift_open_reply::__set_fi(const thrift_fuse_file_info& val) {
+  this->fi = val;
+}
+
+uint32_t thrift_open_reply::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->retVal);
+          this->__isset.retVal = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->fi.read(iprot);
+          this->__isset.fi = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t thrift_open_reply::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("thrift_open_reply");
+
+  xfer += oprot->writeFieldBegin("retVal", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->retVal);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->fi.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(thrift_open_reply &a, thrift_open_reply &b) {
+  using ::std::swap;
+  swap(a.retVal, b.retVal);
+  swap(a.fi, b.fi);
+  swap(a.__isset, b.__isset);
+}
+
+thrift_open_reply::thrift_open_reply(const thrift_open_reply& other8) {
+  retVal = other8.retVal;
+  fi = other8.fi;
+  __isset = other8.__isset;
+}
+thrift_open_reply& thrift_open_reply::operator=(const thrift_open_reply& other9) {
+  retVal = other9.retVal;
+  fi = other9.fi;
+  __isset = other9.__isset;
+  return *this;
+}
+void thrift_open_reply::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "thrift_open_reply(";
+  out << "retVal=" << to_string(retVal);
+  out << ", " << "fi=" << to_string(fi);
+  out << ")";
+}
+
+

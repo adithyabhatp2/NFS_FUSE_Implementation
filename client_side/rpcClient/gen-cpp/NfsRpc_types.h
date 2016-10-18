@@ -27,6 +27,8 @@ class thrift_stat;
 
 class thrift_statvfs;
 
+class thrift_open_reply;
+
 typedef struct _thrift_timespec__isset {
   _thrift_timespec__isset() : tv_sec(false), tv_nsec(false) {}
   bool tv_sec :1;
@@ -458,6 +460,58 @@ class thrift_statvfs {
 void swap(thrift_statvfs &a, thrift_statvfs &b);
 
 inline std::ostream& operator<<(std::ostream& out, const thrift_statvfs& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_open_reply__isset {
+  _thrift_open_reply__isset() : retVal(false), fi(false) {}
+  bool retVal :1;
+  bool fi :1;
+} _thrift_open_reply__isset;
+
+class thrift_open_reply {
+ public:
+
+  thrift_open_reply(const thrift_open_reply&);
+  thrift_open_reply& operator=(const thrift_open_reply&);
+  thrift_open_reply() : retVal(0) {
+  }
+
+  virtual ~thrift_open_reply() throw();
+  int32_t retVal;
+  thrift_fuse_file_info fi;
+
+  _thrift_open_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_fi(const thrift_fuse_file_info& val);
+
+  bool operator == (const thrift_open_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(fi == rhs.fi))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_open_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_open_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_open_reply &a, thrift_open_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_open_reply& obj)
 {
   obj.printTo(out);
   return out;

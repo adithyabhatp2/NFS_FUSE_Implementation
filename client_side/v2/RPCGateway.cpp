@@ -25,13 +25,34 @@ RPCGateway::RPCGateway(char *serverHost, unsigned long serverPort) {
 
 
 
-//int RPCGateway ::xmp_open(const char *path, struct fuse_file_info *fi)
-//{
-////string pathStr = ;
-////    rpc_fuse_file_info = *fi;
-////    rpcClient.xmp_open(pathStr, grpc_fuse_file_open)
-//}
-//
+int RPCGateway ::xmp_open(const char *path, struct fuse_file_info *fi)
+{
+    string pathStr(path);
+    thrift_fuse_file_info tfi;
+
+    tfi.fh = fi->fh;
+    tfi.direct_io = fi->direct_io;
+    tfi.fh_old = fi->fh_old;
+    tfi.flags = fi->flags;
+    tfi.flock_release = fi->flock_release;
+    tfi.flush = fi->flush;
+    tfi.keep_cache = fi->keep_cache;
+    tfi.lock_owner = fi->lock_owner;
+    tfi.nonseekable = fi->nonseekable;
+    tfi.padding = fi->padding;
+    tfi.writepage = fi->writepage;
+
+    int retVal = rpcClient.xmp_open(pathStr, tfi);
+
+    fi->fh = tfi.fh;
+    fi->direct_io = tfi.direct_io;
+    fi->fh_old = tfi.fh_old;
+    fi->flags = tfi.flags;
+    //TODO
+
+    return retVal;
+}
+
 //int RPCGateway :: xmp_open(Xmp_open_request open_request)
 //{
 //    char *path;

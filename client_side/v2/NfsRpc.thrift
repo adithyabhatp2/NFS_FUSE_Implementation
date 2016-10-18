@@ -57,8 +57,13 @@ struct thrift_statvfs {
     17: i32 __f_spare5;
 }
 
+struct thrift_open_reply {
+    1: i32 retVal;
+    2: thrift_fuse_file_info fi;
+}
+
 service NfsRpc {
-    i32 xmp_open(1:string path, 2:thrift_fuse_file_info fi);
+    thrift_open_reply xmp_open(1:string path, 2:thrift_fuse_file_info fi);
     i32 xmp_access(1:string path, 2:i32 mask);
     i32 xmp_mknod(1:string path, 2:i32 mode, 3:i64 rdev);
     i32 xmp_remove(1:string path);
@@ -71,3 +76,4 @@ service NfsRpc {
     i32 xmp_rmdir(1:string path);
     i32 xmp_statfs(1:string path, 2:thrift_statvfs stbuf);
 }
+

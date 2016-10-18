@@ -21,7 +21,7 @@
 class NfsRpcIf {
  public:
   virtual ~NfsRpcIf() {}
-  virtual int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi) = 0;
+  virtual void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) = 0;
   virtual int32_t xmp_access(const std::string& path, const int32_t mask) = 0;
   virtual int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev) = 0;
   virtual int32_t xmp_remove(const std::string& path) = 0;
@@ -62,9 +62,8 @@ class NfsRpcIfSingletonFactory : virtual public NfsRpcIfFactory {
 class NfsRpcNull : virtual public NfsRpcIf {
  public:
   virtual ~NfsRpcNull() {}
-  int32_t xmp_open(const std::string& /* path */, const thrift_fuse_file_info& /* fi */) {
-    int32_t _return = 0;
-    return _return;
+  void xmp_open(thrift_open_reply& /* _return */, const std::string& /* path */, const thrift_fuse_file_info& /* fi */) {
+    return;
   }
   int32_t xmp_access(const std::string& /* path */, const int32_t /* mask */) {
     int32_t _return = 0;
@@ -178,15 +177,15 @@ class NfsRpc_xmp_open_result {
 
   NfsRpc_xmp_open_result(const NfsRpc_xmp_open_result&);
   NfsRpc_xmp_open_result& operator=(const NfsRpc_xmp_open_result&);
-  NfsRpc_xmp_open_result() : success(0) {
+  NfsRpc_xmp_open_result() {
   }
 
   virtual ~NfsRpc_xmp_open_result() throw();
-  int32_t success;
+  thrift_open_reply success;
 
   _NfsRpc_xmp_open_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const thrift_open_reply& val);
 
   bool operator == (const NfsRpc_xmp_open_result & rhs) const
   {
@@ -215,7 +214,7 @@ class NfsRpc_xmp_open_presult {
 
 
   virtual ~NfsRpc_xmp_open_presult() throw();
-  int32_t* success;
+  thrift_open_reply* success;
 
   _NfsRpc_xmp_open_presult__isset __isset;
 
@@ -1481,7 +1480,7 @@ class NfsRpc_xmp_statfs_presult {
 
 class NfsRpcClient : virtual public NfsRpcIf {
  public:
-    NfsRpcClient() {} //TODO: added adbhat
+    NfsRpcClient() {} //TODO : adbhat
   NfsRpcClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
@@ -1505,9 +1504,9 @@ class NfsRpcClient : virtual public NfsRpcIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
+  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi);
   void send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
-  int32_t recv_xmp_open();
+  void recv_xmp_open(thrift_open_reply& _return);
   int32_t xmp_access(const std::string& path, const int32_t mask);
   void send_xmp_access(const std::string& path, const int32_t mask);
   int32_t recv_xmp_access();
@@ -1611,13 +1610,14 @@ class NfsRpcMultiface : virtual public NfsRpcIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi) {
+  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_open(path, fi);
+      ifaces_[i]->xmp_open(_return, path, fi);
     }
-    return ifaces_[i]->xmp_open(path, fi);
+    ifaces_[i]->xmp_open(_return, path, fi);
+    return;
   }
 
   int32_t xmp_access(const std::string& path, const int32_t mask) {
@@ -1749,9 +1749,9 @@ class NfsRpcConcurrentClient : virtual public NfsRpcIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
+  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi);
   int32_t send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
-  int32_t recv_xmp_open(const int32_t seqid);
+  void recv_xmp_open(thrift_open_reply& _return, const int32_t seqid);
   int32_t xmp_access(const std::string& path, const int32_t mask);
   int32_t send_xmp_access(const std::string& path, const int32_t mask);
   int32_t recv_xmp_access(const int32_t seqid);

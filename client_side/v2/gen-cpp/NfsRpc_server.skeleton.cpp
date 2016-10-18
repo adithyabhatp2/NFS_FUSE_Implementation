@@ -20,7 +20,7 @@ class NfsRpcHandler : virtual public NfsRpcIf {
     // Your initialization goes here
   }
 
-  int32_t xmp_open(const std::string& path, const thrift_fuse_file_info& fi) {
+  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) {
     // Your implementation goes here
     printf("xmp_open\n");
   }

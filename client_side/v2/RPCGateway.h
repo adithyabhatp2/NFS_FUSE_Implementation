@@ -46,7 +46,7 @@ public:
     ThriftNfsRpc_Client rpcClient;
 
     // Client - Serialization
-//    int xmp_open(const char *path, struct fuse_file_info *fi);
+    int xmp_open(const char *path, struct fuse_file_info *fi);
 //    int xmp_access(const char *path, int mask);
 //    int xmp_mknod(const char *path, mode_t mode, dev_t rdev);
     int xmp_remove(const char *path) ;

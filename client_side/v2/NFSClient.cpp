@@ -46,7 +46,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     int res;
 
     cout << "FUSE - getattr " << path << endl;
-    rpcGateway.xmp_remove(path);
+    rpcGateway.xmp_remove(path); // TEMP
 
 //    res = lstat(path, stbuf);
     if (res == -1)
@@ -244,6 +244,7 @@ static int xmp_open(const char *path, struct fuse_file_info *fi)
     int res;
 
 //    res = open(path, fi->flags);
+    res = rpcGateway.xmp_open(path, fi);
     if (res == -1)
         return -errno;
 

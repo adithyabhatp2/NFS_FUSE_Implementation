@@ -130,8 +130,8 @@ uint32_t NfsRpc_xmp_open_result::read(::apache::thrift::protocol::TProtocol* ipr
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->success);
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -156,8 +156,8 @@ uint32_t NfsRpc_xmp_open_result::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeStructBegin("NfsRpc_xmp_open_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -192,8 +192,8 @@ uint32_t NfsRpc_xmp_open_presult::read(::apache::thrift::protocol::TProtocol* ip
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -2524,10 +2524,10 @@ uint32_t NfsRpc_xmp_statfs_presult::read(::apache::thrift::protocol::TProtocol* 
   return xfer;
 }
 
-int32_t NfsRpcClient::xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
+void NfsRpcClient::xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi)
 {
   send_xmp_open(path, fi);
-  return recv_xmp_open();
+  recv_xmp_open(_return);
 }
 
 void NfsRpcClient::send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
@@ -2545,7 +2545,7 @@ void NfsRpcClient::send_xmp_open(const std::string& path, const thrift_fuse_file
   oprot_->getTransport()->flush();
 }
 
-int32_t NfsRpcClient::recv_xmp_open()
+void NfsRpcClient::recv_xmp_open(thrift_open_reply& _return)
 {
 
   int32_t rseqid = 0;
@@ -2570,7 +2570,6 @@ int32_t NfsRpcClient::recv_xmp_open()
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  int32_t _return;
   NfsRpc_xmp_open_presult result;
   result.success = &_return;
   result.read(iprot_);
@@ -2578,7 +2577,8 @@ int32_t NfsRpcClient::recv_xmp_open()
   iprot_->getTransport()->readEnd();
 
   if (result.__isset.success) {
-    return _return;
+    // _return pointer has now been filled
+    return;
   }
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_open failed: unknown result");
 }
@@ -3279,7 +3279,7 @@ void NfsRpcProcessor::process_xmp_open(int32_t seqid, ::apache::thrift::protocol
 
   NfsRpc_xmp_open_result result;
   try {
-    result.success = iface_->xmp_open(args.path, args.fi);
+    iface_->xmp_open(result.success, args.path, args.fi);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3911,10 +3911,10 @@ void NfsRpcProcessor::process_xmp_statfs(int32_t seqid, ::apache::thrift::protoc
   return processor;
 }
 
-int32_t NfsRpcConcurrentClient::xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
+void NfsRpcConcurrentClient::xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi)
 {
   int32_t seqid = send_xmp_open(path, fi);
-  return recv_xmp_open(seqid);
+  recv_xmp_open(_return, seqid);
 }
 
 int32_t NfsRpcConcurrentClient::send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
@@ -3936,7 +3936,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_open(const std::string& path, const thr
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_open(const int32_t seqid)
+void NfsRpcConcurrentClient::recv_xmp_open(thrift_open_reply& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -3974,7 +3974,6 @@ int32_t NfsRpcConcurrentClient::recv_xmp_open(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      int32_t _return;
       NfsRpc_xmp_open_presult result;
       result.success = &_return;
       result.read(iprot_);
@@ -3982,8 +3981,9 @@ int32_t NfsRpcConcurrentClient::recv_xmp_open(const int32_t seqid)
       iprot_->getTransport()->readEnd();
 
       if (result.__isset.success) {
+        // _return pointer has now been filled
         sentry.commit();
-        return _return;
+        return;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_open failed: unknown result");
