@@ -27,7 +27,8 @@
 #include <sys/xattr.h>
 #endif
 
-
+# include <iostream>
+using namespace std;
 
 //# include grpc protobuf headers
 // Client side
@@ -58,7 +59,7 @@ public:
 //    int xmp_open(Xmp_open_request);
 //    int xmp_access(Xmp_access_request);
 //    int xmp_mknod(Xmp_mknod_request);
-    int xmp_remove(Xmp_remove_request) ;
+    int xmp_remove(string path) ;
 //    int xmp_getattr(Xmp_getattr_request);
 //    int xmp_setattr(Xmp_setattr_request);
 //    int xmp_read(Xmp_read_request);

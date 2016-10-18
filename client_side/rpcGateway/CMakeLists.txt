@@ -11,4 +11,4 @@ find_library(FUSE_LIBRARY fuse HINTS /u/a/d/adbhat/Software/lib)
 
 add_executable(rpcGateway ${SOURCE_FILES} RPCGateway.cpp RPCGateway.h)
 
-target_link_libraries(fuseClient PUBLIC ${FUSE_LIBRARY})
+target_link_libraries(rpcGateway PUBLIC ${FUSE_LIBRARY})

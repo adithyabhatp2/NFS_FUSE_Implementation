@@ -18,20 +18,44 @@ write FUSE call returns int, and buf passed is filled.
 Hence the RPCGateway will have to convert to GRPC Request/Response types.
 
 
-On Google Cloud
-----------------
-https://thrift.apache.org/docs/install/debian
-sudo apt-get install thrift-compiler
-apt-cache search thrift, libfuse-dev
-Didnt see ehader files, so created /unsup/thrift-0.9.3 , make install etc
-https://thrift.apache.org/docs/BuildingFromSource
-Libraries have been installed in:   /usr/local/lib
-Include : /usr/local/include
-Also, added local/lib to LD_LIBRARY_PATH
+Setting up GC Compute Engine
+-----------------------------
+sudo apt-get install gcc g++ make git libfuse-dev 
 
+GRPC on Google Cloud
+--------------------
+https://github.com/grpc/grpc/blob/master/INSTALL.md
 
-Building FUSE
+Protobuf on GC
 --------------
+sudo apt-get install autoconf automake libtool curl make g++ unzip
+https://github.com/google/protobuf/blob/master/src/README.md
+
+FUSE on Google cloud
+---------------------
+apt-cache search fuse
+sudo apt-get install libfuse-dev
+Cleaning up after running a FUSE client :
+fusermount -u mnt OR sudo umount <path to dir> 
+
+Thrift on GC
+------------
+ignore : https://thrift.apache.org/docs/install/debian 
+ignore : sudo apt-get install thrift-compiler 
+
+mkdir /unsup/thrift-0.9.3 
+downloaded the tar, http://www.apache.org/dyn/closer.cgi?path=/thrift/0.9.3/thrift-0.9.3.tar.gz 
+./configure
+make
+make install
+https://thrift.apache.org/docs/BuildingFromSource 
+Libraries have been installed in: /usr/local/lib 
+Include : /usr/local/include
+LD_LIBRARY_PATH : Added /usr/local/lib
+
+
+Building FUSE on CSL
+--------------------
 
 restricted access in CSL machines. use ./configure --prefix="~/..."
 configure: MOUNT_FUSE_PATH env var not set, using default /sbin
@@ -54,7 +78,8 @@ flag during linking and do at least one of the following:
    - use the `-Wl,-rpath -Wl,LIBDIR' linker flag
    - have your system administrator add LIBDIR to `/etc/ld.so.conf'
 
-Action - in ~/.bashrc
+Action - in ~/.bashrc CSL
+-------------------------
 # adding for cs739 Distbtd p2
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/u/a/d/adbhat/Software/lib
 export LD_RUN_PATH=$LD_RUN_PATH:/u/a/d/adbhat/Software/lib
@@ -63,3 +88,19 @@ export UDEV_RULES_PATH=/u/a/d/adbhat/Software/etc/udev
 export INIT_D_PATH=/u/a/d/adbhat/Software/etc
 export PATH=$PATH:/u/a/d/adbhat/Software/bin
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/u/a/d/adbhat/Software/lib/pkgconfig
+
+
+Creating google Cloud:
+------------------------
+cloud.google.com
+Free trial - 300$ for 2 months
+Forget the coupon, can use it later if necessary
+Go to the console
+Create Compute Engine
+Create with good specs!! (4vCPUs, Ubuntu 14.04)
+straightfwd, like the azure portal
+click on the ip under ssh for the Compute engine, will lead to instructions for creating a key pair..
+use the key (ssh -i username@:<public ip> )
+public ip changes if you shut down and restart, so verify
+Not very costly, left it overnight, took only 1$
+

@@ -33,6 +33,6 @@ int RPCGateway::xmp_remove(const char *path) {
 
 }
 
-int RPCGateway::xmp_remove(Xmp_remove_request) {
+int RPCGateway::xmp_remove(string path) {
 
 }
