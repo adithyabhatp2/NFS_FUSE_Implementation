@@ -22,10 +22,19 @@ public:
     char * hostName;
     unsigned long int serverPort;
 
+    boost::shared_ptr<TTransport> socket;
+    boost::shared_ptr<TProtocol> protocol;
+    boost::shared_ptr<TTransport> transport;
+
+    NfsRpcClient client;
+
     ThriftNfsRpc_Client();
     ThriftNfsRpc_Client(char *, unsigned long);
 
     int xmp_remove(string path);
+
+
+    int xmp_open(string path, thrift_fuse_file_info fi);
 
 };
 

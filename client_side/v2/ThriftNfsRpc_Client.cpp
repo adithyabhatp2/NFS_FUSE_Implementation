@@ -16,23 +16,24 @@ ThriftNfsRpc_Client::ThriftNfsRpc_Client(char * serverHost, unsigned long server
     }
     this->hostName = strdup(serverHost);
     this->serverPort = serverPort;
+
+    this->socket = boost::shared_ptr<TTransport>(new TSocket(hostName, serverPort));
+    this->transport = boost::shared_ptr<TTransport>(new TBufferedTransport(socket));
+    this->protocol = boost::shared_ptr<TProtocol>(new TBinaryProtocol(transport));
+
+    this->client = NfsRpcClient(protocol);
 }
 
-
+/// Dummy constructor
+/// \return
 ThriftNfsRpc_Client::ThriftNfsRpc_Client() {
     if(DEBUGLEVEL <= 1) {
         cout << "ThriftNfsRpc_Client Default EMPTY Constructor: " <<  endl;
     }
-//    this->hostName = strdup(serverHost);
-//    this->serverPort = serverPort;
 }
 
-int ThriftNfsRpc_Client::xmp_remove(string path) {
 
-    boost::shared_ptr<TTransport> socket(new TSocket(hostName, serverPort));
-    boost::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
-    boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
-    NfsRpcClient client(protocol);
+int ThriftNfsRpc_Client::xmp_remove(string path) {
 
     int retVal = -1;
 
@@ -40,6 +41,8 @@ int ThriftNfsRpc_Client::xmp_remove(string path) {
 
         transport->open();
         retVal = client.xmp_remove(path);
+
+        client.xmp
 
         if (DEBUGLEVEL) {
             cout << "xmp_remove: " << retVal << endl;
@@ -51,6 +54,10 @@ int ThriftNfsRpc_Client::xmp_remove(string path) {
     }
     return retVal;
 }
+
+
+
+
 
 
 //int main(int argc, char **argv) {

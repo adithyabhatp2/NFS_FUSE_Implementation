@@ -1481,6 +1481,7 @@ class NfsRpc_xmp_statfs_presult {
 
 class NfsRpcClient : virtual public NfsRpcIf {
  public:
+    NfsRpcClient() {} //TODO: added adbhat
   NfsRpcClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
