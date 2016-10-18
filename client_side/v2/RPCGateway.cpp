@@ -57,7 +57,7 @@ int RPCGateway::xmp_remove(string pathStr) {
 //    char * hostName = strdup("localhost");
 //
 //
-//    RPCGateway clientGateway(hostName, 9090);
+//    RPCGateway rpcGateway(hostName, 9090);
 //
-//    clientGateway.xmp_remove("asd");
+//    rpcGateway.xmp_remove("asd");
 //}
