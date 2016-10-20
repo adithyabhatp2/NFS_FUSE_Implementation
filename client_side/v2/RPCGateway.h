@@ -46,28 +46,29 @@ public:
     ThriftNfsRpc_Client rpcClient;
 
     // Client - Serialization
+    int xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi);
+    int xmp_unlink(const char *path);
+    int xmp_getattr(const char *path, struct stat *stbuf);
+    int xmp_setattr(const char *path, struct stat *stbuf);
+    int xmp_read(const char *path, char *buf, size_t size, off_t offset,
+                 struct fuse_file_info *fi);
+    int xmp_write(const char *path, const char *buf, size_t size,
+                  off_t offset, struct fuse_file_info *fi);
+    int xmp_rename(const char *from, const char *to);
+    int xmp_mkdir(const char *path, mode_t mode);
+    int xmp_rmdir(const char *path);
+    int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
+                    off_t offset, struct fuse_file_info *fi);
+    int xmp_statfs(const char *path, struct statvfs *stbuf);
+
     int xmp_open(const char *path, struct fuse_file_info *fi);
 //    int xmp_access(const char *path, int mask);
 //    int xmp_mknod(const char *path, mode_t mode, dev_t rdev);
-    int xmp_remove(const char *path) ;
-//    int xmp_getattr(const char *path, struct stat *stbuf);
-//    int xmp_setattr(const char *path, struct stat *stbuf);
-//    int xmp_read(const char *path, char *buf, size_t size, off_t offset,
-//                 struct fuse_file_info *fi);
-//    int xmp_write(const char *path, const char *buf, size_t size,
-//                  off_t offset, struct fuse_file_info *fi);
-//    int xmp_rename(const char *from, const char *to);
-//    int xmp_mkdir(const char *path, mode_t mode);
-//    int xmp_rmdir(const char *path);
-//    int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
-//                    off_t offset, struct fuse_file_info *fi);
-//    int xmp_statfs(const char *path, struct statvfs *stbuf);
+
 
     // Deserialization
-//    int xmp_open(Xmp_open_request);
-//    int xmp_access(Xmp_access_request);
-//    int xmp_mknod(Xmp_mknod_request);
-    int xmp_remove(string path) ;
+
+    int xmp_unlink(string path) ;
 //    int xmp_getattr(Xmp_getattr_request);
 //    int xmp_setattr(Xmp_setattr_request);
 //    int xmp_read(Xmp_read_request);
@@ -78,6 +79,8 @@ public:
 //    int xmp_readdir(Xmp_readdir_request);
 //    int xmp_statfs(Xmp_statfs_request);
 
+//    int xmp_open(Xmp_open_request);
+//    int xmp_access(Xmp_access_request);
 };
 
 

@@ -32,7 +32,7 @@ public:
     ThriftNfsRpc_Client(char *, unsigned long);
 
     int xmp_remove(string path);
-
+    int xmp_create(string path, mode_t mode, thrift_fuse_file_info fi);
 
     int xmp_open(string path, thrift_fuse_file_info fi);
     int xmp_mknod(string path, int mode, long int rdev);

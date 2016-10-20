@@ -41,12 +41,43 @@ using namespace std;
 // init from a config file later
 static RPCGateway rpcGateway("localhost", 9090);
 
+
+static int xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
+{
+    int fd;
+
+    fd = rpcGateway.xmp_create(path, mode, fi);
+
+    if (fd == -1)
+        return -errno;
+
+    fi->fh = fd;
+    return 0;
+}
+
+static int xmp_unlink(const char *path)
+{
+    int res;
+
+//    res = unlink(path);
+    if (res == -1)
+        return -errno;
+
+    return 0;
+}
+
 static int xmp_getattr(const char *path, struct stat *stbuf)
 {
     int res;
 
     cout << "FUSE - getattr " << path << endl;
-    rpcGateway.xmp_remove(path); // TEMP
+
+    fuse_file_info ffi;
+    ffi.fh = 3;
+    rpcGateway.xmp_open(path, &ffi);
+
+
+    rpcGateway.xmp_unlink(path); // TEMP
 
 //    res = lstat(path, stbuf);
     if (res == -1)
@@ -55,29 +86,87 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     return 0;
 }
 
-static int xmp_access(const char *path, int mask)
+static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
+                    struct fuse_file_info *fi)
+{
+//    int fd;
+    int res;
+//
+//    (void) fi;
+//    fd = open(path, O_RDONLY);
+//    if (fd == -1)
+//        return -errno;
+//
+//    res = pread(fd, buf, size, offset);
+    if (res == -1)
+        res = -errno;
+
+//    close(fd);
+    return res;
+}
+
+static int xmp_write(const char *path, const char *buf, size_t size,
+                     off_t offset, struct fuse_file_info *fi)
+{
+//    int fd;
+    int res;
+
+//    (void) fi;
+//    fd = open(path, O_WRONLY);
+//    if (fd == -1)
+//        return -errno;
+//
+//    res = pwrite(fd, buf, size, offset);
+//    if (res == -1)
+//        res = -errno;
+//
+//    close(fd);
+    return res;
+}
+
+static int xmp_rename(const char *from, const char *to)
 {
     int res;
 
-//    res = access(path, mask);
+//    res = rename(from, to);
     if (res == -1)
         return -errno;
 
     return 0;
 }
 
-static int xmp_readlink(const char *path, char *buf, size_t size)
+static int xmp_mkdir(const char *path, mode_t mode)
 {
     int res;
 
-//    res = readlink(path, buf, size - 1);
+//    res = mkdir(path, mode);
     if (res == -1)
         return -errno;
 
-    buf[res] = '\0';
     return 0;
 }
 
+static int xmp_rmdir(const char *path)
+{
+    int res;
+
+//    res = rmdir(path);
+    if (res == -1)
+        return -errno;
+
+    return 0;
+}
+
+static int xmp_statfs(const char *path, struct statvfs *stbuf)
+{
+    int res;
+
+//    res = statvfs(path, stbuf);
+    if (res == -1)
+        return -errno;
+
+    return 0;
+}
 
 static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                        off_t offset, struct fuse_file_info *fi)
@@ -106,6 +195,43 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     return 0;
 }
 
+static int xmp_open(const char *path, struct fuse_file_info *fi)
+{
+    int res;
+
+//    res = open(path, fi->flags);
+    res = rpcGateway.xmp_open(path, fi);
+    if (res == -1)
+        return -errno;
+
+//    close(res);
+    return 0;
+}
+
+static int xmp_access(const char *path, int mask)
+{
+    int res;
+
+//    res = access(path, mask);
+    if (res == -1)
+        return -errno;
+
+    return 0;
+}
+
+static int xmp_readlink(const char *path, char *buf, size_t size)
+{
+    int res;
+
+//    res = readlink(path, buf, size - 1);
+    if (res == -1)
+        return -errno;
+
+    buf[res] = '\0';
+    return 0;
+}
+
+
 static int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
 {
     int res;
@@ -126,38 +252,6 @@ static int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
     return 0;
 }
 
-static int xmp_mkdir(const char *path, mode_t mode)
-{
-    int res;
-
-//    res = mkdir(path, mode);
-    if (res == -1)
-        return -errno;
-
-    return 0;
-}
-
-static int xmp_unlink(const char *path)
-{
-    int res;
-
-//    res = unlink(path);
-    if (res == -1)
-        return -errno;
-
-    return 0;
-}
-
-static int xmp_rmdir(const char *path)
-{
-    int res;
-
-//    res = rmdir(path);
-    if (res == -1)
-        return -errno;
-
-    return 0;
-}
 
 static int xmp_symlink(const char *from, const char *to)
 {
@@ -170,16 +264,7 @@ static int xmp_symlink(const char *from, const char *to)
     return 0;
 }
 
-static int xmp_rename(const char *from, const char *to)
-{
-    int res;
 
-//    res = rename(from, to);
-    if (res == -1)
-        return -errno;
-
-    return 0;
-}
 
 static int xmp_link(const char *from, const char *to)
 {
@@ -238,68 +323,6 @@ static int xmp_utimens(const char *path, const struct timespec ts[2])
 	return 0;
 }
 #endif
-
-static int xmp_open(const char *path, struct fuse_file_info *fi)
-{
-    int res;
-
-//    res = open(path, fi->flags);
-    res = rpcGateway.xmp_open(path, fi);
-    if (res == -1)
-        return -errno;
-
-//    close(res);
-    return 0;
-}
-
-static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
-                    struct fuse_file_info *fi)
-{
-//    int fd;
-    int res;
-//
-//    (void) fi;
-//    fd = open(path, O_RDONLY);
-//    if (fd == -1)
-//        return -errno;
-//
-//    res = pread(fd, buf, size, offset);
-    if (res == -1)
-        res = -errno;
-
-//    close(fd);
-    return res;
-}
-
-static int xmp_write(const char *path, const char *buf, size_t size,
-                     off_t offset, struct fuse_file_info *fi)
-{
-//    int fd;
-    int res;
-
-//    (void) fi;
-//    fd = open(path, O_WRONLY);
-//    if (fd == -1)
-//        return -errno;
-//
-//    res = pwrite(fd, buf, size, offset);
-//    if (res == -1)
-//        res = -errno;
-//
-//    close(fd);
-    return res;
-}
-
-static int xmp_statfs(const char *path, struct statvfs *stbuf)
-{
-    int res;
-
-//    res = statvfs(path, stbuf);
-    if (res == -1)
-        return -errno;
-
-    return 0;
-}
 
 static int xmp_release(const char *path, struct fuse_file_info *fi)
 {
@@ -385,6 +408,7 @@ static int xmp_removexattr(const char *path, const char *name)
 
 static struct xmp_operations : fuse_operations {
     xmp_operations(){
+        create = xmp_create;
         getattr	= xmp_getattr;
         access		= xmp_access;
         readlink	= xmp_readlink;

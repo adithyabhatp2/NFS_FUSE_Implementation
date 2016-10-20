@@ -24,7 +24,7 @@ struct thrift_stat {
 	3: i32 st_mode;
 	4: i64 st_nlink;
 	5: i32 st_uid;
-	6: i32 st_gid;	
+	6: i32 st_gid;
 	7: i32 __pad0;
 	8: i64 st_size;
 	9: i64 st_blksize;
@@ -35,6 +35,7 @@ struct thrift_stat {
 	14: i64 __glibc_reserved0;
 	15: i64 __glibc_reserved1;
 	16: i64 __glibc_reserved2;
+	17: i64 st_rdev;
 }
 
 struct thrift_statvfs {
@@ -57,23 +58,41 @@ struct thrift_statvfs {
     17: i32 __f_spare5;
 }
 
+struct thrift_getattr_reply {
+    1: i32 retVal;
+    2: thrift_stat tstbuf;
+}
+
+struct thrift_read_reply {
+    1: i32 retVal;
+    2: string tbuf;
+}
+
+struct thrift_statfs_reply {
+    1: i32 retVal;
+    2: thrift_statvfs tstbuf;
+}
+
 struct thrift_open_reply {
     1: i32 retVal;
-    2: thrift_fuse_file_info fi;
+    2: thrift_fuse_file_info tfi;
 }
 
 service NfsRpc {
-    thrift_open_reply xmp_open(1:string path, 2:thrift_fuse_file_info fi);
-    i32 xmp_access(1:string path, 2:i32 mask);
-    i32 xmp_mknod(1:string path, 2:i32 mode, 3:i64 rdev);
-    i32 xmp_remove(1:string path);
-    i32 xmp_getattr(1:string path, 2:thrift_stat stbuf);
-    i32 xmp_setattr(1:string path, 2:thrift_stat stbuf);
-    i32 xmp_read(1:string path, 2:string buf, 3:i64 size, 4:i64 offset, 5:thrift_fuse_file_info fi);
-    i32 xmp_write(1:string path, 2:string buf, 3:i64 size, 4:i64 offset, 5:thrift_fuse_file_info fi);
-    i32 xmp_rename(1:string fromName, 2:string to);
-    i32 xmp_mkdir(1:string path, 2:i32 mode);
-    i32 xmp_rmdir(1:string path);
-    i32 xmp_statfs(1:string path, 2:thrift_statvfs stbuf);
+
+    i32 xmp_create(1:string tpath, 2:i32 mode, 3:thrift_fuse_file_info tfi)
+    i32 xmp_unlink(1:string tpath);
+    thrift_getattr_reply xmp_getattr(1:string tpath, 2:thrift_stat stbuf);
+    i32 xmp_setattr(1:string tpath, 2:thrift_stat stbuf);
+    thrift_read_reply xmp_read(1:string tpath, 2:string tbuf, 3:i64 size, 4:i64 offset, 5:thrift_fuse_file_info tfi);
+    i32 xmp_write(1:string tpath, 2:string tbuf, 3:i64 size, 4:i64 offset, 5:thrift_fuse_file_info tfi);
+    i32 xmp_rename(1:string tfrom, 2:string tto);
+    i32 xmp_mkdir(1:string tpath, 2:i32 mode);
+    i32 xmp_rmdir(1:string tpath);
+    thrift_statfs_reply xmp_statfs(1:string tpath, 2:thrift_statvfs tstbuf);
+    
+    thrift_open_reply xmp_open(1:string tpath, 2:thrift_fuse_file_info tfi);
+    i32 xmp_access(1:string tpath, 2:i32 mask);
+    i32 xmp_mknod(1:string tpath, 2:i32 mode, 3:i64 rdev);
 }
 
