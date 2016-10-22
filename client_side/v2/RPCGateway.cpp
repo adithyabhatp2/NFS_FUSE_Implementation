@@ -159,7 +159,7 @@ int RPCGateway::xmp_create(const char *path, mode_t mode, struct fuse_file_info 
 // Client Side
 int RPCGateway::xmp_unlink(const char *path) {
     string pathStr(path);
-    return rpcClient.xmp_remove(pathStr);
+    return rpcClient.xmp_unlink(pathStr);
 }
 
 int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {
@@ -188,7 +188,7 @@ int RPCGateway::xmp_write(const char *path, const char *buf, size_t size, off_t 
     string tbuf;
     thrift_fuse_file_info tfi;
     copyToThrift_fuseFileInfo(fi, tfi);
-    retVal = rpcClient.xmp_read(tpath, tbuf, size, offset, tfi); //TODO fix
+    retVal = rpcClient.xmp_write(tpath, tbuf, size, offset, tfi); //TODO fix
     return retVal;
 }
 
@@ -268,5 +268,5 @@ int RPCGateway::xmp_unlink(string pathStr) {
 //
 //    RPCGateway rpcGateway(hostName, 9090);
 //
-//    rpcGateway.xmp_remove("asd");
+//    rpcGateway.xmp_unlink("asd");
 //}

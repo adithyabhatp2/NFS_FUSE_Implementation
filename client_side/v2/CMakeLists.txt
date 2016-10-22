@@ -22,3 +22,5 @@ target_link_libraries(nfsFuseClient PUBLIC ${FUSE_LIBRARY})
 set_source_files_properties(NFSClient.cpp RPCGateway.cpp PROPERTIES COMPILE_FLAGS "-D_FILE_OFFSET_BITS=64 -pthread -std=c++11" )
 
 
+add_executable(thriftRpcServer NfsRpc_server.cpp ${THRIFT_GEN_FILES})
+target_link_libraries(thriftRpcServer PUBLIC ${THRIFT_LIBRARY})

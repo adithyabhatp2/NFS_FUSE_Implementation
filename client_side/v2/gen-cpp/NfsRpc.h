@@ -21,18 +21,19 @@
 class NfsRpcIf {
  public:
   virtual ~NfsRpcIf() {}
-  virtual void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) = 0;
-  virtual int32_t xmp_access(const std::string& path, const int32_t mask) = 0;
-  virtual int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev) = 0;
-  virtual int32_t xmp_remove(const std::string& path) = 0;
-  virtual int32_t xmp_getattr(const std::string& path, const thrift_stat& stbuf) = 0;
-  virtual int32_t xmp_setattr(const std::string& path, const thrift_stat& stbuf) = 0;
-  virtual int32_t xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) = 0;
-  virtual int32_t xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) = 0;
-  virtual int32_t xmp_rename(const std::string& fromName, const std::string& to) = 0;
-  virtual int32_t xmp_mkdir(const std::string& path, const int32_t mode) = 0;
-  virtual int32_t xmp_rmdir(const std::string& path) = 0;
-  virtual int32_t xmp_statfs(const std::string& path, const thrift_statvfs& stbuf) = 0;
+  virtual int32_t xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi) = 0;
+  virtual int32_t xmp_unlink(const std::string& tpath) = 0;
+  virtual void xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf) = 0;
+  virtual int32_t xmp_setattr(const std::string& tpath, const thrift_stat& stbuf) = 0;
+  virtual void xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) = 0;
+  virtual int32_t xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) = 0;
+  virtual int32_t xmp_rename(const std::string& tfrom, const std::string& tto) = 0;
+  virtual int32_t xmp_mkdir(const std::string& tpath, const int32_t mode) = 0;
+  virtual int32_t xmp_rmdir(const std::string& tpath) = 0;
+  virtual void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) = 0;
+  virtual void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi) = 0;
+  virtual int32_t xmp_access(const std::string& tpath, const int32_t mask) = 0;
+  virtual int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev) = 0;
 };
 
 class NfsRpcIfFactory {
@@ -62,320 +63,99 @@ class NfsRpcIfSingletonFactory : virtual public NfsRpcIfFactory {
 class NfsRpcNull : virtual public NfsRpcIf {
  public:
   virtual ~NfsRpcNull() {}
-  void xmp_open(thrift_open_reply& /* _return */, const std::string& /* path */, const thrift_fuse_file_info& /* fi */) {
+  int32_t xmp_create(const std::string& /* tpath */, const int32_t /* mode */, const thrift_fuse_file_info& /* tfi */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t xmp_unlink(const std::string& /* tpath */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  void xmp_getattr(thrift_getattr_reply& /* _return */, const std::string& /* tpath */, const thrift_stat& /* stbuf */) {
     return;
   }
-  int32_t xmp_access(const std::string& /* path */, const int32_t /* mask */) {
+  int32_t xmp_setattr(const std::string& /* tpath */, const thrift_stat& /* stbuf */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_mknod(const std::string& /* path */, const int32_t /* mode */, const int64_t /* rdev */) {
+  void xmp_read(thrift_read_reply& /* _return */, const std::string& /* tpath */, const std::string& /* tbuf */, const int64_t /* size */, const int64_t /* offset */, const thrift_fuse_file_info& /* tfi */) {
+    return;
+  }
+  int32_t xmp_write(const std::string& /* tpath */, const std::string& /* tbuf */, const int64_t /* size */, const int64_t /* offset */, const thrift_fuse_file_info& /* tfi */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_remove(const std::string& /* path */) {
+  int32_t xmp_rename(const std::string& /* tfrom */, const std::string& /* tto */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_getattr(const std::string& /* path */, const thrift_stat& /* stbuf */) {
+  int32_t xmp_mkdir(const std::string& /* tpath */, const int32_t /* mode */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_setattr(const std::string& /* path */, const thrift_stat& /* stbuf */) {
+  int32_t xmp_rmdir(const std::string& /* tpath */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_read(const std::string& /* path */, const std::string& /* buf */, const int64_t /* size */, const int64_t /* offset */, const thrift_fuse_file_info& /* fi */) {
+  void xmp_statfs(thrift_statfs_reply& /* _return */, const std::string& /* tpath */, const thrift_statvfs& /* tstbuf */) {
+    return;
+  }
+  void xmp_open(thrift_open_reply& /* _return */, const std::string& /* tpath */, const thrift_fuse_file_info& /* tfi */) {
+    return;
+  }
+  int32_t xmp_access(const std::string& /* tpath */, const int32_t /* mask */) {
     int32_t _return = 0;
     return _return;
   }
-  int32_t xmp_write(const std::string& /* path */, const std::string& /* buf */, const int64_t /* size */, const int64_t /* offset */, const thrift_fuse_file_info& /* fi */) {
-    int32_t _return = 0;
-    return _return;
-  }
-  int32_t xmp_rename(const std::string& /* fromName */, const std::string& /* to */) {
-    int32_t _return = 0;
-    return _return;
-  }
-  int32_t xmp_mkdir(const std::string& /* path */, const int32_t /* mode */) {
-    int32_t _return = 0;
-    return _return;
-  }
-  int32_t xmp_rmdir(const std::string& /* path */) {
-    int32_t _return = 0;
-    return _return;
-  }
-  int32_t xmp_statfs(const std::string& /* path */, const thrift_statvfs& /* stbuf */) {
+  int32_t xmp_mknod(const std::string& /* tpath */, const int32_t /* mode */, const int64_t /* rdev */) {
     int32_t _return = 0;
     return _return;
   }
 };
 
-typedef struct _NfsRpc_xmp_open_args__isset {
-  _NfsRpc_xmp_open_args__isset() : path(false), fi(false) {}
-  bool path :1;
-  bool fi :1;
-} _NfsRpc_xmp_open_args__isset;
-
-class NfsRpc_xmp_open_args {
- public:
-
-  NfsRpc_xmp_open_args(const NfsRpc_xmp_open_args&);
-  NfsRpc_xmp_open_args& operator=(const NfsRpc_xmp_open_args&);
-  NfsRpc_xmp_open_args() : path() {
-  }
-
-  virtual ~NfsRpc_xmp_open_args() throw();
-  std::string path;
-  thrift_fuse_file_info fi;
-
-  _NfsRpc_xmp_open_args__isset __isset;
-
-  void __set_path(const std::string& val);
-
-  void __set_fi(const thrift_fuse_file_info& val);
-
-  bool operator == (const NfsRpc_xmp_open_args & rhs) const
-  {
-    if (!(path == rhs.path))
-      return false;
-    if (!(fi == rhs.fi))
-      return false;
-    return true;
-  }
-  bool operator != (const NfsRpc_xmp_open_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const NfsRpc_xmp_open_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class NfsRpc_xmp_open_pargs {
- public:
-
-
-  virtual ~NfsRpc_xmp_open_pargs() throw();
-  const std::string* path;
-  const thrift_fuse_file_info* fi;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _NfsRpc_xmp_open_result__isset {
-  _NfsRpc_xmp_open_result__isset() : success(false) {}
-  bool success :1;
-} _NfsRpc_xmp_open_result__isset;
-
-class NfsRpc_xmp_open_result {
- public:
-
-  NfsRpc_xmp_open_result(const NfsRpc_xmp_open_result&);
-  NfsRpc_xmp_open_result& operator=(const NfsRpc_xmp_open_result&);
-  NfsRpc_xmp_open_result() {
-  }
-
-  virtual ~NfsRpc_xmp_open_result() throw();
-  thrift_open_reply success;
-
-  _NfsRpc_xmp_open_result__isset __isset;
-
-  void __set_success(const thrift_open_reply& val);
-
-  bool operator == (const NfsRpc_xmp_open_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const NfsRpc_xmp_open_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const NfsRpc_xmp_open_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _NfsRpc_xmp_open_presult__isset {
-  _NfsRpc_xmp_open_presult__isset() : success(false) {}
-  bool success :1;
-} _NfsRpc_xmp_open_presult__isset;
-
-class NfsRpc_xmp_open_presult {
- public:
-
-
-  virtual ~NfsRpc_xmp_open_presult() throw();
-  thrift_open_reply* success;
-
-  _NfsRpc_xmp_open_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-typedef struct _NfsRpc_xmp_access_args__isset {
-  _NfsRpc_xmp_access_args__isset() : path(false), mask(false) {}
-  bool path :1;
-  bool mask :1;
-} _NfsRpc_xmp_access_args__isset;
-
-class NfsRpc_xmp_access_args {
- public:
-
-  NfsRpc_xmp_access_args(const NfsRpc_xmp_access_args&);
-  NfsRpc_xmp_access_args& operator=(const NfsRpc_xmp_access_args&);
-  NfsRpc_xmp_access_args() : path(), mask(0) {
-  }
-
-  virtual ~NfsRpc_xmp_access_args() throw();
-  std::string path;
-  int32_t mask;
-
-  _NfsRpc_xmp_access_args__isset __isset;
-
-  void __set_path(const std::string& val);
-
-  void __set_mask(const int32_t val);
-
-  bool operator == (const NfsRpc_xmp_access_args & rhs) const
-  {
-    if (!(path == rhs.path))
-      return false;
-    if (!(mask == rhs.mask))
-      return false;
-    return true;
-  }
-  bool operator != (const NfsRpc_xmp_access_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const NfsRpc_xmp_access_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class NfsRpc_xmp_access_pargs {
- public:
-
-
-  virtual ~NfsRpc_xmp_access_pargs() throw();
-  const std::string* path;
-  const int32_t* mask;
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _NfsRpc_xmp_access_result__isset {
-  _NfsRpc_xmp_access_result__isset() : success(false) {}
-  bool success :1;
-} _NfsRpc_xmp_access_result__isset;
-
-class NfsRpc_xmp_access_result {
- public:
-
-  NfsRpc_xmp_access_result(const NfsRpc_xmp_access_result&);
-  NfsRpc_xmp_access_result& operator=(const NfsRpc_xmp_access_result&);
-  NfsRpc_xmp_access_result() : success(0) {
-  }
-
-  virtual ~NfsRpc_xmp_access_result() throw();
-  int32_t success;
-
-  _NfsRpc_xmp_access_result__isset __isset;
-
-  void __set_success(const int32_t val);
-
-  bool operator == (const NfsRpc_xmp_access_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const NfsRpc_xmp_access_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const NfsRpc_xmp_access_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _NfsRpc_xmp_access_presult__isset {
-  _NfsRpc_xmp_access_presult__isset() : success(false) {}
-  bool success :1;
-} _NfsRpc_xmp_access_presult__isset;
-
-class NfsRpc_xmp_access_presult {
- public:
-
-
-  virtual ~NfsRpc_xmp_access_presult() throw();
-  int32_t* success;
-
-  _NfsRpc_xmp_access_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-typedef struct _NfsRpc_xmp_mknod_args__isset {
-  _NfsRpc_xmp_mknod_args__isset() : path(false), mode(false), rdev(false) {}
-  bool path :1;
+typedef struct _NfsRpc_xmp_create_args__isset {
+  _NfsRpc_xmp_create_args__isset() : tpath(false), mode(false), tfi(false) {}
+  bool tpath :1;
   bool mode :1;
-  bool rdev :1;
-} _NfsRpc_xmp_mknod_args__isset;
+  bool tfi :1;
+} _NfsRpc_xmp_create_args__isset;
 
-class NfsRpc_xmp_mknod_args {
+class NfsRpc_xmp_create_args {
  public:
 
-  NfsRpc_xmp_mknod_args(const NfsRpc_xmp_mknod_args&);
-  NfsRpc_xmp_mknod_args& operator=(const NfsRpc_xmp_mknod_args&);
-  NfsRpc_xmp_mknod_args() : path(), mode(0), rdev(0) {
+  NfsRpc_xmp_create_args(const NfsRpc_xmp_create_args&);
+  NfsRpc_xmp_create_args& operator=(const NfsRpc_xmp_create_args&);
+  NfsRpc_xmp_create_args() : tpath(), mode(0) {
   }
 
-  virtual ~NfsRpc_xmp_mknod_args() throw();
-  std::string path;
+  virtual ~NfsRpc_xmp_create_args() throw();
+  std::string tpath;
   int32_t mode;
-  int64_t rdev;
+  thrift_fuse_file_info tfi;
 
-  _NfsRpc_xmp_mknod_args__isset __isset;
+  _NfsRpc_xmp_create_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
   void __set_mode(const int32_t val);
 
-  void __set_rdev(const int64_t val);
+  void __set_tfi(const thrift_fuse_file_info& val);
 
-  bool operator == (const NfsRpc_xmp_mknod_args & rhs) const
+  bool operator == (const NfsRpc_xmp_create_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     if (!(mode == rhs.mode))
       return false;
-    if (!(rdev == rhs.rdev))
+    if (!(tfi == rhs.tfi))
       return false;
     return true;
   }
-  bool operator != (const NfsRpc_xmp_mknod_args &rhs) const {
+  bool operator != (const NfsRpc_xmp_create_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const NfsRpc_xmp_mknod_args & ) const;
+  bool operator < (const NfsRpc_xmp_create_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -383,105 +163,105 @@ class NfsRpc_xmp_mknod_args {
 };
 
 
-class NfsRpc_xmp_mknod_pargs {
+class NfsRpc_xmp_create_pargs {
  public:
 
 
-  virtual ~NfsRpc_xmp_mknod_pargs() throw();
-  const std::string* path;
+  virtual ~NfsRpc_xmp_create_pargs() throw();
+  const std::string* tpath;
   const int32_t* mode;
-  const int64_t* rdev;
+  const thrift_fuse_file_info* tfi;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _NfsRpc_xmp_mknod_result__isset {
-  _NfsRpc_xmp_mknod_result__isset() : success(false) {}
+typedef struct _NfsRpc_xmp_create_result__isset {
+  _NfsRpc_xmp_create_result__isset() : success(false) {}
   bool success :1;
-} _NfsRpc_xmp_mknod_result__isset;
+} _NfsRpc_xmp_create_result__isset;
 
-class NfsRpc_xmp_mknod_result {
+class NfsRpc_xmp_create_result {
  public:
 
-  NfsRpc_xmp_mknod_result(const NfsRpc_xmp_mknod_result&);
-  NfsRpc_xmp_mknod_result& operator=(const NfsRpc_xmp_mknod_result&);
-  NfsRpc_xmp_mknod_result() : success(0) {
+  NfsRpc_xmp_create_result(const NfsRpc_xmp_create_result&);
+  NfsRpc_xmp_create_result& operator=(const NfsRpc_xmp_create_result&);
+  NfsRpc_xmp_create_result() : success(0) {
   }
 
-  virtual ~NfsRpc_xmp_mknod_result() throw();
+  virtual ~NfsRpc_xmp_create_result() throw();
   int32_t success;
 
-  _NfsRpc_xmp_mknod_result__isset __isset;
+  _NfsRpc_xmp_create_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const NfsRpc_xmp_mknod_result & rhs) const
+  bool operator == (const NfsRpc_xmp_create_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const NfsRpc_xmp_mknod_result &rhs) const {
+  bool operator != (const NfsRpc_xmp_create_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const NfsRpc_xmp_mknod_result & ) const;
+  bool operator < (const NfsRpc_xmp_create_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _NfsRpc_xmp_mknod_presult__isset {
-  _NfsRpc_xmp_mknod_presult__isset() : success(false) {}
+typedef struct _NfsRpc_xmp_create_presult__isset {
+  _NfsRpc_xmp_create_presult__isset() : success(false) {}
   bool success :1;
-} _NfsRpc_xmp_mknod_presult__isset;
+} _NfsRpc_xmp_create_presult__isset;
 
-class NfsRpc_xmp_mknod_presult {
+class NfsRpc_xmp_create_presult {
  public:
 
 
-  virtual ~NfsRpc_xmp_mknod_presult() throw();
+  virtual ~NfsRpc_xmp_create_presult() throw();
   int32_t* success;
 
-  _NfsRpc_xmp_mknod_presult__isset __isset;
+  _NfsRpc_xmp_create_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
-typedef struct _NfsRpc_xmp_remove_args__isset {
-  _NfsRpc_xmp_remove_args__isset() : path(false) {}
-  bool path :1;
-} _NfsRpc_xmp_remove_args__isset;
+typedef struct _NfsRpc_xmp_unlink_args__isset {
+  _NfsRpc_xmp_unlink_args__isset() : tpath(false) {}
+  bool tpath :1;
+} _NfsRpc_xmp_unlink_args__isset;
 
-class NfsRpc_xmp_remove_args {
+class NfsRpc_xmp_unlink_args {
  public:
 
-  NfsRpc_xmp_remove_args(const NfsRpc_xmp_remove_args&);
-  NfsRpc_xmp_remove_args& operator=(const NfsRpc_xmp_remove_args&);
-  NfsRpc_xmp_remove_args() : path() {
+  NfsRpc_xmp_unlink_args(const NfsRpc_xmp_unlink_args&);
+  NfsRpc_xmp_unlink_args& operator=(const NfsRpc_xmp_unlink_args&);
+  NfsRpc_xmp_unlink_args() : tpath() {
   }
 
-  virtual ~NfsRpc_xmp_remove_args() throw();
-  std::string path;
+  virtual ~NfsRpc_xmp_unlink_args() throw();
+  std::string tpath;
 
-  _NfsRpc_xmp_remove_args__isset __isset;
+  _NfsRpc_xmp_unlink_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
-  bool operator == (const NfsRpc_xmp_remove_args & rhs) const
+  bool operator == (const NfsRpc_xmp_unlink_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     return true;
   }
-  bool operator != (const NfsRpc_xmp_remove_args &rhs) const {
+  bool operator != (const NfsRpc_xmp_unlink_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const NfsRpc_xmp_remove_args & ) const;
+  bool operator < (const NfsRpc_xmp_unlink_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -489,75 +269,75 @@ class NfsRpc_xmp_remove_args {
 };
 
 
-class NfsRpc_xmp_remove_pargs {
+class NfsRpc_xmp_unlink_pargs {
  public:
 
 
-  virtual ~NfsRpc_xmp_remove_pargs() throw();
-  const std::string* path;
+  virtual ~NfsRpc_xmp_unlink_pargs() throw();
+  const std::string* tpath;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _NfsRpc_xmp_remove_result__isset {
-  _NfsRpc_xmp_remove_result__isset() : success(false) {}
+typedef struct _NfsRpc_xmp_unlink_result__isset {
+  _NfsRpc_xmp_unlink_result__isset() : success(false) {}
   bool success :1;
-} _NfsRpc_xmp_remove_result__isset;
+} _NfsRpc_xmp_unlink_result__isset;
 
-class NfsRpc_xmp_remove_result {
+class NfsRpc_xmp_unlink_result {
  public:
 
-  NfsRpc_xmp_remove_result(const NfsRpc_xmp_remove_result&);
-  NfsRpc_xmp_remove_result& operator=(const NfsRpc_xmp_remove_result&);
-  NfsRpc_xmp_remove_result() : success(0) {
+  NfsRpc_xmp_unlink_result(const NfsRpc_xmp_unlink_result&);
+  NfsRpc_xmp_unlink_result& operator=(const NfsRpc_xmp_unlink_result&);
+  NfsRpc_xmp_unlink_result() : success(0) {
   }
 
-  virtual ~NfsRpc_xmp_remove_result() throw();
+  virtual ~NfsRpc_xmp_unlink_result() throw();
   int32_t success;
 
-  _NfsRpc_xmp_remove_result__isset __isset;
+  _NfsRpc_xmp_unlink_result__isset __isset;
 
   void __set_success(const int32_t val);
 
-  bool operator == (const NfsRpc_xmp_remove_result & rhs) const
+  bool operator == (const NfsRpc_xmp_unlink_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const NfsRpc_xmp_remove_result &rhs) const {
+  bool operator != (const NfsRpc_xmp_unlink_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const NfsRpc_xmp_remove_result & ) const;
+  bool operator < (const NfsRpc_xmp_unlink_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _NfsRpc_xmp_remove_presult__isset {
-  _NfsRpc_xmp_remove_presult__isset() : success(false) {}
+typedef struct _NfsRpc_xmp_unlink_presult__isset {
+  _NfsRpc_xmp_unlink_presult__isset() : success(false) {}
   bool success :1;
-} _NfsRpc_xmp_remove_presult__isset;
+} _NfsRpc_xmp_unlink_presult__isset;
 
-class NfsRpc_xmp_remove_presult {
+class NfsRpc_xmp_unlink_presult {
  public:
 
 
-  virtual ~NfsRpc_xmp_remove_presult() throw();
+  virtual ~NfsRpc_xmp_unlink_presult() throw();
   int32_t* success;
 
-  _NfsRpc_xmp_remove_presult__isset __isset;
+  _NfsRpc_xmp_unlink_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
 typedef struct _NfsRpc_xmp_getattr_args__isset {
-  _NfsRpc_xmp_getattr_args__isset() : path(false), stbuf(false) {}
-  bool path :1;
+  _NfsRpc_xmp_getattr_args__isset() : tpath(false), stbuf(false) {}
+  bool tpath :1;
   bool stbuf :1;
 } _NfsRpc_xmp_getattr_args__isset;
 
@@ -566,22 +346,22 @@ class NfsRpc_xmp_getattr_args {
 
   NfsRpc_xmp_getattr_args(const NfsRpc_xmp_getattr_args&);
   NfsRpc_xmp_getattr_args& operator=(const NfsRpc_xmp_getattr_args&);
-  NfsRpc_xmp_getattr_args() : path() {
+  NfsRpc_xmp_getattr_args() : tpath() {
   }
 
   virtual ~NfsRpc_xmp_getattr_args() throw();
-  std::string path;
+  std::string tpath;
   thrift_stat stbuf;
 
   _NfsRpc_xmp_getattr_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
   void __set_stbuf(const thrift_stat& val);
 
   bool operator == (const NfsRpc_xmp_getattr_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     if (!(stbuf == rhs.stbuf))
       return false;
@@ -604,7 +384,7 @@ class NfsRpc_xmp_getattr_pargs {
 
 
   virtual ~NfsRpc_xmp_getattr_pargs() throw();
-  const std::string* path;
+  const std::string* tpath;
   const thrift_stat* stbuf;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -621,15 +401,15 @@ class NfsRpc_xmp_getattr_result {
 
   NfsRpc_xmp_getattr_result(const NfsRpc_xmp_getattr_result&);
   NfsRpc_xmp_getattr_result& operator=(const NfsRpc_xmp_getattr_result&);
-  NfsRpc_xmp_getattr_result() : success(0) {
+  NfsRpc_xmp_getattr_result() {
   }
 
   virtual ~NfsRpc_xmp_getattr_result() throw();
-  int32_t success;
+  thrift_getattr_reply success;
 
   _NfsRpc_xmp_getattr_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const thrift_getattr_reply& val);
 
   bool operator == (const NfsRpc_xmp_getattr_result & rhs) const
   {
@@ -658,7 +438,7 @@ class NfsRpc_xmp_getattr_presult {
 
 
   virtual ~NfsRpc_xmp_getattr_presult() throw();
-  int32_t* success;
+  thrift_getattr_reply* success;
 
   _NfsRpc_xmp_getattr_presult__isset __isset;
 
@@ -667,8 +447,8 @@ class NfsRpc_xmp_getattr_presult {
 };
 
 typedef struct _NfsRpc_xmp_setattr_args__isset {
-  _NfsRpc_xmp_setattr_args__isset() : path(false), stbuf(false) {}
-  bool path :1;
+  _NfsRpc_xmp_setattr_args__isset() : tpath(false), stbuf(false) {}
+  bool tpath :1;
   bool stbuf :1;
 } _NfsRpc_xmp_setattr_args__isset;
 
@@ -677,22 +457,22 @@ class NfsRpc_xmp_setattr_args {
 
   NfsRpc_xmp_setattr_args(const NfsRpc_xmp_setattr_args&);
   NfsRpc_xmp_setattr_args& operator=(const NfsRpc_xmp_setattr_args&);
-  NfsRpc_xmp_setattr_args() : path() {
+  NfsRpc_xmp_setattr_args() : tpath() {
   }
 
   virtual ~NfsRpc_xmp_setattr_args() throw();
-  std::string path;
+  std::string tpath;
   thrift_stat stbuf;
 
   _NfsRpc_xmp_setattr_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
   void __set_stbuf(const thrift_stat& val);
 
   bool operator == (const NfsRpc_xmp_setattr_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     if (!(stbuf == rhs.stbuf))
       return false;
@@ -715,7 +495,7 @@ class NfsRpc_xmp_setattr_pargs {
 
 
   virtual ~NfsRpc_xmp_setattr_pargs() throw();
-  const std::string* path;
+  const std::string* tpath;
   const thrift_stat* stbuf;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -778,12 +558,12 @@ class NfsRpc_xmp_setattr_presult {
 };
 
 typedef struct _NfsRpc_xmp_read_args__isset {
-  _NfsRpc_xmp_read_args__isset() : path(false), buf(false), size(false), offset(false), fi(false) {}
-  bool path :1;
-  bool buf :1;
+  _NfsRpc_xmp_read_args__isset() : tpath(false), tbuf(false), size(false), offset(false), tfi(false) {}
+  bool tpath :1;
+  bool tbuf :1;
   bool size :1;
   bool offset :1;
-  bool fi :1;
+  bool tfi :1;
 } _NfsRpc_xmp_read_args__isset;
 
 class NfsRpc_xmp_read_args {
@@ -791,39 +571,39 @@ class NfsRpc_xmp_read_args {
 
   NfsRpc_xmp_read_args(const NfsRpc_xmp_read_args&);
   NfsRpc_xmp_read_args& operator=(const NfsRpc_xmp_read_args&);
-  NfsRpc_xmp_read_args() : path(), buf(), size(0), offset(0) {
+  NfsRpc_xmp_read_args() : tpath(), tbuf(), size(0), offset(0) {
   }
 
   virtual ~NfsRpc_xmp_read_args() throw();
-  std::string path;
-  std::string buf;
+  std::string tpath;
+  std::string tbuf;
   int64_t size;
   int64_t offset;
-  thrift_fuse_file_info fi;
+  thrift_fuse_file_info tfi;
 
   _NfsRpc_xmp_read_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
-  void __set_buf(const std::string& val);
+  void __set_tbuf(const std::string& val);
 
   void __set_size(const int64_t val);
 
   void __set_offset(const int64_t val);
 
-  void __set_fi(const thrift_fuse_file_info& val);
+  void __set_tfi(const thrift_fuse_file_info& val);
 
   bool operator == (const NfsRpc_xmp_read_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
-    if (!(buf == rhs.buf))
+    if (!(tbuf == rhs.tbuf))
       return false;
     if (!(size == rhs.size))
       return false;
     if (!(offset == rhs.offset))
       return false;
-    if (!(fi == rhs.fi))
+    if (!(tfi == rhs.tfi))
       return false;
     return true;
   }
@@ -844,11 +624,11 @@ class NfsRpc_xmp_read_pargs {
 
 
   virtual ~NfsRpc_xmp_read_pargs() throw();
-  const std::string* path;
-  const std::string* buf;
+  const std::string* tpath;
+  const std::string* tbuf;
   const int64_t* size;
   const int64_t* offset;
-  const thrift_fuse_file_info* fi;
+  const thrift_fuse_file_info* tfi;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -864,15 +644,15 @@ class NfsRpc_xmp_read_result {
 
   NfsRpc_xmp_read_result(const NfsRpc_xmp_read_result&);
   NfsRpc_xmp_read_result& operator=(const NfsRpc_xmp_read_result&);
-  NfsRpc_xmp_read_result() : success(0) {
+  NfsRpc_xmp_read_result() {
   }
 
   virtual ~NfsRpc_xmp_read_result() throw();
-  int32_t success;
+  thrift_read_reply success;
 
   _NfsRpc_xmp_read_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const thrift_read_reply& val);
 
   bool operator == (const NfsRpc_xmp_read_result & rhs) const
   {
@@ -901,7 +681,7 @@ class NfsRpc_xmp_read_presult {
 
 
   virtual ~NfsRpc_xmp_read_presult() throw();
-  int32_t* success;
+  thrift_read_reply* success;
 
   _NfsRpc_xmp_read_presult__isset __isset;
 
@@ -910,12 +690,12 @@ class NfsRpc_xmp_read_presult {
 };
 
 typedef struct _NfsRpc_xmp_write_args__isset {
-  _NfsRpc_xmp_write_args__isset() : path(false), buf(false), size(false), offset(false), fi(false) {}
-  bool path :1;
-  bool buf :1;
+  _NfsRpc_xmp_write_args__isset() : tpath(false), tbuf(false), size(false), offset(false), tfi(false) {}
+  bool tpath :1;
+  bool tbuf :1;
   bool size :1;
   bool offset :1;
-  bool fi :1;
+  bool tfi :1;
 } _NfsRpc_xmp_write_args__isset;
 
 class NfsRpc_xmp_write_args {
@@ -923,39 +703,39 @@ class NfsRpc_xmp_write_args {
 
   NfsRpc_xmp_write_args(const NfsRpc_xmp_write_args&);
   NfsRpc_xmp_write_args& operator=(const NfsRpc_xmp_write_args&);
-  NfsRpc_xmp_write_args() : path(), buf(), size(0), offset(0) {
+  NfsRpc_xmp_write_args() : tpath(), tbuf(), size(0), offset(0) {
   }
 
   virtual ~NfsRpc_xmp_write_args() throw();
-  std::string path;
-  std::string buf;
+  std::string tpath;
+  std::string tbuf;
   int64_t size;
   int64_t offset;
-  thrift_fuse_file_info fi;
+  thrift_fuse_file_info tfi;
 
   _NfsRpc_xmp_write_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
-  void __set_buf(const std::string& val);
+  void __set_tbuf(const std::string& val);
 
   void __set_size(const int64_t val);
 
   void __set_offset(const int64_t val);
 
-  void __set_fi(const thrift_fuse_file_info& val);
+  void __set_tfi(const thrift_fuse_file_info& val);
 
   bool operator == (const NfsRpc_xmp_write_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
-    if (!(buf == rhs.buf))
+    if (!(tbuf == rhs.tbuf))
       return false;
     if (!(size == rhs.size))
       return false;
     if (!(offset == rhs.offset))
       return false;
-    if (!(fi == rhs.fi))
+    if (!(tfi == rhs.tfi))
       return false;
     return true;
   }
@@ -976,11 +756,11 @@ class NfsRpc_xmp_write_pargs {
 
 
   virtual ~NfsRpc_xmp_write_pargs() throw();
-  const std::string* path;
-  const std::string* buf;
+  const std::string* tpath;
+  const std::string* tbuf;
   const int64_t* size;
   const int64_t* offset;
-  const thrift_fuse_file_info* fi;
+  const thrift_fuse_file_info* tfi;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1042,9 +822,9 @@ class NfsRpc_xmp_write_presult {
 };
 
 typedef struct _NfsRpc_xmp_rename_args__isset {
-  _NfsRpc_xmp_rename_args__isset() : fromName(false), to(false) {}
-  bool fromName :1;
-  bool to :1;
+  _NfsRpc_xmp_rename_args__isset() : tfrom(false), tto(false) {}
+  bool tfrom :1;
+  bool tto :1;
 } _NfsRpc_xmp_rename_args__isset;
 
 class NfsRpc_xmp_rename_args {
@@ -1052,24 +832,24 @@ class NfsRpc_xmp_rename_args {
 
   NfsRpc_xmp_rename_args(const NfsRpc_xmp_rename_args&);
   NfsRpc_xmp_rename_args& operator=(const NfsRpc_xmp_rename_args&);
-  NfsRpc_xmp_rename_args() : fromName(), to() {
+  NfsRpc_xmp_rename_args() : tfrom(), tto() {
   }
 
   virtual ~NfsRpc_xmp_rename_args() throw();
-  std::string fromName;
-  std::string to;
+  std::string tfrom;
+  std::string tto;
 
   _NfsRpc_xmp_rename_args__isset __isset;
 
-  void __set_fromName(const std::string& val);
+  void __set_tfrom(const std::string& val);
 
-  void __set_to(const std::string& val);
+  void __set_tto(const std::string& val);
 
   bool operator == (const NfsRpc_xmp_rename_args & rhs) const
   {
-    if (!(fromName == rhs.fromName))
+    if (!(tfrom == rhs.tfrom))
       return false;
-    if (!(to == rhs.to))
+    if (!(tto == rhs.tto))
       return false;
     return true;
   }
@@ -1090,8 +870,8 @@ class NfsRpc_xmp_rename_pargs {
 
 
   virtual ~NfsRpc_xmp_rename_pargs() throw();
-  const std::string* fromName;
-  const std::string* to;
+  const std::string* tfrom;
+  const std::string* tto;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1153,8 +933,8 @@ class NfsRpc_xmp_rename_presult {
 };
 
 typedef struct _NfsRpc_xmp_mkdir_args__isset {
-  _NfsRpc_xmp_mkdir_args__isset() : path(false), mode(false) {}
-  bool path :1;
+  _NfsRpc_xmp_mkdir_args__isset() : tpath(false), mode(false) {}
+  bool tpath :1;
   bool mode :1;
 } _NfsRpc_xmp_mkdir_args__isset;
 
@@ -1163,22 +943,22 @@ class NfsRpc_xmp_mkdir_args {
 
   NfsRpc_xmp_mkdir_args(const NfsRpc_xmp_mkdir_args&);
   NfsRpc_xmp_mkdir_args& operator=(const NfsRpc_xmp_mkdir_args&);
-  NfsRpc_xmp_mkdir_args() : path(), mode(0) {
+  NfsRpc_xmp_mkdir_args() : tpath(), mode(0) {
   }
 
   virtual ~NfsRpc_xmp_mkdir_args() throw();
-  std::string path;
+  std::string tpath;
   int32_t mode;
 
   _NfsRpc_xmp_mkdir_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
   void __set_mode(const int32_t val);
 
   bool operator == (const NfsRpc_xmp_mkdir_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     if (!(mode == rhs.mode))
       return false;
@@ -1201,7 +981,7 @@ class NfsRpc_xmp_mkdir_pargs {
 
 
   virtual ~NfsRpc_xmp_mkdir_pargs() throw();
-  const std::string* path;
+  const std::string* tpath;
   const int32_t* mode;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -1264,8 +1044,8 @@ class NfsRpc_xmp_mkdir_presult {
 };
 
 typedef struct _NfsRpc_xmp_rmdir_args__isset {
-  _NfsRpc_xmp_rmdir_args__isset() : path(false) {}
-  bool path :1;
+  _NfsRpc_xmp_rmdir_args__isset() : tpath(false) {}
+  bool tpath :1;
 } _NfsRpc_xmp_rmdir_args__isset;
 
 class NfsRpc_xmp_rmdir_args {
@@ -1273,19 +1053,19 @@ class NfsRpc_xmp_rmdir_args {
 
   NfsRpc_xmp_rmdir_args(const NfsRpc_xmp_rmdir_args&);
   NfsRpc_xmp_rmdir_args& operator=(const NfsRpc_xmp_rmdir_args&);
-  NfsRpc_xmp_rmdir_args() : path() {
+  NfsRpc_xmp_rmdir_args() : tpath() {
   }
 
   virtual ~NfsRpc_xmp_rmdir_args() throw();
-  std::string path;
+  std::string tpath;
 
   _NfsRpc_xmp_rmdir_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
   bool operator == (const NfsRpc_xmp_rmdir_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
     return true;
   }
@@ -1306,7 +1086,7 @@ class NfsRpc_xmp_rmdir_pargs {
 
 
   virtual ~NfsRpc_xmp_rmdir_pargs() throw();
-  const std::string* path;
+  const std::string* tpath;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1368,9 +1148,9 @@ class NfsRpc_xmp_rmdir_presult {
 };
 
 typedef struct _NfsRpc_xmp_statfs_args__isset {
-  _NfsRpc_xmp_statfs_args__isset() : path(false), stbuf(false) {}
-  bool path :1;
-  bool stbuf :1;
+  _NfsRpc_xmp_statfs_args__isset() : tpath(false), tstbuf(false) {}
+  bool tpath :1;
+  bool tstbuf :1;
 } _NfsRpc_xmp_statfs_args__isset;
 
 class NfsRpc_xmp_statfs_args {
@@ -1378,24 +1158,24 @@ class NfsRpc_xmp_statfs_args {
 
   NfsRpc_xmp_statfs_args(const NfsRpc_xmp_statfs_args&);
   NfsRpc_xmp_statfs_args& operator=(const NfsRpc_xmp_statfs_args&);
-  NfsRpc_xmp_statfs_args() : path() {
+  NfsRpc_xmp_statfs_args() : tpath() {
   }
 
   virtual ~NfsRpc_xmp_statfs_args() throw();
-  std::string path;
-  thrift_statvfs stbuf;
+  std::string tpath;
+  thrift_statvfs tstbuf;
 
   _NfsRpc_xmp_statfs_args__isset __isset;
 
-  void __set_path(const std::string& val);
+  void __set_tpath(const std::string& val);
 
-  void __set_stbuf(const thrift_statvfs& val);
+  void __set_tstbuf(const thrift_statvfs& val);
 
   bool operator == (const NfsRpc_xmp_statfs_args & rhs) const
   {
-    if (!(path == rhs.path))
+    if (!(tpath == rhs.tpath))
       return false;
-    if (!(stbuf == rhs.stbuf))
+    if (!(tstbuf == rhs.tstbuf))
       return false;
     return true;
   }
@@ -1416,8 +1196,8 @@ class NfsRpc_xmp_statfs_pargs {
 
 
   virtual ~NfsRpc_xmp_statfs_pargs() throw();
-  const std::string* path;
-  const thrift_statvfs* stbuf;
+  const std::string* tpath;
+  const thrift_statvfs* tstbuf;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
@@ -1433,15 +1213,15 @@ class NfsRpc_xmp_statfs_result {
 
   NfsRpc_xmp_statfs_result(const NfsRpc_xmp_statfs_result&);
   NfsRpc_xmp_statfs_result& operator=(const NfsRpc_xmp_statfs_result&);
-  NfsRpc_xmp_statfs_result() : success(0) {
+  NfsRpc_xmp_statfs_result() {
   }
 
   virtual ~NfsRpc_xmp_statfs_result() throw();
-  int32_t success;
+  thrift_statfs_reply success;
 
   _NfsRpc_xmp_statfs_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const thrift_statfs_reply& val);
 
   bool operator == (const NfsRpc_xmp_statfs_result & rhs) const
   {
@@ -1470,7 +1250,7 @@ class NfsRpc_xmp_statfs_presult {
 
 
   virtual ~NfsRpc_xmp_statfs_presult() throw();
-  int32_t* success;
+  thrift_statfs_reply* success;
 
   _NfsRpc_xmp_statfs_presult__isset __isset;
 
@@ -1478,9 +1258,349 @@ class NfsRpc_xmp_statfs_presult {
 
 };
 
+typedef struct _NfsRpc_xmp_open_args__isset {
+  _NfsRpc_xmp_open_args__isset() : tpath(false), tfi(false) {}
+  bool tpath :1;
+  bool tfi :1;
+} _NfsRpc_xmp_open_args__isset;
+
+class NfsRpc_xmp_open_args {
+ public:
+
+  NfsRpc_xmp_open_args(const NfsRpc_xmp_open_args&);
+  NfsRpc_xmp_open_args& operator=(const NfsRpc_xmp_open_args&);
+  NfsRpc_xmp_open_args() : tpath() {
+  }
+
+  virtual ~NfsRpc_xmp_open_args() throw();
+  std::string tpath;
+  thrift_fuse_file_info tfi;
+
+  _NfsRpc_xmp_open_args__isset __isset;
+
+  void __set_tpath(const std::string& val);
+
+  void __set_tfi(const thrift_fuse_file_info& val);
+
+  bool operator == (const NfsRpc_xmp_open_args & rhs) const
+  {
+    if (!(tpath == rhs.tpath))
+      return false;
+    if (!(tfi == rhs.tfi))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_open_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_open_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class NfsRpc_xmp_open_pargs {
+ public:
+
+
+  virtual ~NfsRpc_xmp_open_pargs() throw();
+  const std::string* tpath;
+  const thrift_fuse_file_info* tfi;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_open_result__isset {
+  _NfsRpc_xmp_open_result__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_open_result__isset;
+
+class NfsRpc_xmp_open_result {
+ public:
+
+  NfsRpc_xmp_open_result(const NfsRpc_xmp_open_result&);
+  NfsRpc_xmp_open_result& operator=(const NfsRpc_xmp_open_result&);
+  NfsRpc_xmp_open_result() {
+  }
+
+  virtual ~NfsRpc_xmp_open_result() throw();
+  thrift_open_reply success;
+
+  _NfsRpc_xmp_open_result__isset __isset;
+
+  void __set_success(const thrift_open_reply& val);
+
+  bool operator == (const NfsRpc_xmp_open_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_open_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_open_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_open_presult__isset {
+  _NfsRpc_xmp_open_presult__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_open_presult__isset;
+
+class NfsRpc_xmp_open_presult {
+ public:
+
+
+  virtual ~NfsRpc_xmp_open_presult() throw();
+  thrift_open_reply* success;
+
+  _NfsRpc_xmp_open_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _NfsRpc_xmp_access_args__isset {
+  _NfsRpc_xmp_access_args__isset() : tpath(false), mask(false) {}
+  bool tpath :1;
+  bool mask :1;
+} _NfsRpc_xmp_access_args__isset;
+
+class NfsRpc_xmp_access_args {
+ public:
+
+  NfsRpc_xmp_access_args(const NfsRpc_xmp_access_args&);
+  NfsRpc_xmp_access_args& operator=(const NfsRpc_xmp_access_args&);
+  NfsRpc_xmp_access_args() : tpath(), mask(0) {
+  }
+
+  virtual ~NfsRpc_xmp_access_args() throw();
+  std::string tpath;
+  int32_t mask;
+
+  _NfsRpc_xmp_access_args__isset __isset;
+
+  void __set_tpath(const std::string& val);
+
+  void __set_mask(const int32_t val);
+
+  bool operator == (const NfsRpc_xmp_access_args & rhs) const
+  {
+    if (!(tpath == rhs.tpath))
+      return false;
+    if (!(mask == rhs.mask))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_access_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_access_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class NfsRpc_xmp_access_pargs {
+ public:
+
+
+  virtual ~NfsRpc_xmp_access_pargs() throw();
+  const std::string* tpath;
+  const int32_t* mask;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_access_result__isset {
+  _NfsRpc_xmp_access_result__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_access_result__isset;
+
+class NfsRpc_xmp_access_result {
+ public:
+
+  NfsRpc_xmp_access_result(const NfsRpc_xmp_access_result&);
+  NfsRpc_xmp_access_result& operator=(const NfsRpc_xmp_access_result&);
+  NfsRpc_xmp_access_result() : success(0) {
+  }
+
+  virtual ~NfsRpc_xmp_access_result() throw();
+  int32_t success;
+
+  _NfsRpc_xmp_access_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const NfsRpc_xmp_access_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_access_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_access_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_access_presult__isset {
+  _NfsRpc_xmp_access_presult__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_access_presult__isset;
+
+class NfsRpc_xmp_access_presult {
+ public:
+
+
+  virtual ~NfsRpc_xmp_access_presult() throw();
+  int32_t* success;
+
+  _NfsRpc_xmp_access_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _NfsRpc_xmp_mknod_args__isset {
+  _NfsRpc_xmp_mknod_args__isset() : tpath(false), mode(false), rdev(false) {}
+  bool tpath :1;
+  bool mode :1;
+  bool rdev :1;
+} _NfsRpc_xmp_mknod_args__isset;
+
+class NfsRpc_xmp_mknod_args {
+ public:
+
+  NfsRpc_xmp_mknod_args(const NfsRpc_xmp_mknod_args&);
+  NfsRpc_xmp_mknod_args& operator=(const NfsRpc_xmp_mknod_args&);
+  NfsRpc_xmp_mknod_args() : tpath(), mode(0), rdev(0) {
+  }
+
+  virtual ~NfsRpc_xmp_mknod_args() throw();
+  std::string tpath;
+  int32_t mode;
+  int64_t rdev;
+
+  _NfsRpc_xmp_mknod_args__isset __isset;
+
+  void __set_tpath(const std::string& val);
+
+  void __set_mode(const int32_t val);
+
+  void __set_rdev(const int64_t val);
+
+  bool operator == (const NfsRpc_xmp_mknod_args & rhs) const
+  {
+    if (!(tpath == rhs.tpath))
+      return false;
+    if (!(mode == rhs.mode))
+      return false;
+    if (!(rdev == rhs.rdev))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_mknod_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_mknod_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class NfsRpc_xmp_mknod_pargs {
+ public:
+
+
+  virtual ~NfsRpc_xmp_mknod_pargs() throw();
+  const std::string* tpath;
+  const int32_t* mode;
+  const int64_t* rdev;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_mknod_result__isset {
+  _NfsRpc_xmp_mknod_result__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_mknod_result__isset;
+
+class NfsRpc_xmp_mknod_result {
+ public:
+
+  NfsRpc_xmp_mknod_result(const NfsRpc_xmp_mknod_result&);
+  NfsRpc_xmp_mknod_result& operator=(const NfsRpc_xmp_mknod_result&);
+  NfsRpc_xmp_mknod_result() : success(0) {
+  }
+
+  virtual ~NfsRpc_xmp_mknod_result() throw();
+  int32_t success;
+
+  _NfsRpc_xmp_mknod_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const NfsRpc_xmp_mknod_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_mknod_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_mknod_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_mknod_presult__isset {
+  _NfsRpc_xmp_mknod_presult__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_mknod_presult__isset;
+
+class NfsRpc_xmp_mknod_presult {
+ public:
+
+
+  virtual ~NfsRpc_xmp_mknod_presult() throw();
+  int32_t* success;
+
+  _NfsRpc_xmp_mknod_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class NfsRpcClient : virtual public NfsRpcIf {
  public:
-    NfsRpcClient() {} //TODO : adbhat
+    NfsRpcClient(){}
   NfsRpcClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
@@ -1504,42 +1624,45 @@ class NfsRpcClient : virtual public NfsRpcIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi);
-  void send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
-  void recv_xmp_open(thrift_open_reply& _return);
-  int32_t xmp_access(const std::string& path, const int32_t mask);
-  void send_xmp_access(const std::string& path, const int32_t mask);
-  int32_t recv_xmp_access();
-  int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev);
-  void send_xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev);
-  int32_t recv_xmp_mknod();
-  int32_t xmp_remove(const std::string& path);
-  void send_xmp_remove(const std::string& path);
-  int32_t recv_xmp_remove();
-  int32_t xmp_getattr(const std::string& path, const thrift_stat& stbuf);
-  void send_xmp_getattr(const std::string& path, const thrift_stat& stbuf);
-  int32_t recv_xmp_getattr();
-  int32_t xmp_setattr(const std::string& path, const thrift_stat& stbuf);
-  void send_xmp_setattr(const std::string& path, const thrift_stat& stbuf);
+  int32_t xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi);
+  void send_xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi);
+  int32_t recv_xmp_create();
+  int32_t xmp_unlink(const std::string& tpath);
+  void send_xmp_unlink(const std::string& tpath);
+  int32_t recv_xmp_unlink();
+  void xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf);
+  void send_xmp_getattr(const std::string& tpath, const thrift_stat& stbuf);
+  void recv_xmp_getattr(thrift_getattr_reply& _return);
+  int32_t xmp_setattr(const std::string& tpath, const thrift_stat& stbuf);
+  void send_xmp_setattr(const std::string& tpath, const thrift_stat& stbuf);
   int32_t recv_xmp_setattr();
-  int32_t xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  void send_xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  int32_t recv_xmp_read();
-  int32_t xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  void send_xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
+  void xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void send_xmp_read(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void recv_xmp_read(thrift_read_reply& _return);
+  int32_t xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void send_xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
   int32_t recv_xmp_write();
-  int32_t xmp_rename(const std::string& fromName, const std::string& to);
-  void send_xmp_rename(const std::string& fromName, const std::string& to);
+  int32_t xmp_rename(const std::string& tfrom, const std::string& tto);
+  void send_xmp_rename(const std::string& tfrom, const std::string& tto);
   int32_t recv_xmp_rename();
-  int32_t xmp_mkdir(const std::string& path, const int32_t mode);
-  void send_xmp_mkdir(const std::string& path, const int32_t mode);
+  int32_t xmp_mkdir(const std::string& tpath, const int32_t mode);
+  void send_xmp_mkdir(const std::string& tpath, const int32_t mode);
   int32_t recv_xmp_mkdir();
-  int32_t xmp_rmdir(const std::string& path);
-  void send_xmp_rmdir(const std::string& path);
+  int32_t xmp_rmdir(const std::string& tpath);
+  void send_xmp_rmdir(const std::string& tpath);
   int32_t recv_xmp_rmdir();
-  int32_t xmp_statfs(const std::string& path, const thrift_statvfs& stbuf);
-  void send_xmp_statfs(const std::string& path, const thrift_statvfs& stbuf);
-  int32_t recv_xmp_statfs();
+  void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf);
+  void send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf);
+  void recv_xmp_statfs(thrift_statfs_reply& _return);
+  void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi);
+  void send_xmp_open(const std::string& tpath, const thrift_fuse_file_info& tfi);
+  void recv_xmp_open(thrift_open_reply& _return);
+  int32_t xmp_access(const std::string& tpath, const int32_t mask);
+  void send_xmp_access(const std::string& tpath, const int32_t mask);
+  int32_t recv_xmp_access();
+  int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev);
+  void send_xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev);
+  int32_t recv_xmp_mknod();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1555,10 +1678,8 @@ class NfsRpcProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (NfsRpcProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_xmp_open(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_xmp_access(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_xmp_mknod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_xmp_remove(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_unlink(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_getattr(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_setattr(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_read(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -1567,13 +1688,14 @@ class NfsRpcProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_xmp_mkdir(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_rmdir(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_statfs(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_open(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_access(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_mknod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   NfsRpcProcessor(boost::shared_ptr<NfsRpcIf> iface) :
     iface_(iface) {
-    processMap_["xmp_open"] = &NfsRpcProcessor::process_xmp_open;
-    processMap_["xmp_access"] = &NfsRpcProcessor::process_xmp_access;
-    processMap_["xmp_mknod"] = &NfsRpcProcessor::process_xmp_mknod;
-    processMap_["xmp_remove"] = &NfsRpcProcessor::process_xmp_remove;
+    processMap_["xmp_create"] = &NfsRpcProcessor::process_xmp_create;
+    processMap_["xmp_unlink"] = &NfsRpcProcessor::process_xmp_unlink;
     processMap_["xmp_getattr"] = &NfsRpcProcessor::process_xmp_getattr;
     processMap_["xmp_setattr"] = &NfsRpcProcessor::process_xmp_setattr;
     processMap_["xmp_read"] = &NfsRpcProcessor::process_xmp_read;
@@ -1582,6 +1704,9 @@ class NfsRpcProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["xmp_mkdir"] = &NfsRpcProcessor::process_xmp_mkdir;
     processMap_["xmp_rmdir"] = &NfsRpcProcessor::process_xmp_rmdir;
     processMap_["xmp_statfs"] = &NfsRpcProcessor::process_xmp_statfs;
+    processMap_["xmp_open"] = &NfsRpcProcessor::process_xmp_open;
+    processMap_["xmp_access"] = &NfsRpcProcessor::process_xmp_access;
+    processMap_["xmp_mknod"] = &NfsRpcProcessor::process_xmp_mknod;
   }
 
   virtual ~NfsRpcProcessor() {}
@@ -1610,113 +1735,125 @@ class NfsRpcMultiface : virtual public NfsRpcIf {
     ifaces_.push_back(iface);
   }
  public:
-  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) {
+  int32_t xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_open(_return, path, fi);
+      ifaces_[i]->xmp_create(tpath, mode, tfi);
     }
-    ifaces_[i]->xmp_open(_return, path, fi);
+    return ifaces_[i]->xmp_create(tpath, mode, tfi);
+  }
+
+  int32_t xmp_unlink(const std::string& tpath) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->xmp_unlink(tpath);
+    }
+    return ifaces_[i]->xmp_unlink(tpath);
+  }
+
+  void xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->xmp_getattr(_return, tpath, stbuf);
+    }
+    ifaces_[i]->xmp_getattr(_return, tpath, stbuf);
     return;
   }
 
-  int32_t xmp_access(const std::string& path, const int32_t mask) {
+  int32_t xmp_setattr(const std::string& tpath, const thrift_stat& stbuf) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_access(path, mask);
+      ifaces_[i]->xmp_setattr(tpath, stbuf);
     }
-    return ifaces_[i]->xmp_access(path, mask);
+    return ifaces_[i]->xmp_setattr(tpath, stbuf);
   }
 
-  int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev) {
+  void xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_mknod(path, mode, rdev);
+      ifaces_[i]->xmp_read(_return, tpath, tbuf, size, offset, tfi);
     }
-    return ifaces_[i]->xmp_mknod(path, mode, rdev);
+    ifaces_[i]->xmp_read(_return, tpath, tbuf, size, offset, tfi);
+    return;
   }
 
-  int32_t xmp_remove(const std::string& path) {
+  int32_t xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_remove(path);
+      ifaces_[i]->xmp_write(tpath, tbuf, size, offset, tfi);
     }
-    return ifaces_[i]->xmp_remove(path);
+    return ifaces_[i]->xmp_write(tpath, tbuf, size, offset, tfi);
   }
 
-  int32_t xmp_getattr(const std::string& path, const thrift_stat& stbuf) {
+  int32_t xmp_rename(const std::string& tfrom, const std::string& tto) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_getattr(path, stbuf);
+      ifaces_[i]->xmp_rename(tfrom, tto);
     }
-    return ifaces_[i]->xmp_getattr(path, stbuf);
+    return ifaces_[i]->xmp_rename(tfrom, tto);
   }
 
-  int32_t xmp_setattr(const std::string& path, const thrift_stat& stbuf) {
+  int32_t xmp_mkdir(const std::string& tpath, const int32_t mode) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_setattr(path, stbuf);
+      ifaces_[i]->xmp_mkdir(tpath, mode);
     }
-    return ifaces_[i]->xmp_setattr(path, stbuf);
+    return ifaces_[i]->xmp_mkdir(tpath, mode);
   }
 
-  int32_t xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) {
+  int32_t xmp_rmdir(const std::string& tpath) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_read(path, buf, size, offset, fi);
+      ifaces_[i]->xmp_rmdir(tpath);
     }
-    return ifaces_[i]->xmp_read(path, buf, size, offset, fi);
+    return ifaces_[i]->xmp_rmdir(tpath);
   }
 
-  int32_t xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) {
+  void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_write(path, buf, size, offset, fi);
+      ifaces_[i]->xmp_statfs(_return, tpath, tstbuf);
     }
-    return ifaces_[i]->xmp_write(path, buf, size, offset, fi);
+    ifaces_[i]->xmp_statfs(_return, tpath, tstbuf);
+    return;
   }
 
-  int32_t xmp_rename(const std::string& fromName, const std::string& to) {
+  void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_rename(fromName, to);
+      ifaces_[i]->xmp_open(_return, tpath, tfi);
     }
-    return ifaces_[i]->xmp_rename(fromName, to);
+    ifaces_[i]->xmp_open(_return, tpath, tfi);
+    return;
   }
 
-  int32_t xmp_mkdir(const std::string& path, const int32_t mode) {
+  int32_t xmp_access(const std::string& tpath, const int32_t mask) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_mkdir(path, mode);
+      ifaces_[i]->xmp_access(tpath, mask);
     }
-    return ifaces_[i]->xmp_mkdir(path, mode);
+    return ifaces_[i]->xmp_access(tpath, mask);
   }
 
-  int32_t xmp_rmdir(const std::string& path) {
+  int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_rmdir(path);
+      ifaces_[i]->xmp_mknod(tpath, mode, rdev);
     }
-    return ifaces_[i]->xmp_rmdir(path);
-  }
-
-  int32_t xmp_statfs(const std::string& path, const thrift_statvfs& stbuf) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->xmp_statfs(path, stbuf);
-    }
-    return ifaces_[i]->xmp_statfs(path, stbuf);
+    return ifaces_[i]->xmp_mknod(tpath, mode, rdev);
   }
 
 };
@@ -1749,42 +1886,45 @@ class NfsRpcConcurrentClient : virtual public NfsRpcIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi);
-  int32_t send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi);
-  void recv_xmp_open(thrift_open_reply& _return, const int32_t seqid);
-  int32_t xmp_access(const std::string& path, const int32_t mask);
-  int32_t send_xmp_access(const std::string& path, const int32_t mask);
-  int32_t recv_xmp_access(const int32_t seqid);
-  int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev);
-  int32_t send_xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev);
-  int32_t recv_xmp_mknod(const int32_t seqid);
-  int32_t xmp_remove(const std::string& path);
-  int32_t send_xmp_remove(const std::string& path);
-  int32_t recv_xmp_remove(const int32_t seqid);
-  int32_t xmp_getattr(const std::string& path, const thrift_stat& stbuf);
-  int32_t send_xmp_getattr(const std::string& path, const thrift_stat& stbuf);
-  int32_t recv_xmp_getattr(const int32_t seqid);
-  int32_t xmp_setattr(const std::string& path, const thrift_stat& stbuf);
-  int32_t send_xmp_setattr(const std::string& path, const thrift_stat& stbuf);
+  int32_t xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi);
+  int32_t send_xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi);
+  int32_t recv_xmp_create(const int32_t seqid);
+  int32_t xmp_unlink(const std::string& tpath);
+  int32_t send_xmp_unlink(const std::string& tpath);
+  int32_t recv_xmp_unlink(const int32_t seqid);
+  void xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf);
+  int32_t send_xmp_getattr(const std::string& tpath, const thrift_stat& stbuf);
+  void recv_xmp_getattr(thrift_getattr_reply& _return, const int32_t seqid);
+  int32_t xmp_setattr(const std::string& tpath, const thrift_stat& stbuf);
+  int32_t send_xmp_setattr(const std::string& tpath, const thrift_stat& stbuf);
   int32_t recv_xmp_setattr(const int32_t seqid);
-  int32_t xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  int32_t send_xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  int32_t recv_xmp_read(const int32_t seqid);
-  int32_t xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
-  int32_t send_xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi);
+  void xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  int32_t send_xmp_read(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void recv_xmp_read(thrift_read_reply& _return, const int32_t seqid);
+  int32_t xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
+  int32_t send_xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi);
   int32_t recv_xmp_write(const int32_t seqid);
-  int32_t xmp_rename(const std::string& fromName, const std::string& to);
-  int32_t send_xmp_rename(const std::string& fromName, const std::string& to);
+  int32_t xmp_rename(const std::string& tfrom, const std::string& tto);
+  int32_t send_xmp_rename(const std::string& tfrom, const std::string& tto);
   int32_t recv_xmp_rename(const int32_t seqid);
-  int32_t xmp_mkdir(const std::string& path, const int32_t mode);
-  int32_t send_xmp_mkdir(const std::string& path, const int32_t mode);
+  int32_t xmp_mkdir(const std::string& tpath, const int32_t mode);
+  int32_t send_xmp_mkdir(const std::string& tpath, const int32_t mode);
   int32_t recv_xmp_mkdir(const int32_t seqid);
-  int32_t xmp_rmdir(const std::string& path);
-  int32_t send_xmp_rmdir(const std::string& path);
+  int32_t xmp_rmdir(const std::string& tpath);
+  int32_t send_xmp_rmdir(const std::string& tpath);
   int32_t recv_xmp_rmdir(const int32_t seqid);
-  int32_t xmp_statfs(const std::string& path, const thrift_statvfs& stbuf);
-  int32_t send_xmp_statfs(const std::string& path, const thrift_statvfs& stbuf);
-  int32_t recv_xmp_statfs(const int32_t seqid);
+  void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf);
+  int32_t send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf);
+  void recv_xmp_statfs(thrift_statfs_reply& _return, const int32_t seqid);
+  void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi);
+  int32_t send_xmp_open(const std::string& tpath, const thrift_fuse_file_info& tfi);
+  void recv_xmp_open(thrift_open_reply& _return, const int32_t seqid);
+  int32_t xmp_access(const std::string& tpath, const int32_t mask);
+  int32_t send_xmp_access(const std::string& tpath, const int32_t mask);
+  int32_t recv_xmp_access(const int32_t seqid);
+  int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev);
+  int32_t send_xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev);
+  int32_t recv_xmp_mknod(const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

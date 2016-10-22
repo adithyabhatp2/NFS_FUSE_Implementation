@@ -27,6 +27,12 @@ class thrift_stat;
 
 class thrift_statvfs;
 
+class thrift_getattr_reply;
+
+class thrift_read_reply;
+
+class thrift_statfs_reply;
+
 class thrift_open_reply;
 
 typedef struct _thrift_timespec__isset {
@@ -188,7 +194,7 @@ inline std::ostream& operator<<(std::ostream& out, const thrift_fuse_file_info& 
 }
 
 typedef struct _thrift_stat__isset {
-  _thrift_stat__isset() : st_dev(false), st_ino(false), st_mode(false), st_nlink(false), st_uid(false), st_gid(false), __pad0(false), st_size(false), st_blksize(false), st_blocks(false), st_atim(false), st_mtim(false), st_ctim(false), __glibc_reserved0(false), __glibc_reserved1(false), __glibc_reserved2(false) {}
+  _thrift_stat__isset() : st_dev(false), st_ino(false), st_mode(false), st_nlink(false), st_uid(false), st_gid(false), __pad0(false), st_size(false), st_blksize(false), st_blocks(false), st_atim(false), st_mtim(false), st_ctim(false), __glibc_reserved0(false), __glibc_reserved1(false), __glibc_reserved2(false), st_rdev(false) {}
   bool st_dev :1;
   bool st_ino :1;
   bool st_mode :1;
@@ -205,6 +211,7 @@ typedef struct _thrift_stat__isset {
   bool __glibc_reserved0 :1;
   bool __glibc_reserved1 :1;
   bool __glibc_reserved2 :1;
+  bool st_rdev :1;
 } _thrift_stat__isset;
 
 class thrift_stat {
@@ -212,7 +219,7 @@ class thrift_stat {
 
   thrift_stat(const thrift_stat&);
   thrift_stat& operator=(const thrift_stat&);
-  thrift_stat() : st_dev(0), st_ino(0), st_mode(0), st_nlink(0), st_uid(0), st_gid(0), __pad0(0), st_size(0), st_blksize(0), st_blocks(0), __glibc_reserved0(0), __glibc_reserved1(0), __glibc_reserved2(0) {
+  thrift_stat() : st_dev(0), st_ino(0), st_mode(0), st_nlink(0), st_uid(0), st_gid(0), __pad0(0), st_size(0), st_blksize(0), st_blocks(0), __glibc_reserved0(0), __glibc_reserved1(0), __glibc_reserved2(0), st_rdev(0) {
   }
 
   virtual ~thrift_stat() throw();
@@ -232,6 +239,7 @@ class thrift_stat {
   int64_t __glibc_reserved0;
   int64_t __glibc_reserved1;
   int64_t __glibc_reserved2;
+  int64_t st_rdev;
 
   _thrift_stat__isset __isset;
 
@@ -267,6 +275,8 @@ class thrift_stat {
 
   void __set___glibc_reserved2(const int64_t val);
 
+  void __set_st_rdev(const int64_t val);
+
   bool operator == (const thrift_stat & rhs) const
   {
     if (!(st_dev == rhs.st_dev))
@@ -300,6 +310,8 @@ class thrift_stat {
     if (!(__glibc_reserved1 == rhs.__glibc_reserved1))
       return false;
     if (!(__glibc_reserved2 == rhs.__glibc_reserved2))
+      return false;
+    if (!(st_rdev == rhs.st_rdev))
       return false;
     return true;
   }
@@ -465,10 +477,166 @@ inline std::ostream& operator<<(std::ostream& out, const thrift_statvfs& obj)
   return out;
 }
 
-typedef struct _thrift_open_reply__isset {
-  _thrift_open_reply__isset() : retVal(false), fi(false) {}
+typedef struct _thrift_getattr_reply__isset {
+  _thrift_getattr_reply__isset() : retVal(false), tstbuf(false) {}
   bool retVal :1;
-  bool fi :1;
+  bool tstbuf :1;
+} _thrift_getattr_reply__isset;
+
+class thrift_getattr_reply {
+ public:
+
+  thrift_getattr_reply(const thrift_getattr_reply&);
+  thrift_getattr_reply& operator=(const thrift_getattr_reply&);
+  thrift_getattr_reply() : retVal(0) {
+  }
+
+  virtual ~thrift_getattr_reply() throw();
+  int32_t retVal;
+  thrift_stat tstbuf;
+
+  _thrift_getattr_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_tstbuf(const thrift_stat& val);
+
+  bool operator == (const thrift_getattr_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(tstbuf == rhs.tstbuf))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_getattr_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_getattr_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_getattr_reply &a, thrift_getattr_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_getattr_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_read_reply__isset {
+  _thrift_read_reply__isset() : retVal(false), tbuf(false) {}
+  bool retVal :1;
+  bool tbuf :1;
+} _thrift_read_reply__isset;
+
+class thrift_read_reply {
+ public:
+
+  thrift_read_reply(const thrift_read_reply&);
+  thrift_read_reply& operator=(const thrift_read_reply&);
+  thrift_read_reply() : retVal(0), tbuf() {
+  }
+
+  virtual ~thrift_read_reply() throw();
+  int32_t retVal;
+  std::string tbuf;
+
+  _thrift_read_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_tbuf(const std::string& val);
+
+  bool operator == (const thrift_read_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(tbuf == rhs.tbuf))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_read_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_read_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_read_reply &a, thrift_read_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_read_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_statfs_reply__isset {
+  _thrift_statfs_reply__isset() : retVal(false), tstbuf(false) {}
+  bool retVal :1;
+  bool tstbuf :1;
+} _thrift_statfs_reply__isset;
+
+class thrift_statfs_reply {
+ public:
+
+  thrift_statfs_reply(const thrift_statfs_reply&);
+  thrift_statfs_reply& operator=(const thrift_statfs_reply&);
+  thrift_statfs_reply() : retVal(0) {
+  }
+
+  virtual ~thrift_statfs_reply() throw();
+  int32_t retVal;
+  thrift_statvfs tstbuf;
+
+  _thrift_statfs_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_tstbuf(const thrift_statvfs& val);
+
+  bool operator == (const thrift_statfs_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(tstbuf == rhs.tstbuf))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_statfs_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_statfs_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_statfs_reply &a, thrift_statfs_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_statfs_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_open_reply__isset {
+  _thrift_open_reply__isset() : retVal(false), tfi(false) {}
+  bool retVal :1;
+  bool tfi :1;
 } _thrift_open_reply__isset;
 
 class thrift_open_reply {
@@ -481,19 +649,19 @@ class thrift_open_reply {
 
   virtual ~thrift_open_reply() throw();
   int32_t retVal;
-  thrift_fuse_file_info fi;
+  thrift_fuse_file_info tfi;
 
   _thrift_open_reply__isset __isset;
 
   void __set_retVal(const int32_t val);
 
-  void __set_fi(const thrift_fuse_file_info& val);
+  void __set_tfi(const thrift_fuse_file_info& val);
 
   bool operator == (const thrift_open_reply & rhs) const
   {
     if (!(retVal == rhs.retVal))
       return false;
-    if (!(fi == rhs.fi))
+    if (!(tfi == rhs.tfi))
       return false;
     return true;
   }

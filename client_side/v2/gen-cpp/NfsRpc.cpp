@@ -9,11 +9,11 @@
 
 
 
-NfsRpc_xmp_open_args::~NfsRpc_xmp_open_args() throw() {
+NfsRpc_xmp_create_args::~NfsRpc_xmp_create_args() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_open_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_create_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -36,414 +36,8 @@ uint32_t NfsRpc_xmp_open_args::read(::apache::thrift::protocol::TProtocol* iprot
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->fi.read(iprot);
-          this->__isset.fi = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t NfsRpc_xmp_open_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_args");
-
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += this->fi.write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_open_pargs::~NfsRpc_xmp_open_pargs() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_open_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_pargs");
-
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += (*(this->fi)).write(oprot);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_open_result::~NfsRpc_xmp_open_result() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_open_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->success.read(iprot);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t NfsRpc_xmp_open_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_result");
-
-  if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
-    xfer += this->success.write(oprot);
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_open_presult::~NfsRpc_xmp_open_presult() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_open_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += (*(this->success)).read(iprot);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
-NfsRpc_xmp_access_args::~NfsRpc_xmp_access_args() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_access_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 2:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->mask);
-          this->__isset.mask = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t NfsRpc_xmp_access_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_args");
-
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("mask", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32(this->mask);
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_access_pargs::~NfsRpc_xmp_access_pargs() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_access_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
-  uint32_t xfer = 0;
-  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_pargs");
-
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("mask", ::apache::thrift::protocol::T_I32, 2);
-  xfer += oprot->writeI32((*(this->mask)));
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_access_result::~NfsRpc_xmp_access_result() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_access_result::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->success);
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-uint32_t NfsRpc_xmp_access_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
-
-  uint32_t xfer = 0;
-
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_result");
-
-  if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32(this->success);
-    xfer += oprot->writeFieldEnd();
-  }
-  xfer += oprot->writeFieldStop();
-  xfer += oprot->writeStructEnd();
-  return xfer;
-}
-
-
-NfsRpc_xmp_access_presult::~NfsRpc_xmp_access_presult() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_access_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32((*(this->success)));
-          this->__isset.success = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      default:
-        xfer += iprot->skip(ftype);
-        break;
-    }
-    xfer += iprot->readFieldEnd();
-  }
-
-  xfer += iprot->readStructEnd();
-
-  return xfer;
-}
-
-
-NfsRpc_xmp_mknod_args::~NfsRpc_xmp_mknod_args() throw() {
-}
-
-
-uint32_t NfsRpc_xmp_mknod_args::read(::apache::thrift::protocol::TProtocol* iprot) {
-
-  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
-  uint32_t xfer = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TType ftype;
-  int16_t fid;
-
-  xfer += iprot->readStructBegin(fname);
-
-  using ::apache::thrift::protocol::TProtocolException;
-
-
-  while (true)
-  {
-    xfer += iprot->readFieldBegin(fname, ftype, fid);
-    if (ftype == ::apache::thrift::protocol::T_STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 1:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -457,9 +51,9 @@ uint32_t NfsRpc_xmp_mknod_args::read(::apache::thrift::protocol::TProtocol* ipro
         }
         break;
       case 3:
-        if (ftype == ::apache::thrift::protocol::T_I64) {
-          xfer += iprot->readI64(this->rdev);
-          this->__isset.rdev = true;
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->tfi.read(iprot);
+          this->__isset.tfi = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -476,21 +70,21 @@ uint32_t NfsRpc_xmp_mknod_args::read(::apache::thrift::protocol::TProtocol* ipro
   return xfer;
 }
 
-uint32_t NfsRpc_xmp_mknod_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_create_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_args");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_create_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
   xfer += oprot->writeI32(this->mode);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("rdev", ::apache::thrift::protocol::T_I64, 3);
-  xfer += oprot->writeI64(this->rdev);
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->tfi.write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -499,25 +93,25 @@ uint32_t NfsRpc_xmp_mknod_args::write(::apache::thrift::protocol::TProtocol* opr
 }
 
 
-NfsRpc_xmp_mknod_pargs::~NfsRpc_xmp_mknod_pargs() throw() {
+NfsRpc_xmp_create_pargs::~NfsRpc_xmp_create_pargs() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_mknod_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_create_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_pargs");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_create_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
   xfer += oprot->writeI32((*(this->mode)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("rdev", ::apache::thrift::protocol::T_I64, 3);
-  xfer += oprot->writeI64((*(this->rdev)));
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += (*(this->tfi)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -526,11 +120,11 @@ uint32_t NfsRpc_xmp_mknod_pargs::write(::apache::thrift::protocol::TProtocol* op
 }
 
 
-NfsRpc_xmp_mknod_result::~NfsRpc_xmp_mknod_result() throw() {
+NfsRpc_xmp_create_result::~NfsRpc_xmp_create_result() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_mknod_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_create_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -571,11 +165,11 @@ uint32_t NfsRpc_xmp_mknod_result::read(::apache::thrift::protocol::TProtocol* ip
   return xfer;
 }
 
-uint32_t NfsRpc_xmp_mknod_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_create_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_result");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_create_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -588,11 +182,11 @@ uint32_t NfsRpc_xmp_mknod_result::write(::apache::thrift::protocol::TProtocol* o
 }
 
 
-NfsRpc_xmp_mknod_presult::~NfsRpc_xmp_mknod_presult() throw() {
+NfsRpc_xmp_create_presult::~NfsRpc_xmp_create_presult() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_mknod_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_create_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -634,11 +228,11 @@ uint32_t NfsRpc_xmp_mknod_presult::read(::apache::thrift::protocol::TProtocol* i
 }
 
 
-NfsRpc_xmp_remove_args::~NfsRpc_xmp_remove_args() throw() {
+NfsRpc_xmp_unlink_args::~NfsRpc_xmp_unlink_args() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_remove_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_unlink_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -661,8 +255,8 @@ uint32_t NfsRpc_xmp_remove_args::read(::apache::thrift::protocol::TProtocol* ipr
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -679,13 +273,13 @@ uint32_t NfsRpc_xmp_remove_args::read(::apache::thrift::protocol::TProtocol* ipr
   return xfer;
 }
 
-uint32_t NfsRpc_xmp_remove_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_unlink_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_remove_args");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_unlink_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -694,17 +288,17 @@ uint32_t NfsRpc_xmp_remove_args::write(::apache::thrift::protocol::TProtocol* op
 }
 
 
-NfsRpc_xmp_remove_pargs::~NfsRpc_xmp_remove_pargs() throw() {
+NfsRpc_xmp_unlink_pargs::~NfsRpc_xmp_unlink_pargs() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_remove_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_unlink_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_remove_pargs");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_unlink_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -713,11 +307,11 @@ uint32_t NfsRpc_xmp_remove_pargs::write(::apache::thrift::protocol::TProtocol* o
 }
 
 
-NfsRpc_xmp_remove_result::~NfsRpc_xmp_remove_result() throw() {
+NfsRpc_xmp_unlink_result::~NfsRpc_xmp_unlink_result() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_remove_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_unlink_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -758,11 +352,11 @@ uint32_t NfsRpc_xmp_remove_result::read(::apache::thrift::protocol::TProtocol* i
   return xfer;
 }
 
-uint32_t NfsRpc_xmp_remove_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_unlink_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_remove_result");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_unlink_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -775,11 +369,11 @@ uint32_t NfsRpc_xmp_remove_result::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
-NfsRpc_xmp_remove_presult::~NfsRpc_xmp_remove_presult() throw() {
+NfsRpc_xmp_unlink_presult::~NfsRpc_xmp_unlink_presult() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_remove_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_unlink_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -848,8 +442,8 @@ uint32_t NfsRpc_xmp_getattr_args::read(::apache::thrift::protocol::TProtocol* ip
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -879,8 +473,8 @@ uint32_t NfsRpc_xmp_getattr_args::write(::apache::thrift::protocol::TProtocol* o
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_getattr_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
@@ -902,8 +496,8 @@ uint32_t NfsRpc_xmp_getattr_pargs::write(::apache::thrift::protocol::TProtocol* 
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_getattr_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
@@ -942,8 +536,8 @@ uint32_t NfsRpc_xmp_getattr_result::read(::apache::thrift::protocol::TProtocol* 
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->success);
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -968,8 +562,8 @@ uint32_t NfsRpc_xmp_getattr_result::write(::apache::thrift::protocol::TProtocol*
   xfer += oprot->writeStructBegin("NfsRpc_xmp_getattr_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1004,8 +598,8 @@ uint32_t NfsRpc_xmp_getattr_presult::read(::apache::thrift::protocol::TProtocol*
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1051,8 +645,8 @@ uint32_t NfsRpc_xmp_setattr_args::read(::apache::thrift::protocol::TProtocol* ip
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1082,8 +676,8 @@ uint32_t NfsRpc_xmp_setattr_args::write(::apache::thrift::protocol::TProtocol* o
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_setattr_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
@@ -1105,8 +699,8 @@ uint32_t NfsRpc_xmp_setattr_pargs::write(::apache::thrift::protocol::TProtocol* 
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_setattr_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
@@ -1254,16 +848,16 @@ uint32_t NfsRpc_xmp_read_args::read(::apache::thrift::protocol::TProtocol* iprot
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->buf);
-          this->__isset.buf = true;
+          xfer += iprot->readString(this->tbuf);
+          this->__isset.tbuf = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1286,8 +880,8 @@ uint32_t NfsRpc_xmp_read_args::read(::apache::thrift::protocol::TProtocol* iprot
         break;
       case 5:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->fi.read(iprot);
-          this->__isset.fi = true;
+          xfer += this->tfi.read(iprot);
+          this->__isset.tfi = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1309,12 +903,12 @@ uint32_t NfsRpc_xmp_read_args::write(::apache::thrift::protocol::TProtocol* opro
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_read_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->buf);
+  xfer += oprot->writeFieldBegin("tbuf", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->tbuf);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("size", ::apache::thrift::protocol::T_I64, 3);
@@ -1325,8 +919,8 @@ uint32_t NfsRpc_xmp_read_args::write(::apache::thrift::protocol::TProtocol* opro
   xfer += oprot->writeI64(this->offset);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 5);
-  xfer += this->fi.write(oprot);
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += this->tfi.write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1344,12 +938,12 @@ uint32_t NfsRpc_xmp_read_pargs::write(::apache::thrift::protocol::TProtocol* opr
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_read_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString((*(this->buf)));
+  xfer += oprot->writeFieldBegin("tbuf", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->tbuf)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("size", ::apache::thrift::protocol::T_I64, 3);
@@ -1360,8 +954,8 @@ uint32_t NfsRpc_xmp_read_pargs::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI64((*(this->offset)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 5);
-  xfer += (*(this->fi)).write(oprot);
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += (*(this->tfi)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1396,8 +990,8 @@ uint32_t NfsRpc_xmp_read_result::read(::apache::thrift::protocol::TProtocol* ipr
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32(this->success);
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1422,8 +1016,8 @@ uint32_t NfsRpc_xmp_read_result::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeStructBegin("NfsRpc_xmp_read_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
-    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -1458,8 +1052,8 @@ uint32_t NfsRpc_xmp_read_presult::read(::apache::thrift::protocol::TProtocol* ip
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_I32) {
-          xfer += iprot->readI32((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -1505,16 +1099,16 @@ uint32_t NfsRpc_xmp_write_args::read(::apache::thrift::protocol::TProtocol* ipro
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->buf);
-          this->__isset.buf = true;
+          xfer += iprot->readString(this->tbuf);
+          this->__isset.tbuf = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1537,8 +1131,8 @@ uint32_t NfsRpc_xmp_write_args::read(::apache::thrift::protocol::TProtocol* ipro
         break;
       case 5:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->fi.read(iprot);
-          this->__isset.fi = true;
+          xfer += this->tfi.read(iprot);
+          this->__isset.tfi = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1560,12 +1154,12 @@ uint32_t NfsRpc_xmp_write_args::write(::apache::thrift::protocol::TProtocol* opr
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_write_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->buf);
+  xfer += oprot->writeFieldBegin("tbuf", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->tbuf);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("size", ::apache::thrift::protocol::T_I64, 3);
@@ -1576,8 +1170,8 @@ uint32_t NfsRpc_xmp_write_args::write(::apache::thrift::protocol::TProtocol* opr
   xfer += oprot->writeI64(this->offset);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 5);
-  xfer += this->fi.write(oprot);
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += this->tfi.write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1595,12 +1189,12 @@ uint32_t NfsRpc_xmp_write_pargs::write(::apache::thrift::protocol::TProtocol* op
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_write_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("buf", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString((*(this->buf)));
+  xfer += oprot->writeFieldBegin("tbuf", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->tbuf)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("size", ::apache::thrift::protocol::T_I64, 3);
@@ -1611,8 +1205,8 @@ uint32_t NfsRpc_xmp_write_pargs::write(::apache::thrift::protocol::TProtocol* op
   xfer += oprot->writeI64((*(this->offset)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("fi", ::apache::thrift::protocol::T_STRUCT, 5);
-  xfer += (*(this->fi)).write(oprot);
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 5);
+  xfer += (*(this->tfi)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1756,16 +1350,16 @@ uint32_t NfsRpc_xmp_rename_args::read(::apache::thrift::protocol::TProtocol* ipr
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->fromName);
-          this->__isset.fromName = true;
+          xfer += iprot->readString(this->tfrom);
+          this->__isset.tfrom = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->to);
-          this->__isset.to = true;
+          xfer += iprot->readString(this->tto);
+          this->__isset.tto = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1787,12 +1381,12 @@ uint32_t NfsRpc_xmp_rename_args::write(::apache::thrift::protocol::TProtocol* op
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_rename_args");
 
-  xfer += oprot->writeFieldBegin("fromName", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->fromName);
+  xfer += oprot->writeFieldBegin("tfrom", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tfrom);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("to", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString(this->to);
+  xfer += oprot->writeFieldBegin("tto", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->tto);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1810,12 +1404,12 @@ uint32_t NfsRpc_xmp_rename_pargs::write(::apache::thrift::protocol::TProtocol* o
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_rename_pargs");
 
-  xfer += oprot->writeFieldBegin("fromName", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->fromName)));
+  xfer += oprot->writeFieldBegin("tfrom", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tfrom)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("to", ::apache::thrift::protocol::T_STRING, 2);
-  xfer += oprot->writeString((*(this->to)));
+  xfer += oprot->writeFieldBegin("tto", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString((*(this->tto)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -1959,8 +1553,8 @@ uint32_t NfsRpc_xmp_mkdir_args::read(::apache::thrift::protocol::TProtocol* ipro
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -1990,8 +1584,8 @@ uint32_t NfsRpc_xmp_mkdir_args::write(::apache::thrift::protocol::TProtocol* opr
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_mkdir_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
@@ -2013,8 +1607,8 @@ uint32_t NfsRpc_xmp_mkdir_pargs::write(::apache::thrift::protocol::TProtocol* op
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_mkdir_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
@@ -2162,8 +1756,8 @@ uint32_t NfsRpc_xmp_rmdir_args::read(::apache::thrift::protocol::TProtocol* ipro
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -2185,8 +1779,8 @@ uint32_t NfsRpc_xmp_rmdir_args::write(::apache::thrift::protocol::TProtocol* opr
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_rmdir_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2204,8 +1798,8 @@ uint32_t NfsRpc_xmp_rmdir_pargs::write(::apache::thrift::protocol::TProtocol* op
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_rmdir_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2349,16 +1943,16 @@ uint32_t NfsRpc_xmp_statfs_args::read(::apache::thrift::protocol::TProtocol* ipr
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->path);
-          this->__isset.path = true;
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
         } else {
           xfer += iprot->skip(ftype);
         }
         break;
       case 2:
         if (ftype == ::apache::thrift::protocol::T_STRUCT) {
-          xfer += this->stbuf.read(iprot);
-          this->__isset.stbuf = true;
+          xfer += this->tstbuf.read(iprot);
+          this->__isset.tstbuf = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -2380,12 +1974,12 @@ uint32_t NfsRpc_xmp_statfs_args::write(::apache::thrift::protocol::TProtocol* op
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_statfs_args");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->path);
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += this->stbuf.write(oprot);
+  xfer += oprot->writeFieldBegin("tstbuf", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->tstbuf.write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2403,12 +1997,12 @@ uint32_t NfsRpc_xmp_statfs_pargs::write(::apache::thrift::protocol::TProtocol* o
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("NfsRpc_xmp_statfs_pargs");
 
-  xfer += oprot->writeFieldBegin("path", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->path)));
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("stbuf", ::apache::thrift::protocol::T_STRUCT, 2);
-  xfer += (*(this->stbuf)).write(oprot);
+  xfer += oprot->writeFieldBegin("tstbuf", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->tstbuf)).write(oprot);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -2422,6 +2016,412 @@ NfsRpc_xmp_statfs_result::~NfsRpc_xmp_statfs_result() throw() {
 
 
 uint32_t NfsRpc_xmp_statfs_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_statfs_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_statfs_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_statfs_presult::~NfsRpc_xmp_statfs_presult() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_statfs_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+NfsRpc_xmp_open_args::~NfsRpc_xmp_open_args() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_open_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->tfi.read(iprot);
+          this->__isset.tfi = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_open_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_args");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += this->tfi.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_open_pargs::~NfsRpc_xmp_open_pargs() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_open_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_pargs");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 2);
+  xfer += (*(this->tfi)).write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_open_result::~NfsRpc_xmp_open_result() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_open_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->success.read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_open_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_open_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRUCT, 0);
+    xfer += this->success.write(oprot);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_open_presult::~NfsRpc_xmp_open_presult() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_open_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += (*(this->success)).read(iprot);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+
+NfsRpc_xmp_access_args::~NfsRpc_xmp_access_args() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_access_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->mask);
+          this->__isset.mask = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_access_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_args");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->mask);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_access_pargs::~NfsRpc_xmp_access_pargs() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_access_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_pargs");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mask", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->mask)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_access_result::~NfsRpc_xmp_access_result() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_access_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2462,11 +2462,11 @@ uint32_t NfsRpc_xmp_statfs_result::read(::apache::thrift::protocol::TProtocol* i
   return xfer;
 }
 
-uint32_t NfsRpc_xmp_statfs_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t NfsRpc_xmp_access_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("NfsRpc_xmp_statfs_result");
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_access_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
@@ -2479,11 +2479,11 @@ uint32_t NfsRpc_xmp_statfs_result::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
-NfsRpc_xmp_statfs_presult::~NfsRpc_xmp_statfs_presult() throw() {
+NfsRpc_xmp_access_presult::~NfsRpc_xmp_access_presult() throw() {
 }
 
 
-uint32_t NfsRpc_xmp_statfs_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t NfsRpc_xmp_access_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -2524,20 +2524,834 @@ uint32_t NfsRpc_xmp_statfs_presult::read(::apache::thrift::protocol::TProtocol* 
   return xfer;
 }
 
-void NfsRpcClient::xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi)
+
+NfsRpc_xmp_mknod_args::~NfsRpc_xmp_mknod_args() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_mknod_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->tpath);
+          this->__isset.tpath = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->mode);
+          this->__isset.mode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I64) {
+          xfer += iprot->readI64(this->rdev);
+          this->__isset.rdev = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_mknod_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_args");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->tpath);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->mode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("rdev", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64(this->rdev);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_mknod_pargs::~NfsRpc_xmp_mknod_pargs() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_mknod_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_pargs");
+
+  xfer += oprot->writeFieldBegin("tpath", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->tpath)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("mode", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->mode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("rdev", ::apache::thrift::protocol::T_I64, 3);
+  xfer += oprot->writeI64((*(this->rdev)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_mknod_result::~NfsRpc_xmp_mknod_result() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_mknod_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t NfsRpc_xmp_mknod_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("NfsRpc_xmp_mknod_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+NfsRpc_xmp_mknod_presult::~NfsRpc_xmp_mknod_presult() throw() {
+}
+
+
+uint32_t NfsRpc_xmp_mknod_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+int32_t NfsRpcClient::xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi)
 {
-  send_xmp_open(path, fi);
+  send_xmp_create(tpath, mode, tfi);
+  return recv_xmp_create();
+}
+
+void NfsRpcClient::send_xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_create", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_create_pargs args;
+  args.tpath = &tpath;
+  args.mode = &mode;
+  args.tfi = &tfi;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_create()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_create") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_create_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_create failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_unlink(const std::string& tpath)
+{
+  send_xmp_unlink(tpath);
+  return recv_xmp_unlink();
+}
+
+void NfsRpcClient::send_xmp_unlink(const std::string& tpath)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_unlink", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_unlink_pargs args;
+  args.tpath = &tpath;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_unlink()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_unlink") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_unlink_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_unlink failed: unknown result");
+}
+
+void NfsRpcClient::xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf)
+{
+  send_xmp_getattr(tpath, stbuf);
+  recv_xmp_getattr(_return);
+}
+
+void NfsRpcClient::send_xmp_getattr(const std::string& tpath, const thrift_stat& stbuf)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_getattr", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_getattr_pargs args;
+  args.tpath = &tpath;
+  args.stbuf = &stbuf;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void NfsRpcClient::recv_xmp_getattr(thrift_getattr_reply& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_getattr") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  NfsRpc_xmp_getattr_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_getattr failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_setattr(const std::string& tpath, const thrift_stat& stbuf)
+{
+  send_xmp_setattr(tpath, stbuf);
+  return recv_xmp_setattr();
+}
+
+void NfsRpcClient::send_xmp_setattr(const std::string& tpath, const thrift_stat& stbuf)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_setattr", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_setattr_pargs args;
+  args.tpath = &tpath;
+  args.stbuf = &stbuf;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_setattr()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_setattr") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_setattr_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_setattr failed: unknown result");
+}
+
+void NfsRpcClient::xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
+{
+  send_xmp_read(tpath, tbuf, size, offset, tfi);
+  recv_xmp_read(_return);
+}
+
+void NfsRpcClient::send_xmp_read(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_read", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_read_pargs args;
+  args.tpath = &tpath;
+  args.tbuf = &tbuf;
+  args.size = &size;
+  args.offset = &offset;
+  args.tfi = &tfi;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void NfsRpcClient::recv_xmp_read(thrift_read_reply& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_read") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  NfsRpc_xmp_read_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_read failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
+{
+  send_xmp_write(tpath, tbuf, size, offset, tfi);
+  return recv_xmp_write();
+}
+
+void NfsRpcClient::send_xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_write", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_write_pargs args;
+  args.tpath = &tpath;
+  args.tbuf = &tbuf;
+  args.size = &size;
+  args.offset = &offset;
+  args.tfi = &tfi;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_write()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_write") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_write_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_write failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_rename(const std::string& tfrom, const std::string& tto)
+{
+  send_xmp_rename(tfrom, tto);
+  return recv_xmp_rename();
+}
+
+void NfsRpcClient::send_xmp_rename(const std::string& tfrom, const std::string& tto)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_rename", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_rename_pargs args;
+  args.tfrom = &tfrom;
+  args.tto = &tto;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_rename()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_rename") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_rename_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_rename failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_mkdir(const std::string& tpath, const int32_t mode)
+{
+  send_xmp_mkdir(tpath, mode);
+  return recv_xmp_mkdir();
+}
+
+void NfsRpcClient::send_xmp_mkdir(const std::string& tpath, const int32_t mode)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_mkdir", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_mkdir_pargs args;
+  args.tpath = &tpath;
+  args.mode = &mode;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_mkdir()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_mkdir") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_mkdir_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_mkdir failed: unknown result");
+}
+
+int32_t NfsRpcClient::xmp_rmdir(const std::string& tpath)
+{
+  send_xmp_rmdir(tpath);
+  return recv_xmp_rmdir();
+}
+
+void NfsRpcClient::send_xmp_rmdir(const std::string& tpath)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_rmdir", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_rmdir_pargs args;
+  args.tpath = &tpath;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t NfsRpcClient::recv_xmp_rmdir()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_rmdir") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  NfsRpc_xmp_rmdir_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_rmdir failed: unknown result");
+}
+
+void NfsRpcClient::xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf)
+{
+  send_xmp_statfs(tpath, tstbuf);
+  recv_xmp_statfs(_return);
+}
+
+void NfsRpcClient::send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("xmp_statfs", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_statfs_pargs args;
+  args.tpath = &tpath;
+  args.tstbuf = &tstbuf;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+void NfsRpcClient::recv_xmp_statfs(thrift_statfs_reply& _return)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("xmp_statfs") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  NfsRpc_xmp_statfs_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    // _return pointer has now been filled
+    return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_statfs failed: unknown result");
+}
+
+void NfsRpcClient::xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi)
+{
+  send_xmp_open(tpath, tfi);
   recv_xmp_open(_return);
 }
 
-void NfsRpcClient::send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
+void NfsRpcClient::send_xmp_open(const std::string& tpath, const thrift_fuse_file_info& tfi)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_open_pargs args;
-  args.path = &path;
-  args.fi = &fi;
+  args.tpath = &tpath;
+  args.tfi = &tfi;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -2583,19 +3397,19 @@ void NfsRpcClient::recv_xmp_open(thrift_open_reply& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_open failed: unknown result");
 }
 
-int32_t NfsRpcClient::xmp_access(const std::string& path, const int32_t mask)
+int32_t NfsRpcClient::xmp_access(const std::string& tpath, const int32_t mask)
 {
-  send_xmp_access(path, mask);
+  send_xmp_access(tpath, mask);
   return recv_xmp_access();
 }
 
-void NfsRpcClient::send_xmp_access(const std::string& path, const int32_t mask)
+void NfsRpcClient::send_xmp_access(const std::string& tpath, const int32_t mask)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_access_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.mask = &mask;
   args.write(oprot_);
 
@@ -2642,19 +3456,19 @@ int32_t NfsRpcClient::recv_xmp_access()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_access failed: unknown result");
 }
 
-int32_t NfsRpcClient::xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev)
+int32_t NfsRpcClient::xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev)
 {
-  send_xmp_mknod(path, mode, rdev);
+  send_xmp_mknod(tpath, mode, rdev);
   return recv_xmp_mknod();
 }
 
-void NfsRpcClient::send_xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev)
+void NfsRpcClient::send_xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_mknod_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.mode = &mode;
   args.rdev = &rdev;
   args.write(oprot_);
@@ -2702,541 +3516,6 @@ int32_t NfsRpcClient::recv_xmp_mknod()
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_mknod failed: unknown result");
 }
 
-int32_t NfsRpcClient::xmp_remove(const std::string& path)
-{
-  send_xmp_remove(path);
-  return recv_xmp_remove();
-}
-
-void NfsRpcClient::send_xmp_remove(const std::string& path)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_remove", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_remove_pargs args;
-  args.path = &path;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_remove()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_remove") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_remove_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_remove failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_getattr(const std::string& path, const thrift_stat& stbuf)
-{
-  send_xmp_getattr(path, stbuf);
-  return recv_xmp_getattr();
-}
-
-void NfsRpcClient::send_xmp_getattr(const std::string& path, const thrift_stat& stbuf)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_getattr", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_getattr_pargs args;
-  args.path = &path;
-  args.stbuf = &stbuf;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_getattr()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_getattr") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_getattr_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_getattr failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_setattr(const std::string& path, const thrift_stat& stbuf)
-{
-  send_xmp_setattr(path, stbuf);
-  return recv_xmp_setattr();
-}
-
-void NfsRpcClient::send_xmp_setattr(const std::string& path, const thrift_stat& stbuf)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_setattr", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_setattr_pargs args;
-  args.path = &path;
-  args.stbuf = &stbuf;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_setattr()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_setattr") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_setattr_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_setattr failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
-{
-  send_xmp_read(path, buf, size, offset, fi);
-  return recv_xmp_read();
-}
-
-void NfsRpcClient::send_xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_read", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_read_pargs args;
-  args.path = &path;
-  args.buf = &buf;
-  args.size = &size;
-  args.offset = &offset;
-  args.fi = &fi;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_read()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_read") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_read_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_read failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
-{
-  send_xmp_write(path, buf, size, offset, fi);
-  return recv_xmp_write();
-}
-
-void NfsRpcClient::send_xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_write", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_write_pargs args;
-  args.path = &path;
-  args.buf = &buf;
-  args.size = &size;
-  args.offset = &offset;
-  args.fi = &fi;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_write()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_write") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_write_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_write failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_rename(const std::string& fromName, const std::string& to)
-{
-  send_xmp_rename(fromName, to);
-  return recv_xmp_rename();
-}
-
-void NfsRpcClient::send_xmp_rename(const std::string& fromName, const std::string& to)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_rename", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_rename_pargs args;
-  args.fromName = &fromName;
-  args.to = &to;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_rename()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_rename") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_rename_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_rename failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_mkdir(const std::string& path, const int32_t mode)
-{
-  send_xmp_mkdir(path, mode);
-  return recv_xmp_mkdir();
-}
-
-void NfsRpcClient::send_xmp_mkdir(const std::string& path, const int32_t mode)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_mkdir", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_mkdir_pargs args;
-  args.path = &path;
-  args.mode = &mode;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_mkdir()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_mkdir") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_mkdir_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_mkdir failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_rmdir(const std::string& path)
-{
-  send_xmp_rmdir(path);
-  return recv_xmp_rmdir();
-}
-
-void NfsRpcClient::send_xmp_rmdir(const std::string& path)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_rmdir", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_rmdir_pargs args;
-  args.path = &path;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_rmdir()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_rmdir") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_rmdir_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_rmdir failed: unknown result");
-}
-
-int32_t NfsRpcClient::xmp_statfs(const std::string& path, const thrift_statvfs& stbuf)
-{
-  send_xmp_statfs(path, stbuf);
-  return recv_xmp_statfs();
-}
-
-void NfsRpcClient::send_xmp_statfs(const std::string& path, const thrift_statvfs& stbuf)
-{
-  int32_t cseqid = 0;
-  oprot_->writeMessageBegin("xmp_statfs", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_statfs_pargs args;
-  args.path = &path;
-  args.stbuf = &stbuf;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-}
-
-int32_t NfsRpcClient::recv_xmp_statfs()
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  iprot_->readMessageBegin(fname, mtype, rseqid);
-  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-    ::apache::thrift::TApplicationException x;
-    x.read(iprot_);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-    throw x;
-  }
-  if (mtype != ::apache::thrift::protocol::T_REPLY) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  if (fname.compare("xmp_statfs") != 0) {
-    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-    iprot_->readMessageEnd();
-    iprot_->getTransport()->readEnd();
-  }
-  int32_t _return;
-  NfsRpc_xmp_statfs_presult result;
-  result.success = &_return;
-  result.read(iprot_);
-  iprot_->readMessageEnd();
-  iprot_->getTransport()->readEnd();
-
-  if (result.__isset.success) {
-    return _return;
-  }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_statfs failed: unknown result");
-}
-
 bool NfsRpcProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
@@ -3256,38 +3535,38 @@ bool NfsRpcProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot,
   return true;
 }
 
-void NfsRpcProcessor::process_xmp_open(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void NfsRpcProcessor::process_xmp_create(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("NfsRpc.xmp_open", callContext);
+    ctx = this->eventHandler_->getContext("NfsRpc.xmp_create", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_open");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_create");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_open");
+    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_create");
   }
 
-  NfsRpc_xmp_open_args args;
+  NfsRpc_xmp_create_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_open", bytes);
+    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_create", bytes);
   }
 
-  NfsRpc_xmp_open_result result;
+  NfsRpc_xmp_create_result result;
   try {
-    iface_->xmp_open(result.success, args.path, args.fi);
+    result.success = iface_->xmp_create(args.tpath, args.mode, args.tfi);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_open");
+      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_create");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("xmp_create", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3296,52 +3575,52 @@ void NfsRpcProcessor::process_xmp_open(int32_t seqid, ::apache::thrift::protocol
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_open");
+    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_create");
   }
 
-  oprot->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("xmp_create", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_open", bytes);
+    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_create", bytes);
   }
 }
 
-void NfsRpcProcessor::process_xmp_access(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void NfsRpcProcessor::process_xmp_unlink(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = NULL;
   if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("NfsRpc.xmp_access", callContext);
+    ctx = this->eventHandler_->getContext("NfsRpc.xmp_unlink", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_access");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_unlink");
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_access");
+    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_unlink");
   }
 
-  NfsRpc_xmp_access_args args;
+  NfsRpc_xmp_unlink_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_access", bytes);
+    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_unlink", bytes);
   }
 
-  NfsRpc_xmp_access_result result;
+  NfsRpc_xmp_unlink_result result;
   try {
-    result.success = iface_->xmp_access(args.path, args.mask);
+    result.success = iface_->xmp_unlink(args.tpath);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_access");
+      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_unlink");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("xmp_unlink", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -3350,125 +3629,17 @@ void NfsRpcProcessor::process_xmp_access(int32_t seqid, ::apache::thrift::protoc
   }
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_access");
+    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_unlink");
   }
 
-  oprot->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("xmp_unlink", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_access", bytes);
-  }
-}
-
-void NfsRpcProcessor::process_xmp_mknod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("NfsRpc.xmp_mknod", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_mknod");
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_mknod");
-  }
-
-  NfsRpc_xmp_mknod_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_mknod", bytes);
-  }
-
-  NfsRpc_xmp_mknod_result result;
-  try {
-    result.success = iface_->xmp_mknod(args.path, args.mode, args.rdev);
-    result.__isset.success = true;
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_mknod");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_mknod");
-  }
-
-  oprot->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_mknod", bytes);
-  }
-}
-
-void NfsRpcProcessor::process_xmp_remove(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
-{
-  void* ctx = NULL;
-  if (this->eventHandler_.get() != NULL) {
-    ctx = this->eventHandler_->getContext("NfsRpc.xmp_remove", callContext);
-  }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_remove");
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_remove");
-  }
-
-  NfsRpc_xmp_remove_args args;
-  args.read(iprot);
-  iprot->readMessageEnd();
-  uint32_t bytes = iprot->getTransport()->readEnd();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_remove", bytes);
-  }
-
-  NfsRpc_xmp_remove_result result;
-  try {
-    result.success = iface_->xmp_remove(args.path);
-    result.__isset.success = true;
-  } catch (const std::exception& e) {
-    if (this->eventHandler_.get() != NULL) {
-      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_remove");
-    }
-
-    ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("xmp_remove", ::apache::thrift::protocol::T_EXCEPTION, seqid);
-    x.write(oprot);
-    oprot->writeMessageEnd();
-    oprot->getTransport()->writeEnd();
-    oprot->getTransport()->flush();
-    return;
-  }
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_remove");
-  }
-
-  oprot->writeMessageBegin("xmp_remove", ::apache::thrift::protocol::T_REPLY, seqid);
-  result.write(oprot);
-  oprot->writeMessageEnd();
-  bytes = oprot->getTransport()->writeEnd();
-  oprot->getTransport()->flush();
-
-  if (this->eventHandler_.get() != NULL) {
-    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_remove", bytes);
+    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_unlink", bytes);
   }
 }
 
@@ -3495,7 +3666,7 @@ void NfsRpcProcessor::process_xmp_getattr(int32_t seqid, ::apache::thrift::proto
 
   NfsRpc_xmp_getattr_result result;
   try {
-    result.success = iface_->xmp_getattr(args.path, args.stbuf);
+    iface_->xmp_getattr(result.success, args.tpath, args.stbuf);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3549,7 +3720,7 @@ void NfsRpcProcessor::process_xmp_setattr(int32_t seqid, ::apache::thrift::proto
 
   NfsRpc_xmp_setattr_result result;
   try {
-    result.success = iface_->xmp_setattr(args.path, args.stbuf);
+    result.success = iface_->xmp_setattr(args.tpath, args.stbuf);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3603,7 +3774,7 @@ void NfsRpcProcessor::process_xmp_read(int32_t seqid, ::apache::thrift::protocol
 
   NfsRpc_xmp_read_result result;
   try {
-    result.success = iface_->xmp_read(args.path, args.buf, args.size, args.offset, args.fi);
+    iface_->xmp_read(result.success, args.tpath, args.tbuf, args.size, args.offset, args.tfi);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3657,7 +3828,7 @@ void NfsRpcProcessor::process_xmp_write(int32_t seqid, ::apache::thrift::protoco
 
   NfsRpc_xmp_write_result result;
   try {
-    result.success = iface_->xmp_write(args.path, args.buf, args.size, args.offset, args.fi);
+    result.success = iface_->xmp_write(args.tpath, args.tbuf, args.size, args.offset, args.tfi);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3711,7 +3882,7 @@ void NfsRpcProcessor::process_xmp_rename(int32_t seqid, ::apache::thrift::protoc
 
   NfsRpc_xmp_rename_result result;
   try {
-    result.success = iface_->xmp_rename(args.fromName, args.to);
+    result.success = iface_->xmp_rename(args.tfrom, args.tto);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3765,7 +3936,7 @@ void NfsRpcProcessor::process_xmp_mkdir(int32_t seqid, ::apache::thrift::protoco
 
   NfsRpc_xmp_mkdir_result result;
   try {
-    result.success = iface_->xmp_mkdir(args.path, args.mode);
+    result.success = iface_->xmp_mkdir(args.tpath, args.mode);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3819,7 +3990,7 @@ void NfsRpcProcessor::process_xmp_rmdir(int32_t seqid, ::apache::thrift::protoco
 
   NfsRpc_xmp_rmdir_result result;
   try {
-    result.success = iface_->xmp_rmdir(args.path);
+    result.success = iface_->xmp_rmdir(args.tpath);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3873,7 +4044,7 @@ void NfsRpcProcessor::process_xmp_statfs(int32_t seqid, ::apache::thrift::protoc
 
   NfsRpc_xmp_statfs_result result;
   try {
-    result.success = iface_->xmp_statfs(args.path, args.stbuf);
+    iface_->xmp_statfs(result.success, args.tpath, args.tstbuf);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != NULL) {
@@ -3904,6 +4075,168 @@ void NfsRpcProcessor::process_xmp_statfs(int32_t seqid, ::apache::thrift::protoc
   }
 }
 
+void NfsRpcProcessor::process_xmp_open(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("NfsRpc.xmp_open", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_open");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_open");
+  }
+
+  NfsRpc_xmp_open_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_open", bytes);
+  }
+
+  NfsRpc_xmp_open_result result;
+  try {
+    iface_->xmp_open(result.success, args.tpath, args.tfi);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_open");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_open");
+  }
+
+  oprot->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_open", bytes);
+  }
+}
+
+void NfsRpcProcessor::process_xmp_access(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("NfsRpc.xmp_access", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_access");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_access");
+  }
+
+  NfsRpc_xmp_access_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_access", bytes);
+  }
+
+  NfsRpc_xmp_access_result result;
+  try {
+    result.success = iface_->xmp_access(args.tpath, args.mask);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_access");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_access");
+  }
+
+  oprot->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_access", bytes);
+  }
+}
+
+void NfsRpcProcessor::process_xmp_mknod(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = NULL;
+  if (this->eventHandler_.get() != NULL) {
+    ctx = this->eventHandler_->getContext("NfsRpc.xmp_mknod", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "NfsRpc.xmp_mknod");
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preRead(ctx, "NfsRpc.xmp_mknod");
+  }
+
+  NfsRpc_xmp_mknod_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postRead(ctx, "NfsRpc.xmp_mknod", bytes);
+  }
+
+  NfsRpc_xmp_mknod_result result;
+  try {
+    result.success = iface_->xmp_mknod(args.tpath, args.mode, args.rdev);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != NULL) {
+      this->eventHandler_->handlerError(ctx, "NfsRpc.xmp_mknod");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->preWrite(ctx, "NfsRpc.xmp_mknod");
+  }
+
+  oprot->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != NULL) {
+    this->eventHandler_->postWrite(ctx, "NfsRpc.xmp_mknod", bytes);
+  }
+}
+
 ::boost::shared_ptr< ::apache::thrift::TProcessor > NfsRpcProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
   ::apache::thrift::ReleaseHandler< NfsRpcIfFactory > cleanup(handlerFactory_);
   ::boost::shared_ptr< NfsRpcIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
@@ -3911,192 +4244,22 @@ void NfsRpcProcessor::process_xmp_statfs(int32_t seqid, ::apache::thrift::protoc
   return processor;
 }
 
-void NfsRpcConcurrentClient::xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi)
+int32_t NfsRpcConcurrentClient::xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi)
 {
-  int32_t seqid = send_xmp_open(path, fi);
-  recv_xmp_open(_return, seqid);
+  int32_t seqid = send_xmp_create(tpath, mode, tfi);
+  return recv_xmp_create(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_open(const std::string& path, const thrift_fuse_file_info& fi)
+int32_t NfsRpcConcurrentClient::send_xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("xmp_create", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  NfsRpc_xmp_open_pargs args;
-  args.path = &path;
-  args.fi = &fi;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-
-  sentry.commit();
-  return cseqid;
-}
-
-void NfsRpcConcurrentClient::recv_xmp_open(thrift_open_reply& _return, const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
-
-  while(true) {
-    if(!this->sync_.getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("xmp_open") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      NfsRpc_xmp_open_presult result;
-      result.success = &_return;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      if (result.__isset.success) {
-        // _return pointer has now been filled
-        sentry.commit();
-        return;
-      }
-      // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_open failed: unknown result");
-    }
-    // seqid != rseqid
-    this->sync_.updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_.waitForWork(seqid);
-  } // end while(true)
-}
-
-int32_t NfsRpcConcurrentClient::xmp_access(const std::string& path, const int32_t mask)
-{
-  int32_t seqid = send_xmp_access(path, mask);
-  return recv_xmp_access(seqid);
-}
-
-int32_t NfsRpcConcurrentClient::send_xmp_access(const std::string& path, const int32_t mask)
-{
-  int32_t cseqid = this->sync_.generateSeqId();
-  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_access_pargs args;
-  args.path = &path;
-  args.mask = &mask;
-  args.write(oprot_);
-
-  oprot_->writeMessageEnd();
-  oprot_->getTransport()->writeEnd();
-  oprot_->getTransport()->flush();
-
-  sentry.commit();
-  return cseqid;
-}
-
-int32_t NfsRpcConcurrentClient::recv_xmp_access(const int32_t seqid)
-{
-
-  int32_t rseqid = 0;
-  std::string fname;
-  ::apache::thrift::protocol::TMessageType mtype;
-
-  // the read mutex gets dropped and reacquired as part of waitForWork()
-  // The destructor of this sentry wakes up other clients
-  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
-
-  while(true) {
-    if(!this->sync_.getPending(fname, mtype, rseqid)) {
-      iprot_->readMessageBegin(fname, mtype, rseqid);
-    }
-    if(seqid == rseqid) {
-      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
-        ::apache::thrift::TApplicationException x;
-        x.read(iprot_);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-        sentry.commit();
-        throw x;
-      }
-      if (mtype != ::apache::thrift::protocol::T_REPLY) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-      }
-      if (fname.compare("xmp_access") != 0) {
-        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
-        iprot_->readMessageEnd();
-        iprot_->getTransport()->readEnd();
-
-        // in a bad state, don't commit
-        using ::apache::thrift::protocol::TProtocolException;
-        throw TProtocolException(TProtocolException::INVALID_DATA);
-      }
-      int32_t _return;
-      NfsRpc_xmp_access_presult result;
-      result.success = &_return;
-      result.read(iprot_);
-      iprot_->readMessageEnd();
-      iprot_->getTransport()->readEnd();
-
-      if (result.__isset.success) {
-        sentry.commit();
-        return _return;
-      }
-      // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_access failed: unknown result");
-    }
-    // seqid != rseqid
-    this->sync_.updatePending(fname, mtype, rseqid);
-
-    // this will temporarily unlock the readMutex, and let other clients get work done
-    this->sync_.waitForWork(seqid);
-  } // end while(true)
-}
-
-int32_t NfsRpcConcurrentClient::xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev)
-{
-  int32_t seqid = send_xmp_mknod(path, mode, rdev);
-  return recv_xmp_mknod(seqid);
-}
-
-int32_t NfsRpcConcurrentClient::send_xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev)
-{
-  int32_t cseqid = this->sync_.generateSeqId();
-  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_CALL, cseqid);
-
-  NfsRpc_xmp_mknod_pargs args;
-  args.path = &path;
+  NfsRpc_xmp_create_pargs args;
+  args.tpath = &tpath;
   args.mode = &mode;
-  args.rdev = &rdev;
+  args.tfi = &tfi;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4107,7 +4270,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_mknod(const std::string& path, const in
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
+int32_t NfsRpcConcurrentClient::recv_xmp_create(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4136,7 +4299,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("xmp_mknod") != 0) {
+      if (fname.compare("xmp_create") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -4146,7 +4309,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      NfsRpc_xmp_mknod_presult result;
+      NfsRpc_xmp_create_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -4157,7 +4320,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
         return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_mknod failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_create failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);
@@ -4167,20 +4330,20 @@ int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_remove(const std::string& path)
+int32_t NfsRpcConcurrentClient::xmp_unlink(const std::string& tpath)
 {
-  int32_t seqid = send_xmp_remove(path);
-  return recv_xmp_remove(seqid);
+  int32_t seqid = send_xmp_unlink(tpath);
+  return recv_xmp_unlink(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_remove(const std::string& path)
+int32_t NfsRpcConcurrentClient::send_xmp_unlink(const std::string& tpath)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
-  oprot_->writeMessageBegin("xmp_remove", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("xmp_unlink", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  NfsRpc_xmp_remove_pargs args;
-  args.path = &path;
+  NfsRpc_xmp_unlink_pargs args;
+  args.tpath = &tpath;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4191,7 +4354,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_remove(const std::string& path)
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_remove(const int32_t seqid)
+int32_t NfsRpcConcurrentClient::recv_xmp_unlink(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4220,7 +4383,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_remove(const int32_t seqid)
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("xmp_remove") != 0) {
+      if (fname.compare("xmp_unlink") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -4230,7 +4393,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_remove(const int32_t seqid)
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
       int32_t _return;
-      NfsRpc_xmp_remove_presult result;
+      NfsRpc_xmp_unlink_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -4241,7 +4404,7 @@ int32_t NfsRpcConcurrentClient::recv_xmp_remove(const int32_t seqid)
         return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_remove failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_unlink failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);
@@ -4251,20 +4414,20 @@ int32_t NfsRpcConcurrentClient::recv_xmp_remove(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_getattr(const std::string& path, const thrift_stat& stbuf)
+void NfsRpcConcurrentClient::xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf)
 {
-  int32_t seqid = send_xmp_getattr(path, stbuf);
-  return recv_xmp_getattr(seqid);
+  int32_t seqid = send_xmp_getattr(tpath, stbuf);
+  recv_xmp_getattr(_return, seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_getattr(const std::string& path, const thrift_stat& stbuf)
+int32_t NfsRpcConcurrentClient::send_xmp_getattr(const std::string& tpath, const thrift_stat& stbuf)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_getattr", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_getattr_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.stbuf = &stbuf;
   args.write(oprot_);
 
@@ -4276,7 +4439,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_getattr(const std::string& path, const 
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_getattr(const int32_t seqid)
+void NfsRpcConcurrentClient::recv_xmp_getattr(thrift_getattr_reply& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4314,7 +4477,6 @@ int32_t NfsRpcConcurrentClient::recv_xmp_getattr(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      int32_t _return;
       NfsRpc_xmp_getattr_presult result;
       result.success = &_return;
       result.read(iprot_);
@@ -4322,8 +4484,9 @@ int32_t NfsRpcConcurrentClient::recv_xmp_getattr(const int32_t seqid)
       iprot_->getTransport()->readEnd();
 
       if (result.__isset.success) {
+        // _return pointer has now been filled
         sentry.commit();
-        return _return;
+        return;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_getattr failed: unknown result");
@@ -4336,20 +4499,20 @@ int32_t NfsRpcConcurrentClient::recv_xmp_getattr(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_setattr(const std::string& path, const thrift_stat& stbuf)
+int32_t NfsRpcConcurrentClient::xmp_setattr(const std::string& tpath, const thrift_stat& stbuf)
 {
-  int32_t seqid = send_xmp_setattr(path, stbuf);
+  int32_t seqid = send_xmp_setattr(tpath, stbuf);
   return recv_xmp_setattr(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_setattr(const std::string& path, const thrift_stat& stbuf)
+int32_t NfsRpcConcurrentClient::send_xmp_setattr(const std::string& tpath, const thrift_stat& stbuf)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_setattr", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_setattr_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.stbuf = &stbuf;
   args.write(oprot_);
 
@@ -4421,24 +4584,24 @@ int32_t NfsRpcConcurrentClient::recv_xmp_setattr(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
+void NfsRpcConcurrentClient::xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
 {
-  int32_t seqid = send_xmp_read(path, buf, size, offset, fi);
-  return recv_xmp_read(seqid);
+  int32_t seqid = send_xmp_read(tpath, tbuf, size, offset, tfi);
+  recv_xmp_read(_return, seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
+int32_t NfsRpcConcurrentClient::send_xmp_read(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_read", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_read_pargs args;
-  args.path = &path;
-  args.buf = &buf;
+  args.tpath = &tpath;
+  args.tbuf = &tbuf;
   args.size = &size;
   args.offset = &offset;
-  args.fi = &fi;
+  args.tfi = &tfi;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4449,7 +4612,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_read(const std::string& path, const std
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_read(const int32_t seqid)
+void NfsRpcConcurrentClient::recv_xmp_read(thrift_read_reply& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4487,7 +4650,6 @@ int32_t NfsRpcConcurrentClient::recv_xmp_read(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      int32_t _return;
       NfsRpc_xmp_read_presult result;
       result.success = &_return;
       result.read(iprot_);
@@ -4495,8 +4657,9 @@ int32_t NfsRpcConcurrentClient::recv_xmp_read(const int32_t seqid)
       iprot_->getTransport()->readEnd();
 
       if (result.__isset.success) {
+        // _return pointer has now been filled
         sentry.commit();
-        return _return;
+        return;
       }
       // in a bad state, don't commit
       throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_read failed: unknown result");
@@ -4509,24 +4672,24 @@ int32_t NfsRpcConcurrentClient::recv_xmp_read(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
+int32_t NfsRpcConcurrentClient::xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
 {
-  int32_t seqid = send_xmp_write(path, buf, size, offset, fi);
+  int32_t seqid = send_xmp_write(tpath, tbuf, size, offset, tfi);
   return recv_xmp_write(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi)
+int32_t NfsRpcConcurrentClient::send_xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_write", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_write_pargs args;
-  args.path = &path;
-  args.buf = &buf;
+  args.tpath = &tpath;
+  args.tbuf = &tbuf;
   args.size = &size;
   args.offset = &offset;
-  args.fi = &fi;
+  args.tfi = &tfi;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4597,21 +4760,21 @@ int32_t NfsRpcConcurrentClient::recv_xmp_write(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_rename(const std::string& fromName, const std::string& to)
+int32_t NfsRpcConcurrentClient::xmp_rename(const std::string& tfrom, const std::string& tto)
 {
-  int32_t seqid = send_xmp_rename(fromName, to);
+  int32_t seqid = send_xmp_rename(tfrom, tto);
   return recv_xmp_rename(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_rename(const std::string& fromName, const std::string& to)
+int32_t NfsRpcConcurrentClient::send_xmp_rename(const std::string& tfrom, const std::string& tto)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_rename", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_rename_pargs args;
-  args.fromName = &fromName;
-  args.to = &to;
+  args.tfrom = &tfrom;
+  args.tto = &tto;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4682,20 +4845,20 @@ int32_t NfsRpcConcurrentClient::recv_xmp_rename(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_mkdir(const std::string& path, const int32_t mode)
+int32_t NfsRpcConcurrentClient::xmp_mkdir(const std::string& tpath, const int32_t mode)
 {
-  int32_t seqid = send_xmp_mkdir(path, mode);
+  int32_t seqid = send_xmp_mkdir(tpath, mode);
   return recv_xmp_mkdir(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_mkdir(const std::string& path, const int32_t mode)
+int32_t NfsRpcConcurrentClient::send_xmp_mkdir(const std::string& tpath, const int32_t mode)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_mkdir", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_mkdir_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.mode = &mode;
   args.write(oprot_);
 
@@ -4767,20 +4930,20 @@ int32_t NfsRpcConcurrentClient::recv_xmp_mkdir(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_rmdir(const std::string& path)
+int32_t NfsRpcConcurrentClient::xmp_rmdir(const std::string& tpath)
 {
-  int32_t seqid = send_xmp_rmdir(path);
+  int32_t seqid = send_xmp_rmdir(tpath);
   return recv_xmp_rmdir(seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_rmdir(const std::string& path)
+int32_t NfsRpcConcurrentClient::send_xmp_rmdir(const std::string& tpath)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_rmdir", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_rmdir_pargs args;
-  args.path = &path;
+  args.tpath = &tpath;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4851,21 +5014,21 @@ int32_t NfsRpcConcurrentClient::recv_xmp_rmdir(const int32_t seqid)
   } // end while(true)
 }
 
-int32_t NfsRpcConcurrentClient::xmp_statfs(const std::string& path, const thrift_statvfs& stbuf)
+void NfsRpcConcurrentClient::xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf)
 {
-  int32_t seqid = send_xmp_statfs(path, stbuf);
-  return recv_xmp_statfs(seqid);
+  int32_t seqid = send_xmp_statfs(tpath, tstbuf);
+  recv_xmp_statfs(_return, seqid);
 }
 
-int32_t NfsRpcConcurrentClient::send_xmp_statfs(const std::string& path, const thrift_statvfs& stbuf)
+int32_t NfsRpcConcurrentClient::send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf)
 {
   int32_t cseqid = this->sync_.generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
   oprot_->writeMessageBegin("xmp_statfs", ::apache::thrift::protocol::T_CALL, cseqid);
 
   NfsRpc_xmp_statfs_pargs args;
-  args.path = &path;
-  args.stbuf = &stbuf;
+  args.tpath = &tpath;
+  args.tstbuf = &tstbuf;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -4876,7 +5039,7 @@ int32_t NfsRpcConcurrentClient::send_xmp_statfs(const std::string& path, const t
   return cseqid;
 }
 
-int32_t NfsRpcConcurrentClient::recv_xmp_statfs(const int32_t seqid)
+void NfsRpcConcurrentClient::recv_xmp_statfs(thrift_statfs_reply& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -4914,8 +5077,178 @@ int32_t NfsRpcConcurrentClient::recv_xmp_statfs(const int32_t seqid)
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      int32_t _return;
       NfsRpc_xmp_statfs_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_statfs failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_.updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_.waitForWork(seqid);
+  } // end while(true)
+}
+
+void NfsRpcConcurrentClient::xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi)
+{
+  int32_t seqid = send_xmp_open(tpath, tfi);
+  recv_xmp_open(_return, seqid);
+}
+
+int32_t NfsRpcConcurrentClient::send_xmp_open(const std::string& tpath, const thrift_fuse_file_info& tfi)
+{
+  int32_t cseqid = this->sync_.generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("xmp_open", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_open_pargs args;
+  args.tpath = &tpath;
+  args.tfi = &tfi;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+void NfsRpcConcurrentClient::recv_xmp_open(thrift_open_reply& _return, const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
+
+  while(true) {
+    if(!this->sync_.getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("xmp_open") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      NfsRpc_xmp_open_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        // _return pointer has now been filled
+        sentry.commit();
+        return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_open failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_.updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_.waitForWork(seqid);
+  } // end while(true)
+}
+
+int32_t NfsRpcConcurrentClient::xmp_access(const std::string& tpath, const int32_t mask)
+{
+  int32_t seqid = send_xmp_access(tpath, mask);
+  return recv_xmp_access(seqid);
+}
+
+int32_t NfsRpcConcurrentClient::send_xmp_access(const std::string& tpath, const int32_t mask)
+{
+  int32_t cseqid = this->sync_.generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("xmp_access", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_access_pargs args;
+  args.tpath = &tpath;
+  args.mask = &mask;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t NfsRpcConcurrentClient::recv_xmp_access(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
+
+  while(true) {
+    if(!this->sync_.getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("xmp_access") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      int32_t _return;
+      NfsRpc_xmp_access_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
@@ -4926,7 +5259,93 @@ int32_t NfsRpcConcurrentClient::recv_xmp_statfs(const int32_t seqid)
         return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_statfs failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_access failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_.updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_.waitForWork(seqid);
+  } // end while(true)
+}
+
+int32_t NfsRpcConcurrentClient::xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev)
+{
+  int32_t seqid = send_xmp_mknod(tpath, mode, rdev);
+  return recv_xmp_mknod(seqid);
+}
+
+int32_t NfsRpcConcurrentClient::send_xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev)
+{
+  int32_t cseqid = this->sync_.generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(&this->sync_);
+  oprot_->writeMessageBegin("xmp_mknod", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  NfsRpc_xmp_mknod_pargs args;
+  args.tpath = &tpath;
+  args.mode = &mode;
+  args.rdev = &rdev;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t NfsRpcConcurrentClient::recv_xmp_mknod(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(&this->sync_, seqid);
+
+  while(true) {
+    if(!this->sync_.getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("xmp_mknod") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      int32_t _return;
+      NfsRpc_xmp_mknod_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "xmp_mknod failed: unknown result");
     }
     // seqid != rseqid
     this->sync_.updatePending(fname, mtype, rseqid);

@@ -22,7 +22,10 @@ CPP_OPTS   =-Wall -O3
 
 
 
-default: client
+default: client rpcserver
+
+rpcserver:
+	g++ ${CPP_OPTS} ${CPP_DEFS} -o ThriftServer.o ${THRIFT_GEN_INC_DIR} ${THRIFT_INC_DIRS} ${THRIFT_GEN_FILES} NfsRpc_server.cpp ${THRIFT_LIBS_DIRS} -lthrift
 
 client:
 	g++ ${CPP_OPTS} ${CPP_OPTS_FUSE} ${CPP_DEFS} -o fuseClient.o \
@@ -35,3 +38,6 @@ clean:
 	$(RM) -r fuseClient.o
 
 # -std=c++11 throws weird errors in server, about shared_ptr etc
+# after doing thrift --gen NfsRpc.thrift,
+# search for class NfsRpcClient[a-z,A-Z,\s,:,{]+public:
+# rplce with class NfsRpcClient[a-z,A-Z,\s,:,{]+public:$NfsRpcClient(){}

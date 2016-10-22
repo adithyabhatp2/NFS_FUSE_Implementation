@@ -10,8 +10,8 @@ using namespace std;
 #define DEBUGLEVEL 1
 
 
-ThriftNfsRpc_Client::ThriftNfsRpc_Client(char * serverHost, unsigned long serverPort) {
-    if(DEBUGLEVEL <= 1) {
+ThriftNfsRpc_Client::ThriftNfsRpc_Client(char *serverHost, unsigned long serverPort) {
+    if (DEBUGLEVEL <= 1) {
         cout << "ThriftNfsRpc_Client Constructor: " << serverHost << "\t" << serverPort << endl;
     }
     this->hostName = strdup(serverHost);
@@ -24,31 +24,36 @@ ThriftNfsRpc_Client::ThriftNfsRpc_Client(char * serverHost, unsigned long server
     this->client = NfsRpcClient(protocol);
 }
 
-/// Dummy constructor
-/// \return
+
 ThriftNfsRpc_Client::ThriftNfsRpc_Client() {
-    if(DEBUGLEVEL <= 1) {
-        cout << "ThriftNfsRpc_Client Default EMPTY Constructor: " <<  endl;
+    if (DEBUGLEVEL <= 1) {
+        cout << "ThriftNfsRpc_Client Default EMPTY Constructor: " << endl;
     }
 }
 
 
-int ThriftNfsRpc_Client::xmp_create(string path, mode_t mode, thrift_fuse_file_info fi) {
+int ThriftNfsRpc_Client::xmp_create(string path, mode_t mode, thrift_fuse_file_info &fi) {
     int retVal = -1;
+
+    transport->open();
+    retVal = client.xmp_create(path, mode, fi);
+    transport->close();
+
+    fi.fh = retVal;
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_remove(string path) {
+
+int ThriftNfsRpc_Client::xmp_unlink(string path) {
 
     int retVal = -1;
 
     try {
-
         transport->open();
-        retVal = client.xmp_remove(path);
+        retVal = client.xmp_unlink(path);
 
         if (DEBUGLEVEL) {
-            cout << "xmp_remove retval in thrift client: " << retVal << endl;
+            cout << "xmp_unlink retval in thrift client: " << retVal << endl;
         }
         transport->close();
 
@@ -59,7 +64,79 @@ int ThriftNfsRpc_Client::xmp_remove(string path) {
 }
 
 
-int ThriftNfsRpc_Client::xmp_open(string path, thrift_fuse_file_info fi) {
+int ThriftNfsRpc_Client::xmp_getattr(string path, thrift_stat &stbuf) {
+
+    thrift_getattr_reply reply;
+
+    transport->open();
+    client.xmp_getattr(reply, path, stbuf);
+    transport->close();
+
+    return reply.retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_setattr(string path, thrift_stat &stbuf) {
+    int retVal = -1;
+    transport->open();
+    retVal = client.xmp_setattr(path, stbuf);
+    transport->close();
+    return retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_read(string path, string &buf, long int size, long int offset,
+                                  thrift_fuse_file_info &fi) {
+    thrift_read_reply reply;
+    transport->open();
+    client.xmp_read(reply, path, buf, size, offset, fi );
+    transport->close();
+    return reply.retVal;
+
+}
+
+int ThriftNfsRpc_Client::xmp_write(string path, string &buf, long int size, long int offset,
+                                   thrift_fuse_file_info &fi) {
+    int retVal = -1;
+    transport->open();
+    retVal = client.xmp_write(path, buf, size, offset, fi);
+    transport->close();
+    return retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_rename(string fromName, string to) {
+    int retVal = -1;
+    transport->open();
+    retVal = client.xmp_rename(fromName, to);
+    transport->close();
+    return retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_mkdir(string path, int mode) {
+    int retVal = -1;
+    transport->open();
+    retVal = client.xmp_mkdir(path, mode);
+    transport->close();
+    return retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_rmdir(string path) {
+    int retVal = -1;
+    transport->open();
+    retVal = client.xmp_rmdir(path);
+    transport->close();
+    return retVal;
+}
+
+int ThriftNfsRpc_Client::xmp_statfs(string path, thrift_statvfs &stbuf) {
+    thrift_statfs_reply reply;
+    transport->open();
+    client.xmp_statfs(reply, path, stbuf);
+    transport->close();
+    return reply.retVal;
+}
+
+//int ThriftNfsRpc_Client::xmp_readdir
+
+int ThriftNfsRpc_Client::xmp_open(string path, thrift_fuse_file_info &fi) {
 
     thrift_open_reply open_reply;
 
@@ -68,12 +145,10 @@ int ThriftNfsRpc_Client::xmp_open(string path, thrift_fuse_file_info fi) {
         transport->open();
         client.xmp_open(open_reply, path, fi);
 
-//        if (DEBUGLEVEL) {
-            cout << "thrift cli : xmp_open: retVal" << open_reply.retVal << endl;
-            cout << "thrift cli : xmp_open: fd" << open_reply.fi.fh << endl;
-            fi = open_reply.fi;
+        cout << "thrift cli : xmp_open: retVal" << open_reply.retVal << endl;
+        cout << "thrift cli : xmp_open: fd" << open_reply.tfi.fh << endl;
+        fi = open_reply.tfi;
 
-//        }
         transport->close();
 
     } catch (TException &tx) {
@@ -84,9 +159,10 @@ int ThriftNfsRpc_Client::xmp_open(string path, thrift_fuse_file_info fi) {
 
 
 
+
 //int main(int argc, char **argv) {
 //    cout << "Hello World - Thrift Client" << endl;
 //    char * hostName = strdup("localhost");
 //    ThriftNfsRpc_Client rpcClient(hostName, 9090);
-//    rpcClient.xmp_remove("asd");
+//    rpcClient.xmp_unlink("asd");
 //}

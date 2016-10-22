@@ -20,64 +20,69 @@ class NfsRpcHandler : virtual public NfsRpcIf {
     // Your initialization goes here
   }
 
-  void xmp_open(thrift_open_reply& _return, const std::string& path, const thrift_fuse_file_info& fi) {
+  int32_t xmp_create(const std::string& tpath, const int32_t mode, const thrift_fuse_file_info& tfi) {
     // Your implementation goes here
-    printf("xmp_open\n");
+    printf("xmp_create\n");
   }
 
-  int32_t xmp_access(const std::string& path, const int32_t mask) {
+  int32_t xmp_unlink(const std::string& tpath) {
     // Your implementation goes here
-    printf("xmp_access\n");
+    printf("xmp_unlink\n");
   }
 
-  int32_t xmp_mknod(const std::string& path, const int32_t mode, const int64_t rdev) {
-    // Your implementation goes here
-    printf("xmp_mknod\n");
-  }
-
-  int32_t xmp_remove(const std::string& path) {
-    // Your implementation goes here
-    printf("xmp_remove\n");
-  }
-
-  int32_t xmp_getattr(const std::string& path, const thrift_stat& stbuf) {
+  void xmp_getattr(thrift_getattr_reply& _return, const std::string& tpath, const thrift_stat& stbuf) {
     // Your implementation goes here
     printf("xmp_getattr\n");
   }
 
-  int32_t xmp_setattr(const std::string& path, const thrift_stat& stbuf) {
+  int32_t xmp_setattr(const std::string& tpath, const thrift_stat& stbuf) {
     // Your implementation goes here
     printf("xmp_setattr\n");
   }
 
-  int32_t xmp_read(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) {
+  void xmp_read(thrift_read_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) {
     // Your implementation goes here
     printf("xmp_read\n");
   }
 
-  int32_t xmp_write(const std::string& path, const std::string& buf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& fi) {
+  int32_t xmp_write(const std::string& tpath, const std::string& tbuf, const int64_t size, const int64_t offset, const thrift_fuse_file_info& tfi) {
     // Your implementation goes here
     printf("xmp_write\n");
   }
 
-  int32_t xmp_rename(const std::string& fromName, const std::string& to) {
+  int32_t xmp_rename(const std::string& tfrom, const std::string& tto) {
     // Your implementation goes here
     printf("xmp_rename\n");
   }
 
-  int32_t xmp_mkdir(const std::string& path, const int32_t mode) {
+  int32_t xmp_mkdir(const std::string& tpath, const int32_t mode) {
     // Your implementation goes here
     printf("xmp_mkdir\n");
   }
 
-  int32_t xmp_rmdir(const std::string& path) {
+  int32_t xmp_rmdir(const std::string& tpath) {
     // Your implementation goes here
     printf("xmp_rmdir\n");
   }
 
-  int32_t xmp_statfs(const std::string& path, const thrift_statvfs& stbuf) {
+  void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) {
     // Your implementation goes here
     printf("xmp_statfs\n");
+  }
+
+  void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi) {
+    // Your implementation goes here
+    printf("xmp_open\n");
+  }
+
+  int32_t xmp_access(const std::string& tpath, const int32_t mask) {
+    // Your implementation goes here
+    printf("xmp_access\n");
+  }
+
+  int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev) {
+    // Your implementation goes here
+    printf("xmp_mknod\n");
   }
 
 };
