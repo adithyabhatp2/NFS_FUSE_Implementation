@@ -99,10 +99,10 @@ public:
 
     void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
         // Your implementation goes here
-        printf("xmp_readdir\n");
+        printf("xmp_readdir: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         vector<thrift_dir_entry> entries;
-        _return.retVal = rpcGateway.xmp_readdir(tpath, offset, tfi2, entries);
+        _return.retVal = rpcGateway.xmp_readdir(pathPrefix + tpath, offset, tfi2, entries);
         _return.dir_entries = entries;
     }
 
@@ -117,7 +117,7 @@ public:
 
     void xmp_open(thrift_open_reply &_return, const std::string &tpath, const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_ope:n %s\n", (pathPrefix + tpath).c_str());
+        printf("xmp_open: %s\n", (pathPrefix + tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         int retVal = rpcGateway.xmp_open(pathPrefix + tpath, tfi2);
         _return.tfi=tfi2;
@@ -217,15 +217,15 @@ int main(int argc, char **argv) {
 
     cout << "Starting Thrift Server" << endl;
     cout << "host location : "<< pathPrefix << endl;
-
-    RPCGateway rpcGateway;
-    rpcGateway.xmp_mkdir(pathPrefix + "dir1", S_IRWXU | S_IRWXG | S_IRWXO);
-    rpcGateway.xmp_rename(pathPrefix+"a.txt", pathPrefix+"b.txt");
-
-
-    thrift_fuse_file_info tfi;
-    vector<thrift_dir_entry> entries;
-    int retVal = rpcGateway.xmp_readdir(pathPrefix, 0, tfi, entries);
+//
+//    RPCGateway rpcGateway;
+//    rpcGateway.xmp_mkdir(pathPrefix + "dir1", S_IRWXU | S_IRWXG | S_IRWXO);
+//    rpcGateway.xmp_rename(pathPrefix+"a.txt", pathPrefix+"b.txt");
+//
+//
+//    thrift_fuse_file_info tfi;
+//    vector<thrift_dir_entry> entries;
+//    int retVal = rpcGateway.xmp_readdir(pathPrefix, 0, tfi, entries);
 
     server.serve();
     return 0;
