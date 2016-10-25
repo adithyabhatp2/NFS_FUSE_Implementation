@@ -191,9 +191,9 @@ int RPCGateway::xmp_rmdir(string tpath) {
 int RPCGateway::xmp_statfs(string tpath, thrift_statvfs &tstbuf) {
     const char * path = tpath.c_str();
     struct statvfs stbuf;
-//    copyFromThrift_statvfs(&stbuf, tstbuf);
+    copyFromThrift_statvfs(&stbuf, tstbuf);
     int retVal = nfsFuseServer.xmp_statfs(path, &stbuf);
-//    copyToThrift_statvfs(&stbuf, tstbuf);
+    copyToThrift_statvfs(&stbuf, tstbuf);
     return retVal;
 }
 
@@ -276,13 +276,18 @@ int RPCGateway::xmp_fsync(string tpath, int isdatasync, thrift_fuse_file_info &t
     return retVal;
 }
 
-int main(int argc, char **argv) {
-    cout << "Hello World - RPCGateway Client" << endl;
-
-
-    RPCGateway rpcGateway;
-
-    rpcGateway.xmp_unlink("/u/a/d/adbhat/private/gitRepository/NFS_FUSE_Implementation/server_side/v1/tempfile.txt");
-
-
-}
+//int main(int argc, char **argv) {
+//    cout << "Hello World - RPCGateway Client" << endl;
+//
+//    RPCGateway rpcGateway;
+//
+//    rpcGateway.xmp_unlink("/u/a/d/adbhat/private/gitRepository/NFS_FUSE_Implementation/server_side/v1/temp.txt");
+//
+//
+////    __fsblkcnt_t f1 = UINT64_MAX;
+////    unsigned long int uli = f1;
+////    long int li = uli;
+////    unsigned long int uli2 = li;
+////    cout << f1 << endl << uli << endl << li << endl << uli2;
+//
+//}

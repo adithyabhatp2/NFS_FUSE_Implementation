@@ -1642,3 +1642,235 @@ void thrift_open_reply::printTo(std::ostream& out) const {
 }
 
 
+thrift_readlink_reply::~thrift_readlink_reply() throw() {
+}
+
+
+void thrift_readlink_reply::__set_retVal(const int32_t val) {
+  this->retVal = val;
+}
+
+void thrift_readlink_reply::__set_tbuf(const std::string& val) {
+  this->tbuf = val;
+}
+
+uint32_t thrift_readlink_reply::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->retVal);
+          this->__isset.retVal = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->tbuf);
+          this->__isset.tbuf = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t thrift_readlink_reply::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("thrift_readlink_reply");
+
+  xfer += oprot->writeFieldBegin("retVal", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->retVal);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("tbuf", ::apache::thrift::protocol::T_STRING, 2);
+  xfer += oprot->writeString(this->tbuf);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(thrift_readlink_reply &a, thrift_readlink_reply &b) {
+  using ::std::swap;
+  swap(a.retVal, b.retVal);
+  swap(a.tbuf, b.tbuf);
+  swap(a.__isset, b.__isset);
+}
+
+thrift_readlink_reply::thrift_readlink_reply(const thrift_readlink_reply& other16) {
+  retVal = other16.retVal;
+  tbuf = other16.tbuf;
+  __isset = other16.__isset;
+}
+thrift_readlink_reply& thrift_readlink_reply::operator=(const thrift_readlink_reply& other17) {
+  retVal = other17.retVal;
+  tbuf = other17.tbuf;
+  __isset = other17.__isset;
+  return *this;
+}
+void thrift_readlink_reply::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "thrift_readlink_reply(";
+  out << "retVal=" << to_string(retVal);
+  out << ", " << "tbuf=" << to_string(tbuf);
+  out << ")";
+}
+
+
+thrift_fsync_reply::~thrift_fsync_reply() throw() {
+}
+
+
+void thrift_fsync_reply::__set_retVal(const int32_t val) {
+  this->retVal = val;
+}
+
+void thrift_fsync_reply::__set_isdatasync(const int32_t val) {
+  this->isdatasync = val;
+}
+
+void thrift_fsync_reply::__set_tfi(const thrift_fuse_file_info& val) {
+  this->tfi = val;
+}
+
+uint32_t thrift_fsync_reply::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->retVal);
+          this->__isset.retVal = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->isdatasync);
+          this->__isset.isdatasync = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_STRUCT) {
+          xfer += this->tfi.read(iprot);
+          this->__isset.tfi = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t thrift_fsync_reply::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("thrift_fsync_reply");
+
+  xfer += oprot->writeFieldBegin("retVal", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->retVal);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("isdatasync", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->isdatasync);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("tfi", ::apache::thrift::protocol::T_STRUCT, 3);
+  xfer += this->tfi.write(oprot);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(thrift_fsync_reply &a, thrift_fsync_reply &b) {
+  using ::std::swap;
+  swap(a.retVal, b.retVal);
+  swap(a.isdatasync, b.isdatasync);
+  swap(a.tfi, b.tfi);
+  swap(a.__isset, b.__isset);
+}
+
+thrift_fsync_reply::thrift_fsync_reply(const thrift_fsync_reply& other18) {
+  retVal = other18.retVal;
+  isdatasync = other18.isdatasync;
+  tfi = other18.tfi;
+  __isset = other18.__isset;
+}
+thrift_fsync_reply& thrift_fsync_reply::operator=(const thrift_fsync_reply& other19) {
+  retVal = other19.retVal;
+  isdatasync = other19.isdatasync;
+  tfi = other19.tfi;
+  __isset = other19.__isset;
+  return *this;
+}
+void thrift_fsync_reply::printTo(std::ostream& out) const {
+  using ::apache::thrift::to_string;
+  out << "thrift_fsync_reply(";
+  out << "retVal=" << to_string(retVal);
+  out << ", " << "isdatasync=" << to_string(isdatasync);
+  out << ", " << "tfi=" << to_string(tfi);
+  out << ")";
+}
+
+

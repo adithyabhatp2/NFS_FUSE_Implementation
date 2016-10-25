@@ -78,6 +78,17 @@ struct thrift_open_reply {
     2: thrift_fuse_file_info tfi;
 }
 
+struct thrift_readlink_reply {
+    1: i32 retVal;
+    2: string tbuf;
+}
+
+struct thrift_fsync_reply {
+    1: i32 retVal;
+    2: i32 isdatasync;
+    3: thrift_fuse_file_info tfi;
+}
+
 service NfsRpc {
 
     i32 xmp_create(1:string tpath, 2:i32 mode, 3:thrift_fuse_file_info tfi)
@@ -94,5 +105,14 @@ service NfsRpc {
     thrift_open_reply xmp_open(1:string tpath, 2:thrift_fuse_file_info tfi);
     i32 xmp_access(1:string tpath, 2:i32 mask);
     i32 xmp_mknod(1:string tpath, 2:i32 mode, 3:i64 rdev);
+
+    thrift_readlink_reply xmp_readlink(1:string tpath, 2:string tbuf, 3:i64 size);
+    i32 xmp_symlink(1:string tfrom, 2:string tto);
+    i32 xmp_link(1:string tfrom, 2:string tto);
+    i32 xmp_chmod(1:string tpath, 2:i32 mode);
+    i32 xmp_chown(1:string tpath, 2:i32 uid, 3:i32 gid);
+    i32 xmp_truncate(1:string tpath, 3:i64 size);
+    i32 xmp_release(1:string tpath, 2:thrift_fuse_file_info tfi);
+    thrift_fsync_reply xmp_fsync(1:string tpath, 2:i32 isdatasync, 3:thrift_fuse_file_info tfi);
 }
 

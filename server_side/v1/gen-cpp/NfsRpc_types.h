@@ -35,6 +35,10 @@ class thrift_statfs_reply;
 
 class thrift_open_reply;
 
+class thrift_readlink_reply;
+
+class thrift_fsync_reply;
+
 typedef struct _thrift_timespec__isset {
   _thrift_timespec__isset() : tv_sec(false), tv_nsec(false) {}
   bool tv_sec :1;
@@ -680,6 +684,116 @@ class thrift_open_reply {
 void swap(thrift_open_reply &a, thrift_open_reply &b);
 
 inline std::ostream& operator<<(std::ostream& out, const thrift_open_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_readlink_reply__isset {
+  _thrift_readlink_reply__isset() : retVal(false), tbuf(false) {}
+  bool retVal :1;
+  bool tbuf :1;
+} _thrift_readlink_reply__isset;
+
+class thrift_readlink_reply {
+ public:
+
+  thrift_readlink_reply(const thrift_readlink_reply&);
+  thrift_readlink_reply& operator=(const thrift_readlink_reply&);
+  thrift_readlink_reply() : retVal(0), tbuf() {
+  }
+
+  virtual ~thrift_readlink_reply() throw();
+  int32_t retVal;
+  std::string tbuf;
+
+  _thrift_readlink_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_tbuf(const std::string& val);
+
+  bool operator == (const thrift_readlink_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(tbuf == rhs.tbuf))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_readlink_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_readlink_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_readlink_reply &a, thrift_readlink_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_readlink_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_fsync_reply__isset {
+  _thrift_fsync_reply__isset() : retVal(false), isdatasync(false), tfi(false) {}
+  bool retVal :1;
+  bool isdatasync :1;
+  bool tfi :1;
+} _thrift_fsync_reply__isset;
+
+class thrift_fsync_reply {
+ public:
+
+  thrift_fsync_reply(const thrift_fsync_reply&);
+  thrift_fsync_reply& operator=(const thrift_fsync_reply&);
+  thrift_fsync_reply() : retVal(0), isdatasync(0) {
+  }
+
+  virtual ~thrift_fsync_reply() throw();
+  int32_t retVal;
+  int32_t isdatasync;
+  thrift_fuse_file_info tfi;
+
+  _thrift_fsync_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_isdatasync(const int32_t val);
+
+  void __set_tfi(const thrift_fuse_file_info& val);
+
+  bool operator == (const thrift_fsync_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(isdatasync == rhs.isdatasync))
+      return false;
+    if (!(tfi == rhs.tfi))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_fsync_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_fsync_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_fsync_reply &a, thrift_fsync_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_fsync_reply& obj)
 {
   obj.printTo(out);
   return out;
