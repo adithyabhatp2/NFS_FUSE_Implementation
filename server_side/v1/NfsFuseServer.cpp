@@ -2,6 +2,8 @@
 // Created by adbhat on 10/24/16.
 //
 
+#include <vector>
+#include <NfsRpc_types.h>
 #include "NfsFuseServer.h"
 
 #include "iostream"
@@ -101,8 +103,7 @@ int NfsFuseServer::xmp_rmdir(const char *path)
     return 0;
 }
 
-int NfsFuseServer::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
-                off_t offset, struct fuse_file_info *fi)
+int NfsFuseServer::xmp_readdir(const char *path, off_t offset, struct fuse_file_info *fi, vector<thrift_dir_entry> &entries)
 {
     DIR *dp;
     struct dirent *de;
@@ -115,12 +116,13 @@ int NfsFuseServer::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t fill
         return -errno;
 
     while ((de = readdir(dp)) != NULL) {
-        struct stat st;
-        memset(&st, 0, sizeof(st));
-        st.st_ino = de->d_ino;
-        st.st_mode = de->d_type << 12;
-        if (filler(buf, de->d_name, &st, 0))
-            break;
+//        struct stat st;
+//        memset(&st, 0, sizeof(st));
+        thrift_dir_entry entry;
+        entry.__set_d_ino(de->d_ino);
+        entry.__set_d_name(de->d_name);
+        entry.__set_d_type(de->d_type);
+        entries.push_back(entry);
     }
 
     closedir(dp);

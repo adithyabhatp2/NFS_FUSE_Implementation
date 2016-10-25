@@ -97,6 +97,15 @@ public:
         return rpcGateway.xmp_rmdir(pathPrefix + tpath);
     }
 
+    void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
+        // Your implementation goes here
+        printf("xmp_readdir\n");
+        thrift_fuse_file_info tfi2(tfi);
+        vector<thrift_dir_entry> entries;
+        _return.retVal = rpcGateway.xmp_readdir(tpath, offset, tfi2, entries);
+        _return.dir_entries = entries;
+    }
+
     void xmp_statfs(thrift_statfs_reply &_return, const std::string &tpath, const thrift_statvfs &tstbuf) {
         // Your implementation goes here
         printf("xmp_statfs: %s\n", (pathPrefix + tpath).c_str());
@@ -212,6 +221,11 @@ int main(int argc, char **argv) {
     RPCGateway rpcGateway;
     rpcGateway.xmp_mkdir(pathPrefix + "dir1", S_IRWXU | S_IRWXG | S_IRWXO);
     rpcGateway.xmp_rename(pathPrefix+"a.txt", pathPrefix+"b.txt");
+
+
+    thrift_fuse_file_info tfi;
+    vector<thrift_dir_entry> entries;
+    int retVal = rpcGateway.xmp_readdir(pathPrefix, 0, tfi, entries);
 
     server.serve();
     return 0;

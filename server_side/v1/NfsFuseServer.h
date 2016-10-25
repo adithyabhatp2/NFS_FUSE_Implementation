@@ -40,8 +40,7 @@ public:
     int xmp_rename(const char *from, const char *to);
     int xmp_mkdir(const char *path, mode_t mode);
     int xmp_rmdir(const char *path);
-    int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
-                    off_t offset, struct fuse_file_info *fi);
+    int xmp_readdir(const char *path, off_t offset, struct fuse_file_info *fi, std::vector<thrift_dir_entry> &entries);
     int xmp_statfs(const char *path, struct statvfs *stbuf);
     int xmp_access(const char *path, int mask);
     int xmp_readlink(const char *path, char *buf, size_t size);

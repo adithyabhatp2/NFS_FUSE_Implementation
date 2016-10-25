@@ -89,6 +89,17 @@ struct thrift_fsync_reply {
     3: thrift_fuse_file_info tfi;
 }
 
+struct thrift_dir_entry {
+    1: i64 d_ino;
+    2: i64 d_type;
+    3: string d_name;
+}
+
+struct thrift_readdir_reply {
+    1: i32 retVal;
+    2: list<thrift_dir_entry> dir_entries;
+}
+
 service NfsRpc {
 
     i32 xmp_create(1:string tpath, 2:i32 mode, 3:thrift_fuse_file_info tfi)
@@ -100,6 +111,9 @@ service NfsRpc {
     i32 xmp_rename(1:string tfrom, 2:string tto);
     i32 xmp_mkdir(1:string tpath, 2:i32 mode);
     i32 xmp_rmdir(1:string tpath);
+
+    thrift_readdir_reply xmp_readdir(1:string tpath, 2:i64 offset, 3:thrift_fuse_file_info tfi);
+
     thrift_statfs_reply xmp_statfs(1:string tpath, 2:thrift_statvfs tstbuf);
     
     thrift_open_reply xmp_open(1:string tpath, 2:thrift_fuse_file_info tfi);

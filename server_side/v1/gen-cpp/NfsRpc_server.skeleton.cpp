@@ -65,6 +65,11 @@ class NfsRpcHandler : virtual public NfsRpcIf {
     printf("xmp_rmdir\n");
   }
 
+  void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
+    // Your implementation goes here
+    printf("xmp_readdir\n");
+  }
+
   void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) {
     // Your implementation goes here
     printf("xmp_statfs\n");

@@ -39,6 +39,10 @@ class thrift_readlink_reply;
 
 class thrift_fsync_reply;
 
+class thrift_dir_entry;
+
+class thrift_readdir_reply;
+
 typedef struct _thrift_timespec__isset {
   _thrift_timespec__isset() : tv_sec(false), tv_nsec(false) {}
   bool tv_sec :1;
@@ -794,6 +798,116 @@ class thrift_fsync_reply {
 void swap(thrift_fsync_reply &a, thrift_fsync_reply &b);
 
 inline std::ostream& operator<<(std::ostream& out, const thrift_fsync_reply& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_dir_entry__isset {
+  _thrift_dir_entry__isset() : d_ino(false), d_type(false), d_name(false) {}
+  bool d_ino :1;
+  bool d_type :1;
+  bool d_name :1;
+} _thrift_dir_entry__isset;
+
+class thrift_dir_entry {
+ public:
+
+  thrift_dir_entry(const thrift_dir_entry&);
+  thrift_dir_entry& operator=(const thrift_dir_entry&);
+  thrift_dir_entry() : d_ino(0), d_type(0), d_name() {
+  }
+
+  virtual ~thrift_dir_entry() throw();
+  int64_t d_ino;
+  int64_t d_type;
+  std::string d_name;
+
+  _thrift_dir_entry__isset __isset;
+
+  void __set_d_ino(const int64_t val);
+
+  void __set_d_type(const int64_t val);
+
+  void __set_d_name(const std::string& val);
+
+  bool operator == (const thrift_dir_entry & rhs) const
+  {
+    if (!(d_ino == rhs.d_ino))
+      return false;
+    if (!(d_type == rhs.d_type))
+      return false;
+    if (!(d_name == rhs.d_name))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_dir_entry &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_dir_entry & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_dir_entry &a, thrift_dir_entry &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_dir_entry& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+typedef struct _thrift_readdir_reply__isset {
+  _thrift_readdir_reply__isset() : retVal(false), dir_entries(false) {}
+  bool retVal :1;
+  bool dir_entries :1;
+} _thrift_readdir_reply__isset;
+
+class thrift_readdir_reply {
+ public:
+
+  thrift_readdir_reply(const thrift_readdir_reply&);
+  thrift_readdir_reply& operator=(const thrift_readdir_reply&);
+  thrift_readdir_reply() : retVal(0) {
+  }
+
+  virtual ~thrift_readdir_reply() throw();
+  int32_t retVal;
+  std::vector<thrift_dir_entry>  dir_entries;
+
+  _thrift_readdir_reply__isset __isset;
+
+  void __set_retVal(const int32_t val);
+
+  void __set_dir_entries(const std::vector<thrift_dir_entry> & val);
+
+  bool operator == (const thrift_readdir_reply & rhs) const
+  {
+    if (!(retVal == rhs.retVal))
+      return false;
+    if (!(dir_entries == rhs.dir_entries))
+      return false;
+    return true;
+  }
+  bool operator != (const thrift_readdir_reply &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const thrift_readdir_reply & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(thrift_readdir_reply &a, thrift_readdir_reply &b);
+
+inline std::ostream& operator<<(std::ostream& out, const thrift_readdir_reply& obj)
 {
   obj.printTo(out);
   return out;

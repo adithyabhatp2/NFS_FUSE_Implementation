@@ -48,6 +48,7 @@ public:
     int xmp_rename(std::string tfromName, std::string tto);
     int xmp_mkdir(std::string tpath, int mode);
     int xmp_rmdir(std::string tpath);
+    int xmp_readdir(std::string tpath, off_t offset, thrift_fuse_file_info &tfi, std::vector<thrift_dir_entry> &entries);
     int xmp_statfs(std::string tpath, thrift_statvfs &tstbuf);
 
     int xmp_access(std::string tpath, int mask);

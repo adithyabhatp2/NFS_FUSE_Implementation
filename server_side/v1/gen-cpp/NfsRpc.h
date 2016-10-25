@@ -30,6 +30,7 @@ class NfsRpcIf {
   virtual int32_t xmp_rename(const std::string& tfrom, const std::string& tto) = 0;
   virtual int32_t xmp_mkdir(const std::string& tpath, const int32_t mode) = 0;
   virtual int32_t xmp_rmdir(const std::string& tpath) = 0;
+  virtual void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) = 0;
   virtual void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) = 0;
   virtual void xmp_open(thrift_open_reply& _return, const std::string& tpath, const thrift_fuse_file_info& tfi) = 0;
   virtual int32_t xmp_access(const std::string& tpath, const int32_t mask) = 0;
@@ -104,6 +105,9 @@ class NfsRpcNull : virtual public NfsRpcIf {
   int32_t xmp_rmdir(const std::string& /* tpath */) {
     int32_t _return = 0;
     return _return;
+  }
+  void xmp_readdir(thrift_readdir_reply& /* _return */, const std::string& /* tpath */, const int64_t /* offset */, const thrift_fuse_file_info& /* tfi */) {
+    return;
   }
   void xmp_statfs(thrift_statfs_reply& /* _return */, const std::string& /* tpath */, const thrift_statvfs& /* tstbuf */) {
     return;
@@ -1180,6 +1184,124 @@ class NfsRpc_xmp_rmdir_presult {
   int32_t* success;
 
   _NfsRpc_xmp_rmdir_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _NfsRpc_xmp_readdir_args__isset {
+  _NfsRpc_xmp_readdir_args__isset() : tpath(false), offset(false), tfi(false) {}
+  bool tpath :1;
+  bool offset :1;
+  bool tfi :1;
+} _NfsRpc_xmp_readdir_args__isset;
+
+class NfsRpc_xmp_readdir_args {
+ public:
+
+  NfsRpc_xmp_readdir_args(const NfsRpc_xmp_readdir_args&);
+  NfsRpc_xmp_readdir_args& operator=(const NfsRpc_xmp_readdir_args&);
+  NfsRpc_xmp_readdir_args() : tpath(), offset(0) {
+  }
+
+  virtual ~NfsRpc_xmp_readdir_args() throw();
+  std::string tpath;
+  int64_t offset;
+  thrift_fuse_file_info tfi;
+
+  _NfsRpc_xmp_readdir_args__isset __isset;
+
+  void __set_tpath(const std::string& val);
+
+  void __set_offset(const int64_t val);
+
+  void __set_tfi(const thrift_fuse_file_info& val);
+
+  bool operator == (const NfsRpc_xmp_readdir_args & rhs) const
+  {
+    if (!(tpath == rhs.tpath))
+      return false;
+    if (!(offset == rhs.offset))
+      return false;
+    if (!(tfi == rhs.tfi))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_readdir_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_readdir_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class NfsRpc_xmp_readdir_pargs {
+ public:
+
+
+  virtual ~NfsRpc_xmp_readdir_pargs() throw();
+  const std::string* tpath;
+  const int64_t* offset;
+  const thrift_fuse_file_info* tfi;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_readdir_result__isset {
+  _NfsRpc_xmp_readdir_result__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_readdir_result__isset;
+
+class NfsRpc_xmp_readdir_result {
+ public:
+
+  NfsRpc_xmp_readdir_result(const NfsRpc_xmp_readdir_result&);
+  NfsRpc_xmp_readdir_result& operator=(const NfsRpc_xmp_readdir_result&);
+  NfsRpc_xmp_readdir_result() {
+  }
+
+  virtual ~NfsRpc_xmp_readdir_result() throw();
+  thrift_readdir_reply success;
+
+  _NfsRpc_xmp_readdir_result__isset __isset;
+
+  void __set_success(const thrift_readdir_reply& val);
+
+  bool operator == (const NfsRpc_xmp_readdir_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const NfsRpc_xmp_readdir_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const NfsRpc_xmp_readdir_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _NfsRpc_xmp_readdir_presult__isset {
+  _NfsRpc_xmp_readdir_presult__isset() : success(false) {}
+  bool success :1;
+} _NfsRpc_xmp_readdir_presult__isset;
+
+class NfsRpc_xmp_readdir_presult {
+ public:
+
+
+  virtual ~NfsRpc_xmp_readdir_presult() throw();
+  thrift_readdir_reply* success;
+
+  _NfsRpc_xmp_readdir_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -2597,6 +2719,9 @@ class NfsRpcClient : virtual public NfsRpcIf {
   int32_t xmp_rmdir(const std::string& tpath);
   void send_xmp_rmdir(const std::string& tpath);
   int32_t recv_xmp_rmdir();
+  void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void send_xmp_readdir(const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void recv_xmp_readdir(thrift_readdir_reply& _return);
   void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf);
   void send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf);
   void recv_xmp_statfs(thrift_statfs_reply& _return);
@@ -2657,6 +2782,7 @@ class NfsRpcProcessor : public ::apache::thrift::TDispatchProcessor {
   void process_xmp_rename(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_mkdir(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_rmdir(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_xmp_readdir(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_statfs(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_open(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_xmp_access(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
@@ -2681,6 +2807,7 @@ class NfsRpcProcessor : public ::apache::thrift::TDispatchProcessor {
     processMap_["xmp_rename"] = &NfsRpcProcessor::process_xmp_rename;
     processMap_["xmp_mkdir"] = &NfsRpcProcessor::process_xmp_mkdir;
     processMap_["xmp_rmdir"] = &NfsRpcProcessor::process_xmp_rmdir;
+    processMap_["xmp_readdir"] = &NfsRpcProcessor::process_xmp_readdir;
     processMap_["xmp_statfs"] = &NfsRpcProcessor::process_xmp_statfs;
     processMap_["xmp_open"] = &NfsRpcProcessor::process_xmp_open;
     processMap_["xmp_access"] = &NfsRpcProcessor::process_xmp_access;
@@ -2802,6 +2929,16 @@ class NfsRpcMultiface : virtual public NfsRpcIf {
       ifaces_[i]->xmp_rmdir(tpath);
     }
     return ifaces_[i]->xmp_rmdir(tpath);
+  }
+
+  void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->xmp_readdir(_return, tpath, offset, tfi);
+    }
+    ifaces_[i]->xmp_readdir(_return, tpath, offset, tfi);
+    return;
   }
 
   void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) {
@@ -2973,6 +3110,9 @@ class NfsRpcConcurrentClient : virtual public NfsRpcIf {
   int32_t xmp_rmdir(const std::string& tpath);
   int32_t send_xmp_rmdir(const std::string& tpath);
   int32_t recv_xmp_rmdir(const int32_t seqid);
+  void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi);
+  int32_t send_xmp_readdir(const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi);
+  void recv_xmp_readdir(thrift_readdir_reply& _return, const int32_t seqid);
   void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf);
   int32_t send_xmp_statfs(const std::string& tpath, const thrift_statvfs& tstbuf);
   void recv_xmp_statfs(thrift_statfs_reply& _return, const int32_t seqid);

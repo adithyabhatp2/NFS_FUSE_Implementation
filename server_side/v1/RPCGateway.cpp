@@ -188,6 +188,14 @@ int RPCGateway::xmp_rmdir(string tpath) {
     return retVal;
 }
 
+int RPCGateway::xmp_readdir(std::string tpath, off_t offset, thrift_fuse_file_info &tfi, std::vector<thrift_dir_entry> &entries) {
+    const char * path = tpath.c_str();
+    struct fuse_file_info fi;
+    copyFromThrift_fuseFileinfo(&fi, tfi);
+    int retVal = nfsFuseServer.xmp_readdir(path, offset, &fi, entries);
+    return retVal;
+}
+
 int RPCGateway::xmp_statfs(string tpath, thrift_statvfs &tstbuf) {
     const char * path = tpath.c_str();
     struct statvfs stbuf;
