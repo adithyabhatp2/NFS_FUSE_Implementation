@@ -65,6 +65,11 @@ class NfsRpcHandler : virtual public NfsRpcIf {
     printf("xmp_rmdir\n");
   }
 
+  void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
+    // Your implementation goes here
+    printf("xmp_readdir\n");
+  }
+
   void xmp_statfs(thrift_statfs_reply& _return, const std::string& tpath, const thrift_statvfs& tstbuf) {
     // Your implementation goes here
     printf("xmp_statfs\n");
@@ -83,6 +88,46 @@ class NfsRpcHandler : virtual public NfsRpcIf {
   int32_t xmp_mknod(const std::string& tpath, const int32_t mode, const int64_t rdev) {
     // Your implementation goes here
     printf("xmp_mknod\n");
+  }
+
+  void xmp_readlink(thrift_readlink_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size) {
+    // Your implementation goes here
+    printf("xmp_readlink\n");
+  }
+
+  int32_t xmp_symlink(const std::string& tfrom, const std::string& tto) {
+    // Your implementation goes here
+    printf("xmp_symlink\n");
+  }
+
+  int32_t xmp_link(const std::string& tfrom, const std::string& tto) {
+    // Your implementation goes here
+    printf("xmp_link\n");
+  }
+
+  int32_t xmp_chmod(const std::string& tpath, const int32_t mode) {
+    // Your implementation goes here
+    printf("xmp_chmod\n");
+  }
+
+  int32_t xmp_chown(const std::string& tpath, const int32_t uid, const int32_t gid) {
+    // Your implementation goes here
+    printf("xmp_chown\n");
+  }
+
+  int32_t xmp_truncate(const std::string& tpath, const int64_t size) {
+    // Your implementation goes here
+    printf("xmp_truncate\n");
+  }
+
+  int32_t xmp_release(const std::string& tpath, const thrift_fuse_file_info& tfi) {
+    // Your implementation goes here
+    printf("xmp_release\n");
+  }
+
+  void xmp_fsync(thrift_fsync_reply& _return, const std::string& tpath, const int32_t isdatasync, const thrift_fuse_file_info& tfi) {
+    // Your implementation goes here
+    printf("xmp_fsync\n");
   }
 
 };

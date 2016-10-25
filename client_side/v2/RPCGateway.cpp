@@ -143,9 +143,6 @@ RPCGateway::RPCGateway(char *serverHost, unsigned long serverPort) {
 
 
 
-
-
-
 int RPCGateway::xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
     string tpath(path);
@@ -172,13 +169,25 @@ int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {
     return retVal;
 }
 
+int RPCGateway::xmp_setattr(const char *path, struct stat *stbuf) {
+    int retVal = -1;
+    string tpath(path);
+    thrift_stat tstbuf;
+    copyToThrift_stat(stbuf, tstbuf);
+    retVal = rpcClient.xmp_getattr(tpath, tstbuf);
+    copyFromthrift_stat(stbuf, tstbuf);
+    return retVal;
+}
+
 int RPCGateway::xmp_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
     int retVal = -1;
     string tpath(path);
     string tbuf;
     thrift_fuse_file_info tfi;
     copyToThrift_fuseFileInfo(fi, tfi);
-    retVal = rpcClient.xmp_read(tpath, tbuf, size, offset, tfi); //TODO fix
+    retVal = rpcClient.xmp_read(tpath, tbuf, size, offset, tfi);
+    strncpy(buf, tbuf.c_str(), size);
+
     return retVal;
 }
 
@@ -188,7 +197,7 @@ int RPCGateway::xmp_write(const char *path, const char *buf, size_t size, off_t 
     string tbuf;
     thrift_fuse_file_info tfi;
     copyToThrift_fuseFileInfo(fi, tfi);
-    retVal = rpcClient.xmp_write(tpath, tbuf, size, offset, tfi); //TODO fix
+    retVal = rpcClient.xmp_write(tpath, tbuf, size, offset, tfi);
     return retVal;
 }
 
@@ -214,8 +223,20 @@ int RPCGateway::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     string tpath(path);
     string tbuf;
     thrift_fuse_file_info tfi;
+    thrift_readdir_reply reply;
     copyToThrift_fuseFileInfo(fi, tfi);
-//    rpcClient.readdir();
+
+    rpcClient.xmp_readdir(tpath, offset, tfi, reply);
+
+    for (thrift_dir_entry de : reply.dir_entries) {
+        struct stat st;
+        memset(&st, 0, sizeof(st));
+        st.st_ino = de.d_ino;
+        st.st_mode = de.d_type << 12;
+        if (filler(buf, de.d_name.c_str(), &st, 0))
+            break;
+    }
+
     return retVal;
 }
 
@@ -229,37 +250,101 @@ int RPCGateway::xmp_statfs(const char *path, struct statvfs *stbuf) {
     return retVal;
 }
 
+
+int RPCGateway::xmp_readlink(const char *path, char *buf, size_t size) {
+    int retVal = -1;
+    string tpath(path);
+    thrift_readlink_reply reply;
+    string tbuf(buf);
+
+    rpcClient.xmp_readlink(reply, tpath, tbuf, size);
+    retVal = reply.retVal;
+    strncpy(buf, reply.tbuf.c_str(), size);
+    return retVal;
+}
+
+int RPCGateway::xmp_access(const char *path, int mask){
+    string tpath(path);
+    return rpcClient.xmp_access(tpath, mask);
+}
+
+int RPCGateway::xmp_mknod(const char *path, mode_t mode, dev_t rdev){
+    string tpath(path);
+    return rpcClient.xmp_mknod(tpath, mode, rdev);
+}
+
+int RPCGateway::xmp_symlink(const char *from, const char *to){
+    int retVal = -1;
+    string fromPath(from);
+    string toPath(to);
+    retVal = rpcClient.xmp_symlink(fromPath, toPath);
+    return retVal;
+}
+
+int RPCGateway::xmp_link(const char *from, const char *to){
+    int retVal = -1;
+    string fromPath(from);
+    string toPath(to);
+    retVal = rpcClient.xmp_link(fromPath, toPath);
+    return retVal;
+}
+
+int RPCGateway::xmp_chmod(const char *path, mode_t mode){
+    int retVal = -1;
+    string tpath(path);
+    retVal = rpcClient.xmp_chmod(tpath, mode);
+    return retVal;
+}
+
+int RPCGateway::xmp_chown(const char *path, uid_t uid, gid_t gid){
+    int retVal = -1;
+    string tpath(path);
+    retVal = rpcClient.xmp_chown(tpath, uid, gid);
+    return retVal;
+}
+
+int RPCGateway::xmp_truncate(const char *path, off_t size){
+    int retVal = -1;
+    string tpath(path);
+    retVal = rpcClient.xmp_truncate(tpath, size);
+    return retVal;
+}
+
 int RPCGateway::xmp_open(const char *path, struct fuse_file_info *fi)
 {
     string pathStr(path);
     thrift_fuse_file_info tfi;
 
     copyToThrift_fuseFileInfo(fi, tfi);
-
     int retVal = rpcClient.xmp_open(pathStr, tfi);
+    copyFromThrift_fuseFileinfo(fi, tfi);
 
+    return retVal;
+}
+
+int RPCGateway::xmp_release(const char *path, struct fuse_file_info *fi) {
+    string pathStr(path);
+    thrift_fuse_file_info tfi;
+
+    copyToThrift_fuseFileInfo(fi, tfi);
+    int retVal = rpcClient.xmp_release(pathStr, tfi);
+    copyFromThrift_fuseFileinfo(fi, tfi);
+
+    return retVal;
+}
+
+int RPCGateway::xmp_fsync(const char *path, int isdatasync, struct fuse_file_info *fi){
+    string pathStr(path);
+    thrift_fuse_file_info tfi;
+
+    copyToThrift_fuseFileInfo(fi, tfi);
+    int retVal = rpcClient.xmp_fsync(pathStr, isdatasync, tfi);
     copyFromThrift_fuseFileinfo(fi, tfi);
 
     return retVal;
 }
 
 
-
-//int RPCGateway :: xmp_open(Xmp_open_request open_request)
-//{
-//    char *path;
-//    struct fuse_file_info file_info;
-////    file_info.fh = ...
-//    struct fuse_file_info *fi = &file_info;
-//    return nfsServer.xmp_open(path, fi);
-//}
-
-
-
-int RPCGateway::xmp_unlink(string pathStr) {
-    const char * path = pathStr.c_str();
-    return 0;
-}
 
 //int main(int argc, char **argv) {
 //    cout << "Hello World - RPCGateway Client" << endl;

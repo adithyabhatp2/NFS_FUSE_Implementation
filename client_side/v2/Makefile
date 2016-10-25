@@ -39,5 +39,5 @@ clean:
 
 # -std=c++11 throws weird errors in server, about shared_ptr etc
 # after doing thrift --gen NfsRpc.thrift,
-# search for class NfsRpcClient[a-z,A-Z,\s,:,{]+public:
+# in NfsRpc.h search for class NfsRpcClient[a-z,A-Z,\s,:,{]+public:
 # rplce with class NfsRpcClient[a-z,A-Z,\s,:,{]+public:$NfsRpcClient(){}

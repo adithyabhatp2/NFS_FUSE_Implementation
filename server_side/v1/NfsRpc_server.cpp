@@ -33,7 +33,7 @@ public:
 
     int32_t xmp_create(const std::string &tpath, const int32_t mode, const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_create: %s\n", (pathPrefix + tpath).c_str());
+        printf("xmp_create - should not happen: %s\n", (pathPrefix + tpath).c_str());
         return 3;
     }
 
