@@ -165,7 +165,7 @@ int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {
     thrift_stat tstbuf;
     copyToThrift_stat(stbuf, tstbuf);
     retVal = rpcClient.xmp_getattr(tpath, tstbuf); //TODO fix
-    if(retVal!=-1) {
+    if(retVal > -1) {
         copyFromthrift_stat(stbuf, tstbuf);
     }
     return retVal;
@@ -221,7 +221,7 @@ int RPCGateway::xmp_rmdir(const char *path) {
 
 int RPCGateway::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset,
                             struct fuse_file_info *fi) {
-    int retVal = -1;
+//    int retVal = -1;
     string tpath(path);
     string tbuf;
     thrift_fuse_file_info tfi;
@@ -239,7 +239,7 @@ int RPCGateway::xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
             break;
     }
 
-    return retVal;
+    return reply.retVal; // was working before, when was just retVal
 }
 
 int RPCGateway::xmp_statfs(const char *path, struct statvfs *stbuf) {

@@ -73,8 +73,8 @@ static int xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
 
     fd = rpcGateway.xmp_create(path, mode, fi);
 
-    if (fd == -1)
-        return -errno;
+    if (fd < 0)
+        return fd;
 
     fi->fh = fd;
     return 0;
@@ -85,8 +85,8 @@ static int xmp_unlink(const char *path)
     int res;
 
     res = rpcGateway.xmp_unlink(path);
-    if (res == -1)
-        return -errno;
+    if (res < 0 )
+        return res;
 
     return 0;
 }
@@ -96,9 +96,9 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     int res;
 
     res = rpcGateway.xmp_getattr(path, stbuf);
-//    cout << "Getattr retVal = " << res << endl;
-    if (res == -1)
-        return -2;
+    cout << "Getattr retVal = " << res << endl;
+    if (res < 0)
+        return res;
 
     return 0;
 }
@@ -110,8 +110,8 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset,
 
     res = rpcGateway.xmp_read(path, buf, size, offset, fi);
 
-    if (res == -1)
-        res = -errno;
+//    if (res == -1)
+//        res = -errno;
 
     return res;
 }
@@ -124,8 +124,8 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 //    cout << "write size: "<< size << " data: " << buf << endl;
     res = rpcGateway.xmp_write(path, buf, size, offset, fi);
 
-    if (res == -1)
-        res = -errno;
+//    if (res == -1)
+//        res = -errno;
 
     return res;
 }
@@ -135,10 +135,11 @@ static int xmp_rename(const char *from, const char *to)
     int res;
 
     res = rpcGateway.xmp_rename(from, to);
-    if (res == -1)
-        return -errno;
 
-    return 0;
+//    if (res == -1)
+//        return -errno;
+
+    return res;
 }
 
 static int xmp_mkdir(const char *path, mode_t mode)
@@ -146,10 +147,10 @@ static int xmp_mkdir(const char *path, mode_t mode)
     int res;
 
     res = rpcGateway.xmp_mkdir(path, mode);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_rmdir(const char *path)
@@ -157,10 +158,10 @@ static int xmp_rmdir(const char *path)
     int res;
 
     res = rpcGateway.xmp_rmdir(path);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
@@ -169,10 +170,10 @@ static int xmp_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     int res;
 
     res = rpcGateway.xmp_readdir(path, buf, filler, offset, fi);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 
@@ -181,10 +182,10 @@ static int xmp_statfs(const char *path, struct statvfs *stbuf)
     int res;
 
     res = rpcGateway.xmp_statfs(path, stbuf);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_access(const char *path, int mask)
@@ -192,10 +193,10 @@ static int xmp_access(const char *path, int mask)
     int res;
 
     res = rpcGateway.xmp_access(path, mask);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_readlink(const char *path, char *buf, size_t size)
@@ -203,8 +204,8 @@ static int xmp_readlink(const char *path, char *buf, size_t size)
     int res;
 
     res = rpcGateway.xmp_readlink(path, buf, size - 1);
-    if (res == -1)
-        return -errno;
+    if (res < 0)
+        return res;
 
     buf[res] = '\0';
     return 0;
@@ -215,10 +216,10 @@ static int xmp_mknod(const char *path, mode_t mode, dev_t rdev)
 {
     int res;
     res = rpcGateway.xmp_mknod(path, mode, rdev);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 
@@ -227,10 +228,10 @@ static int xmp_symlink(const char *from, const char *to)
     int res;
 
     res = rpcGateway.xmp_symlink(from, to);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 
@@ -240,10 +241,10 @@ static int xmp_link(const char *from, const char *to)
     int res;
 
     res = rpcGateway.xmp_link(from, to);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_chmod(const char *path, mode_t mode)
@@ -251,10 +252,10 @@ static int xmp_chmod(const char *path, mode_t mode)
     int res;
 
     res = rpcGateway.xmp_chmod(path, mode);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_chown(const char *path, uid_t uid, gid_t gid)
@@ -262,10 +263,10 @@ static int xmp_chown(const char *path, uid_t uid, gid_t gid)
     int res;
 
     res = rpcGateway.xmp_chown(path, uid, gid);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_truncate(const char *path, off_t size)
@@ -273,10 +274,10 @@ static int xmp_truncate(const char *path, off_t size)
     int res;
 
     res = rpcGateway.xmp_truncate(path, size);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 #ifdef HAVE_UTIMENSAT
@@ -298,8 +299,8 @@ static int xmp_open(const char *path, struct fuse_file_info *fi)
     int res;
 
     res = rpcGateway.xmp_open(path, fi);
-    if (res == -1)
-        return -errno;
+    if (res < 0)
+        return res;
 
     return 0;
 }
@@ -308,20 +309,20 @@ static int xmp_release(const char *path, struct fuse_file_info *fi)
 {
     int res;
     res = rpcGateway.xmp_release(path, fi);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 static int xmp_fsync(const char *path, int isdatasync, struct fuse_file_info *fi)
 {
     int res;
     res = rpcGateway.xmp_fsync(path, isdatasync, fi);
-    if (res == -1)
-        return -errno;
+//    if (res == -1)
+//        return -errno;
 
-    return 0;
+    return res;
 }
 
 #ifdef HAVE_POSIX_FALLOCATE

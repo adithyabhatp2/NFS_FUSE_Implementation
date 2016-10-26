@@ -28,7 +28,7 @@ int NfsFuseServer::xmp_unlink(const char *path)
 
     res = unlink(path);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -39,7 +39,7 @@ int NfsFuseServer::xmp_getattr(const char *path, struct stat *stbuf)
 
     res = lstat(path, stbuf);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -53,7 +53,7 @@ int NfsFuseServer::xmp_read(const char *path, char *buf, size_t size, off_t offs
     (void) fi;
     fd = open(path, O_RDONLY);
     if (fd == -1)
-        return res;
+        return -errno;
 
     res = pread(fd, buf, size, offset);
     if (res == -1)
@@ -72,7 +72,7 @@ int NfsFuseServer::xmp_write(const char *path, const char *buf, size_t size,
     (void) fi;
     fd = open(path, O_WRONLY);
     if (fd == -1)
-        return res;
+        return -errno;
 
     res = pwrite(fd, buf, size, offset);
     if (res == -1)
@@ -88,7 +88,7 @@ int NfsFuseServer::xmp_rename(const char *from, const char *to)
 
     res = rename(from, to);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -99,7 +99,7 @@ int NfsFuseServer::xmp_mkdir(const char *path, mode_t mode)
 
     res = mkdir(path, mode);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -110,7 +110,7 @@ int NfsFuseServer::xmp_rmdir(const char *path)
 
     res = rmdir(path);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -125,7 +125,7 @@ int NfsFuseServer::xmp_readdir(const char *path, off_t offset, struct fuse_file_
 
     dp = opendir(path);
     if (dp == NULL)
-        return -1; //errno
+        return -errno;
 
     while ((de = readdir(dp)) != NULL) {
 //        struct stat st;
@@ -147,7 +147,7 @@ int NfsFuseServer::xmp_statfs(const char *path, struct statvfs *stbuf)
 
     res = statvfs(path, stbuf);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -160,7 +160,7 @@ int NfsFuseServer::xmp_access(const char *path, int mask)
 
     res = access(path, mask);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -171,7 +171,7 @@ int NfsFuseServer::xmp_readlink(const char *path, char *buf, size_t size)
 
     res = readlink(path, buf, size - 1);
     if (res == -1)
-        return res;
+        return -errno;
 
     buf[res] = '\0';
     return 0;
@@ -192,7 +192,7 @@ int NfsFuseServer::xmp_mknod(const char *path, mode_t mode, dev_t rdev)
     else
         res = mknod(path, mode, rdev);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -203,7 +203,7 @@ int NfsFuseServer::xmp_symlink(const char *from, const char *to)
 
     res = symlink(from, to);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -214,7 +214,7 @@ int NfsFuseServer::xmp_link(const char *from, const char *to)
 
     res = link(from, to);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -225,7 +225,7 @@ int NfsFuseServer::xmp_chmod(const char *path, mode_t mode)
 
     res = chmod(path, mode);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -236,7 +236,7 @@ int NfsFuseServer::xmp_chown(const char *path, uid_t uid, gid_t gid)
 
     res = lchown(path, uid, gid);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -247,7 +247,7 @@ int NfsFuseServer::xmp_truncate(const char *path, off_t size)
 
     res = truncate(path, size);
     if (res == -1)
-        return res;
+        return -errno;
 
     return 0;
 }
@@ -260,7 +260,7 @@ int NfsFuseServer::xmp_utimens(const char *path, const struct timespec ts[2])
 	/* don't use utime/utimes since they follow symlinks */
 	res = utimensat(0, path, ts, AT_SYMLINK_NOFOLLOW);
 	if (res == -1)
-		return res;
+		return -errno;
 
 	return 0;
 }
@@ -272,7 +272,7 @@ int NfsFuseServer::xmp_open(const char *path, struct fuse_file_info *fi)
 
     res = open(path, fi->flags);
     if (res == -1)
-        return res;
+        return -errno;
 
     close(res);
     return 0;
