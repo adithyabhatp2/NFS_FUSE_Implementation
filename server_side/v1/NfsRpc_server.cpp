@@ -210,19 +210,18 @@ int main(int argc, char **argv) {
     }
 
     pathPrefix=string(argv[1]);
-    if(argv[1][pathPrefix.length()-1] != '/') {
-        pathPrefix = pathPrefix.append("/");
+    if(argv[1][pathPrefix.length()-1] == '/') {
+        pathPrefix = pathPrefix.erase(pathPrefix.length()-1);
     }
-
 
     cout << "Starting Thrift Server" << endl;
     cout << "host location : "<< pathPrefix << endl;
-//
+
 //    RPCGateway rpcGateway;
 //    rpcGateway.xmp_mkdir(pathPrefix + "dir1", S_IRWXU | S_IRWXG | S_IRWXO);
 //    rpcGateway.xmp_rename(pathPrefix+"a.txt", pathPrefix+"b.txt");
-//
-//
+//    rpcGateway.xmp_mkdir(pathPrefix + "dir2", S_IRWXU | S_IRWXG | S_IRWXO);
+
 //    thrift_fuse_file_info tfi;
 //    vector<thrift_dir_entry> entries;
 //    int retVal = rpcGateway.xmp_readdir(pathPrefix, 0, tfi, entries);

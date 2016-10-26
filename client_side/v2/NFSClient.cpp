@@ -42,6 +42,31 @@ using namespace std;
 static RPCGateway rpcGateway("localhost", 9090);
 
 
+static void printStat(struct stat* stbuf) {
+    cout << "Printing the stat" << endl;
+    cout << " stbuf->__glibc_reserved[0] " <<  " : "  << stbuf->__glibc_reserved[0]  << endl;
+    cout << " stbuf->__glibc_reserved[1] " <<  " : "  << stbuf->__glibc_reserved[1]  << endl;
+    cout << " stbuf->__glibc_reserved[2] " <<  " : "  << stbuf->__glibc_reserved[2]  << endl;
+    cout << " stbuf->__pad0 " <<  " : "  << stbuf->__pad0  << endl;
+    cout << " stbuf->st_blocks " <<  " : "  << stbuf->st_blocks  << endl;
+    cout << " stbuf->st_blksize " <<  " : "  << stbuf->st_blksize  << endl;
+    cout << " stbuf->st_dev " <<  " : "  << stbuf->st_dev  << endl;
+    cout << " stbuf->st_gid " <<  " : "  << stbuf->st_gid  << endl;
+    cout << " stbuf->st_ino " <<  " : "  << stbuf->st_ino  << endl;
+    cout << " stbuf->st_mode " <<  " : "  << stbuf->st_mode  << endl;
+    cout << " stbuf->st_nlink " <<  " : "  << stbuf->st_nlink  << endl;
+    cout << " stbuf->st_rdev " <<  " : "  << stbuf->st_rdev  << endl;
+    cout << " stbuf->st_size " <<  " : "  << stbuf->st_size  << endl;
+    cout << " stbuf->st_uid " <<  " : "  << stbuf->st_uid  << endl;
+    cout << " stbuf->st_atim.tv_nsec " <<  " : "  << stbuf->st_atim.tv_nsec  << endl;
+    cout << " stbuf->st_ctim.tv_nsec " <<  " : "  << stbuf->st_ctim.tv_nsec  << endl;
+    cout << " stbuf->st_mtim.tv_nsec " <<  " : "  << stbuf->st_mtim.tv_nsec  << endl;
+    cout << " stbuf->st_atim.tv_sec " <<  " : "  << stbuf->st_atim.tv_sec  << endl;
+    cout << " stbuf->st_ctim.tv_sec " <<  " : "  << stbuf->st_ctim.tv_sec  << endl;
+    cout << " stbuf->st_mtim.tv_sec " <<  " : "  << stbuf->st_mtim.tv_sec  << endl;
+}
+
+
 static int xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
     int fd;
@@ -71,6 +96,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     int res;
 
     res = rpcGateway.xmp_getattr(path, stbuf);
+    cout << "Getattr retVal = " << res << endl;
     if (res == -1)
         return -errno;
 

@@ -38,6 +38,15 @@ gateway:
 	g++ ${CPP_OPTS} ${CPP_OPTS_FUSE} ${CPP_OPTS_C11} ${CPP_DEFS} -o gateway.o \
 	    ${GATEWAY_FILES} ${FUSE_SERVER_FILES} ${THRIFT_GEN_FILES} \
 	    ${THRIFT_GEN_INC_DIR} ${FUSE_INC_DIRS} ${THRIFT_INC_DIRS} \
+	    ${THRIFT_LIBS_DIRS} ${FUSE_LIBS_DIRS} \
+	    ${LIBS}
+
+fuseServer:
+	g++ ${CPP_OPTS} ${CPP_OPTS_FUSE} ${CPP_OPTS_C11} ${CPP_DEFS} -o fuseServer.o \
+	    ${FUSE_SERVER_FILES} ${THRIFT_GEN_FILES} \
+	    ${THRIFT_GEN_INC_DIR} ${FUSE_INC_DIRS} ${THRIFT_INC_DIRS} \
+	    ${THRIFT_LIBS_DIRS} ${FUSE_LIBS_DIRS} \
+	    ${LIBS}
 
 clean:
 	$(RM) -r *.o
