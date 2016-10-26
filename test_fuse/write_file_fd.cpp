@@ -14,6 +14,7 @@
 
 using namespace std;
 
+#define DEBUGLEVEL 1
 
 void print_client_usage() {
     cout << "<write.o> -p <pathToFileToWrite> -l <len of msg>" << endl;
@@ -51,7 +52,7 @@ void write_and_fsync_file(char *pathToFile, int size) {
 
     const char * buf = msg.c_str();
 
-    int fd = open(pathToFile, O_CREAT | O_RDWR);
+    int fd = open(pathToFile, O_CREAT | O_WRONLY, S_IRWXO|S_IRWXG | S_IRWXU);
 
     cout << "FD : "<< fd << endl;
 
@@ -60,6 +61,11 @@ void write_and_fsync_file(char *pathToFile, int size) {
     }
 
     write(fd, buf, size);
+
+    if(DEBUGLEVEL <= 1) {
+        cout << "Write succeeded" << endl;
+        cout << "Now will fsync and close" << endl;
+    }
 
     fsync(fd);
     close(fd);
