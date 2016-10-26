@@ -223,6 +223,7 @@ int main(int argc, char **argv) {
     threadManager->start();
 
     // This server allows "workerCount" connection at a time, and reuses threads
+    // adbhat : verified working - sleep in mkdir, 2 clients on 2 different mount points
     TThreadPoolServer server2(processor, serverTransport, transportFactory, protocolFactory, threadManager);
     // END THREADED SERVER
 
@@ -252,7 +253,7 @@ int main(int argc, char **argv) {
 //    vector<thrift_dir_entry> entries;
 //    int retVal = rpcGateway.xmp_readdir(pathPrefix, 0, tfi, entries);
 
-    server.serve();
+    server2.serve();
     return 0;
 }
 
