@@ -7,6 +7,11 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
+#include <thrift/server/TThreadPoolServer.h>
+#include <thrift/concurrency/ThreadManager.h>
+#include <thrift/concurrency/PlatformThreadFactory.h>
+
+
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
@@ -195,14 +200,34 @@ public:
 };
 
 int main(int argc, char **argv) {
+
     int port = 9090;
+
     shared_ptr<NfsRpcHandler> handler(new NfsRpcHandler());
     shared_ptr<TProcessor> processor(new NfsRpcProcessor(handler));
     shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
     shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
     shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
+    // START SIMPLE SERVER
     TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
+    // END SIMPLE SERVER
+
+
+    // START THREADED SERVER
+    const int workerCount = 16;
+
+    shared_ptr<concurrency::PosixThreadFactory> threadFactory(new concurrency::PosixThreadFactory());
+    shared_ptr<concurrency::ThreadManager> threadManager = concurrency::ThreadManager::newSimpleThreadManager(workerCount);
+    threadManager->threadFactory(threadFactory);
+    threadManager->start();
+
+    // This server allows "workerCount" connection at a time, and reuses threads
+    TThreadPoolServer server2(processor, serverTransport, transportFactory, protocolFactory, threadManager);
+    // END THREADED SERVER
+
+
+
 
     if(argc < 2) {
         cout << "Not enough arguments - need atleast 2, got " << argc << endl;
