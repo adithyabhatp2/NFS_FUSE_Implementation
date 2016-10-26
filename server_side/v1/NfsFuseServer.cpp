@@ -10,6 +10,18 @@
 using namespace std;
 
 
+int NfsFuseServer::xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
+{
+    int fd;
+
+    fd = open(path, fi->flags, mode);
+    if (fd == -1)
+        return -errno;
+
+    fi->fh = fd;
+    return 0;
+}
+
 int NfsFuseServer::xmp_unlink(const char *path)
 {
     int res;
@@ -113,7 +125,7 @@ int NfsFuseServer::xmp_readdir(const char *path, off_t offset, struct fuse_file_
 
     dp = opendir(path);
     if (dp == NULL)
-        return res;
+        return -1; //errno
 
     while ((de = readdir(dp)) != NULL) {
 //        struct stat st;

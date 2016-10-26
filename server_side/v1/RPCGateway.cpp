@@ -134,6 +134,15 @@ void copyFromThrift_statvfs(struct statvfs * stbuf, thrift_statvfs tstbuf) {
 }
 
 
+int RPCGateway::xmp_create(string tpath, mode_t mode, thrift_fuse_file_info &tfi)
+{
+    const char * path = tpath.c_str();
+    struct fuse_file_info fi;
+    copyFromThrift_fuseFileinfo(&fi, tfi);
+    int retVal = nfsFuseServer.xmp_create(path, mode, &fi);
+    return retVal;
+}
+
 int RPCGateway::xmp_unlink(string tpath) {
     const char * path = tpath.c_str();
     int retVal = nfsFuseServer.xmp_unlink(path);

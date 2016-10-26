@@ -31,6 +31,7 @@ class NfsFuseServer {
 
 public:
 
+    int xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi);
     int xmp_unlink(const char *path);
     int xmp_getattr(const char *path, struct stat *stbuf);
     int xmp_read(const char *path, char *buf, size_t size, off_t offset,

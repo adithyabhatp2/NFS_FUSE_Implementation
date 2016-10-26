@@ -98,7 +98,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     res = rpcGateway.xmp_getattr(path, stbuf);
     cout << "Getattr retVal = " << res << endl;
     if (res == -1)
-        return -errno;
+        return -2;
 
     return 0;
 }

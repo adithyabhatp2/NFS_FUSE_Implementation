@@ -165,7 +165,9 @@ int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {
     thrift_stat tstbuf;
     copyToThrift_stat(stbuf, tstbuf);
     retVal = rpcClient.xmp_getattr(tpath, tstbuf); //TODO fix
-    copyFromthrift_stat(stbuf, tstbuf);
+    if(retVal!=-1) {
+        copyFromthrift_stat(stbuf, tstbuf);
+    }
     return retVal;
 }
 

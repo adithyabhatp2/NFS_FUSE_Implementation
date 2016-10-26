@@ -40,6 +40,7 @@ public:
 
     // Deserialization
 
+    int xmp_create(std::string path, mode_t mode, thrift_fuse_file_info &tfi);
     int xmp_unlink(std::string tpath) ;
     int xmp_getattr(std::string tpath, thrift_stat &tstbuf);
 
