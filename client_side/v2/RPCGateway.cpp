@@ -196,7 +196,7 @@ int RPCGateway::xmp_read(const char *path, char *buf, size_t size, off_t offset,
 int RPCGateway::xmp_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
     int retVal = -1;
     string tpath(path);
-    string tbuf;
+    string tbuf(buf);
     thrift_fuse_file_info tfi;
     copyToThrift_fuseFileInfo(fi, tfi);
     retVal = rpcClient.xmp_write(tpath, tbuf, size, offset, tfi);

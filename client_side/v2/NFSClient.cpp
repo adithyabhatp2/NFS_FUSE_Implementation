@@ -96,7 +96,7 @@ static int xmp_getattr(const char *path, struct stat *stbuf)
     int res;
 
     res = rpcGateway.xmp_getattr(path, stbuf);
-    cout << "Getattr retVal = " << res << endl;
+//    cout << "Getattr retVal = " << res << endl;
     if (res == -1)
         return -2;
 
@@ -121,6 +121,7 @@ static int xmp_write(const char *path, const char *buf, size_t size,
 {
     int res;
 
+//    cout << "write size: "<< size << " data: " << buf << endl;
     res = rpcGateway.xmp_write(path, buf, size, offset, fi);
 
     if (res == -1)
