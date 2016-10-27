@@ -38,20 +38,20 @@ public:
 
     int32_t xmp_create(const std::string &tpath, const int32_t mode, const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_create: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_create: %s\n", (pathPrefix + tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         return rpcGateway.xmp_create((pathPrefix + tpath), mode, tfi2);
     }
 
     int32_t xmp_unlink(const std::string &tpath) {
         // Your implementation goes here
-        printf("xmp_unlink: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_unlink: %s\n", (pathPrefix + tpath).c_str());
         return rpcGateway.xmp_unlink(pathPrefix + tpath);
     }
 
     void xmp_getattr(thrift_getattr_reply &_return, const std::string &tpath, const thrift_stat &stbuf) {
         // Your implementation goes here
-        printf("xmp_getattr: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_getattr: %s\n", (pathPrefix + tpath).c_str());
         thrift_stat tstbuf(stbuf);
         int retVal = rpcGateway.xmp_getattr(pathPrefix + tpath, tstbuf);
         _return.tstbuf=tstbuf;
@@ -60,14 +60,14 @@ public:
 
     int32_t xmp_setattr(const std::string &tpath, const thrift_stat &stbuf) {
         // Your implementation goes here
-        printf("xmp_setattr - should not happen: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_setattr - should not happen: %s\n", (pathPrefix+tpath).c_str());
         return 0;
     }
 
     void xmp_read(thrift_read_reply &_return, const std::string &tpath, const std::string &tbuf, const int64_t size,
                   const int64_t offset, const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_read: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_read: %s\n", (pathPrefix + tpath).c_str());
         string tbuf2;
         thrift_fuse_file_info tfi2(tfi);
         int retVal = rpcGateway.xmp_read(pathPrefix + tpath, tbuf2, size, offset, tfi2);
@@ -78,7 +78,7 @@ public:
     int32_t xmp_write(const std::string &tpath, const std::string &tbuf, const int64_t size, const int64_t offset,
                       const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_write: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_write: %s\n", (pathPrefix + tpath).c_str());
         string tbuf2(tbuf);
         thrift_fuse_file_info tfi2(tfi);
         int retVal = rpcGateway.xmp_write(pathPrefix + tpath, tbuf2, size, offset, tfi2);
@@ -87,25 +87,25 @@ public:
 
     int32_t xmp_rename(const std::string &tfrom, const std::string &tto) {
         // Your implementation goes here
-        printf("xmp_rename: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
+        // printf("xmp_rename: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
         return rpcGateway.xmp_rename(pathPrefix + tfrom, pathPrefix + tto);
     }
 
     int32_t xmp_mkdir(const std::string &tpath, const int32_t mode) {
         // Your implementation goes here
-        printf("xmp_mkdir: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_mkdir: %s\n", (pathPrefix + tpath).c_str());
         return rpcGateway.xmp_mkdir(pathPrefix + tpath, mode);
     }
 
     int32_t xmp_rmdir(const std::string &tpath) {
         // Your implementation goes here
-        printf("xmp_rmdir: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_rmdir: %s\n", (pathPrefix + tpath).c_str());
         return rpcGateway.xmp_rmdir(pathPrefix + tpath);
     }
 
     void xmp_readdir(thrift_readdir_reply& _return, const std::string& tpath, const int64_t offset, const thrift_fuse_file_info& tfi) {
         // Your implementation goes here
-        printf("xmp_readdir: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_readdir: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         vector<thrift_dir_entry> entries;
         _return.retVal = rpcGateway.xmp_readdir(pathPrefix + tpath, offset, tfi2, entries);
@@ -114,7 +114,7 @@ public:
 
     void xmp_statfs(thrift_statfs_reply &_return, const std::string &tpath, const thrift_statvfs &tstbuf) {
         // Your implementation goes here
-        printf("xmp_statfs: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_statfs: %s\n", (pathPrefix + tpath).c_str());
         thrift_statvfs tstbuf2(tstbuf);
         int retVal = rpcGateway.xmp_statfs(pathPrefix + tpath, tstbuf2);
         _return.retVal = retVal;
@@ -123,7 +123,7 @@ public:
 
     void xmp_open(thrift_open_reply &_return, const std::string &tpath, const thrift_fuse_file_info &tfi) {
         // Your implementation goes here
-        printf("xmp_open: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_open: %s\n", (pathPrefix + tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         int retVal = rpcGateway.xmp_open(pathPrefix + tpath, tfi2);
         _return.tfi=tfi2;
@@ -132,19 +132,19 @@ public:
 
     int32_t xmp_access(const std::string &tpath, const int32_t mask) {
         // Your implementation goes here
-        printf("xmp_access: %s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_access: %s\n", (pathPrefix + tpath).c_str());
         return rpcGateway.xmp_access(pathPrefix + tpath, mask);
     }
 
     int32_t xmp_mknod(const std::string &tpath, const int32_t mode, const int64_t rdev) {
         // Your implementation goes here
-        printf("xmp_mknod :%s\n", (pathPrefix + tpath).c_str());
+        // printf("xmp_mknod :%s\n", (pathPrefix + tpath).c_str());
         return rpcGateway.xmp_mknod(pathPrefix + tpath, mode, rdev);
     }
 
     void xmp_readlink(thrift_readlink_reply& _return, const std::string& tpath, const std::string& tbuf, const int64_t size) {
         // Your implementation goes here
-        printf("xmp_readlink: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_readlink: %s\n", (pathPrefix+tpath).c_str());
         string tbuf2(tbuf);
         int retVal = rpcGateway.xmp_readlink(pathPrefix+tpath, tbuf2, size);
         _return.tbuf=tbuf2;
@@ -153,44 +153,44 @@ public:
 
     int32_t xmp_symlink(const std::string& tfrom, const std::string& tto) {
         // Your implementation goes here
-        printf("xmp_symlink: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
+        // printf("xmp_symlink: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
         return rpcGateway.xmp_symlink(pathPrefix+tfrom, pathPrefix+tto);
     }
 
     int32_t xmp_link(const std::string& tfrom, const std::string& tto) {
         // Your implementation goes here
-        printf("xmp_link: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
+        // printf("xmp_link: %s\t%s\n", (pathPrefix+tfrom).c_str(), (pathPrefix+tto).c_str());
         return rpcGateway.xmp_link(pathPrefix+tfrom, pathPrefix+tto);
     }
 
     int32_t xmp_chmod(const std::string& tpath, const int32_t mode) {
         // Your implementation goes here
-        printf("xmp_chmod: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_chmod: %s\n", (pathPrefix+tpath).c_str());
         return rpcGateway.xmp_chmod(pathPrefix+tpath, mode);
     }
 
     int32_t xmp_chown(const std::string& tpath, const int32_t uid, const int32_t gid) {
         // Your implementation goes here
-        printf("xmp_chown: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_chown: %s\n", (pathPrefix+tpath).c_str());
         return rpcGateway.xmp_chown(pathPrefix+tpath, uid, gid);
     }
 
     int32_t xmp_truncate(const std::string& tpath, const int64_t size) {
         // Your implementation goes here
-        printf("xmp_truncate: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_truncate: %s\n", (pathPrefix+tpath).c_str());
         return rpcGateway.xmp_truncate(pathPrefix+tpath, size);
     }
 
     int32_t xmp_release(const std::string& tpath, const thrift_fuse_file_info& tfi) {
         // Your implementation goes here
-        printf("xmp_release: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_release: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         return rpcGateway.xmp_release(pathPrefix+tpath, tfi2);
     }
 
     void xmp_fsync(thrift_fsync_reply& _return, const std::string& tpath, const int32_t isdatasync, const thrift_fuse_file_info& tfi) {
         // Your implementation goes here
-        printf("xmp_fsync: %s\n", (pathPrefix+tpath).c_str());
+        // printf("xmp_fsync: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
         _return.retVal = rpcGateway.xmp_fsync(tpath, isdatasync, tfi2);
         _return.isdatasync = isdatasync;
