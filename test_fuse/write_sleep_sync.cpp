@@ -79,7 +79,7 @@ void write_sleep_fsync_file(char *pathToFile, int size, int sleep_duration) {
 int main(int argc, char **argv) {
 
     if (argc != 7) {
-        cout << "Wrong number of params, argc : " << argc << endl;
+        cout << "Wrong number of params need 7, argc : " << argc << endl;
         print_client_usage();
         exit(0);
     }
@@ -104,8 +104,10 @@ int main(int argc, char **argv) {
             case 's':
                 sleep_duration = strtoul(optarg, NULL, 10);
                 if (sleep_duration == 0 && errno == EINVAL) {
+                    cout << "sleep problem";
                     print_client_usage();
                 }
+                break;
             case '?':
             default:
                 print_client_usage();
