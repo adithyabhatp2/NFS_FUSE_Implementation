@@ -40,7 +40,7 @@ using namespace std;
 #define DEBUGLEVEL 1
 
 void print_client_usage() {
-    cout << "<bench.o> -p <pathToFile> -l <len of msg> -n <numReps> " << endl;
+    cout << "<bench.o> -p <pathToDirWithout/> -l <len of msg> -n <numReps> " << endl;
     exit(0);
 }
 
@@ -74,16 +74,20 @@ void printTimeElapsed(struct timespec tp_start, struct timespec tp_end) {
 }
 
 
-void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, clockid_t clk_id = CLOCK_MONOTONIC) {
+void bench_file(char *pathToDir, unsigned long msgLen, unsigned long numLoops, clockid_t clk_id = CLOCK_MONOTONIC) {
 
     struct timespec tp_start, tp_end, res;
     long time_elapsed_sec;
     long time_elapsed_nsec;
 
-    cout << "Bench : " << pathToFile << " : len : " << msgLen << " loops : " << numLoops << endl;
+    cout << "Bench : " << pathToDir << " : len : " << msgLen << " loops : " << numLoops << endl;
+
+    char * dirPath = strcat(pathToDir, "\\zzzTempDir\0");
+    char * filePath = strcat(pathToDir, "\\zzzTempFile\0");
+
+    cout << "Dir : " << dirPath << " File : " << filePath << endl;
 
     cout << "MKDIR\tRMDIR\tSTAT\tCREATE\tCLOSE\tUNLINK\n";
-
 
 
     unsigned long i;
@@ -104,7 +108,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
 
         //MKDIR
         clock_gettime(clk_id, &tp_start);
-        retVal = mkdir("tempdir", S_IRWXO|S_IRWXG | S_IRWXU);
+        retVal = mkdir(dirPath, S_IRWXO|S_IRWXG | S_IRWXU);
         clock_gettime(clk_id, &tp_end);
         if(retVal <0) {
             cout << "mkdir failed errno :  " << errno << endl;
@@ -119,7 +123,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
 
         //RMDIR
         clock_gettime(clk_id, &tp_start);
-        retVal = rmdir("tempdir");
+        retVal = rmdir(dirPath);
         clock_gettime(clk_id, &tp_end);
         if(retVal <0) {
             cout << "mkdir failed errno :  " << errno << endl;
@@ -134,7 +138,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
 
         //STAT
         clock_gettime(clk_id, &tp_start);
-        retVal = lstat(pathToFile, &stbuf);
+        retVal = lstat(filePath, &stbuf);
         clock_gettime(clk_id, &tp_end);
 
         printTimeElapsed(tp_start, tp_end);
@@ -146,7 +150,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
 
         //CREATE
         clock_gettime(clk_id, &tp_start);
-        int fd = open("zzzTempfile", O_CREAT | O_RDWR, S_IRWXO|S_IRWXG | S_IRWXU);
+        int fd = open(filePath, O_CREAT | O_RDWR, S_IRWXO|S_IRWXG | S_IRWXU);
         clock_gettime(clk_id, &tp_end);
 
         printTimeElapsed(tp_start, tp_end);
@@ -165,6 +169,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
         if(retVal < 0) {
             cout << "ERROR in write" << endl;
         }
+        fsync(fd);
 
 
         //CLOSE
@@ -181,7 +186,7 @@ void bench_file(char *pathToFile, unsigned long msgLen, unsigned long numLoops, 
 
         //UNLINK
         clock_gettime(clk_id, &tp_start);
-        retVal = unlink("zzzTempfile");
+        retVal = unlink(filePath);
         clock_gettime(clk_id, &tp_end);
 
         printTimeElapsed(tp_start, tp_end);
@@ -204,7 +209,7 @@ int main(int argc, char **argv) {
         exit(0);
     }
 
-    char *pathToFile;
+    char *pathToDir;
     int ch;
 
     unsigned long msgLen = 10;
@@ -213,7 +218,7 @@ int main(int argc, char **argv) {
     while ((ch = getopt(argc, argv, "p:l:n:")) != -1) {
         switch (ch) {
             case 'p':
-                pathToFile = strdup(optarg);
+                pathToDir = strdup(optarg);
                 break;
             case 'l':
                 msgLen = strtoul(optarg, NULL, 10);
@@ -235,7 +240,7 @@ int main(int argc, char **argv) {
     }
 
 
-    bench_file(pathToFile, msgLen, numLoops);
+    bench_file(pathToDir, msgLen, numLoops);
 
     return 0;
 }

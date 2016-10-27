@@ -39,7 +39,7 @@
 using namespace std;
 
 // init from a config file later
-static RPCGateway rpcGateway("localhost", 9090);
+static RPCGateway rpcGateway("localhost", 9080); // v1 server
 
 
 static void printStat(struct stat* stbuf) {
