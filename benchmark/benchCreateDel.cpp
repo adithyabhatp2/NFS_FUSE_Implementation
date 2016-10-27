@@ -82,12 +82,23 @@ void bench_file(char *pathToDir, unsigned long msgLen, unsigned long numLoops, c
 
     cout << "Bench : " << pathToDir << " : len : " << msgLen << " loops : " << numLoops << endl;
 
-    char * dirPath = strcat(pathToDir, "\\zzzTempDir\0");
-    char * filePath = strcat(pathToDir, "\\zzzTempFile\0");
 
-    cout << "Dir : " << dirPath << " File : " << filePath << endl;
+    cout << "1 pathToDir : " << pathToDir << endl;
+    string dirPath2 = string(pathToDir);
+    cout << "2 pathToDir : " << pathToDir << endl;
+    string filePath2 = string(pathToDir);
 
-    cout << "MKDIR\tRMDIR\tSTAT\tCREATE\tCLOSE\tUNLINK\n";
+    cout << "BeforeCat Dir : " << dirPath2 << " \nFile : " << filePath2 << endl;
+
+    dirPath2+="/zzzTempDir";
+    filePath2+="/zzzTempFile";
+
+    cout << "AfterCat Dir : " << dirPath2 << " \nFile : " << filePath2 << endl;
+
+    const char * dirPath = dirPath2.c_str();
+    const char * filePath = filePath2.c_str();
+
+    cout << "MKDIR\tRMDIR\tCREATE\tSTAT\tCLOSE\tUNLINK\n";
 
 
     unsigned long i;
@@ -136,21 +147,9 @@ void bench_file(char *pathToDir, unsigned long msgLen, unsigned long numLoops, c
         }
 
 
-        //STAT
-        clock_gettime(clk_id, &tp_start);
-        retVal = lstat(filePath, &stbuf);
-        clock_gettime(clk_id, &tp_end);
-
-        printTimeElapsed(tp_start, tp_end);
-        cout << "\t";
-        if(retVal < 0) {
-            cout << "ERROR in write" << endl;
-        }
-
-
         //CREATE
         clock_gettime(clk_id, &tp_start);
-        int fd = open(filePath, O_CREAT | O_RDWR, S_IRWXO|S_IRWXG | S_IRWXU);
+        int fd = open(filePath, O_CREAT | O_WRONLY, S_IRWXO|S_IRWXG | S_IRWXU);
         clock_gettime(clk_id, &tp_end);
 
         printTimeElapsed(tp_start, tp_end);
@@ -159,6 +158,18 @@ void bench_file(char *pathToDir, unsigned long msgLen, unsigned long numLoops, c
             cout << "Failed to open file.. ERROR " << errno << endl;
         }
 
+
+
+        //STAT
+        clock_gettime(clk_id, &tp_start);
+        retVal = lstat(filePath, &stbuf);
+        clock_gettime(clk_id, &tp_end);
+
+        printTimeElapsed(tp_start, tp_end);
+        cout << "\t";
+        if(retVal < 0) {
+            cout << "ERROR in stat" << endl;
+        }
 
         //WRITE
         retVal = lseek(fd, 0, SEEK_SET);
