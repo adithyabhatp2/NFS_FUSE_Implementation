@@ -335,7 +335,7 @@ static int xmp_fsync(const char *path, int isdatasync, struct fuse_file_info *fi
 
     outstanding_writes=0;
 
-    return res;
+    return 0;
 }
 
 #ifdef HAVE_POSIX_FALLOCATE

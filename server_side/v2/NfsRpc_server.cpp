@@ -206,13 +206,14 @@ public:
 //        _return.isdatasync = isdatasync;
 //        _return.__set_tfi(tfi2);
 
-//        writeCache.writeAll();
+
 
         writeCache.rpcGateway = rpcGateway;
-        int retVal = writeCache.writeNumForPath(pathPrefix+tpath, num);
+//        int retVal = writeCache.writeNumForPath(pathPrefix+tpath, num);
+        writeCache.writeAll();
         _return.isdatasync = isdatasync;
         _return.__set_tfi(tfi2);
-        _return.retVal = retVal;
+        _return.retVal = 100;
 
     }
     
