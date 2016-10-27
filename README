@@ -2,23 +2,40 @@
 
 You'll be building a simple distributed file system. The file system will assume an NFS-like protocol; Your file system will integrate into the Linux client side using FUSE.
 
-Client v2 == Server v1 : port 9080
+https://github.com/adithyabhatp2/NFS_FUSE_Implementation
+
+To Run
+------
+cd client_side/v4
+make client
+./fuseClient.o -f -d mtpt [-f and -d are the foreground and debug flags]
+
+cd server_side/v2
+make server
+./server.o <pathToFolderToBeExposed>
+
+
+Versions
+--------
+Client v2 == Server v1 : port 9080. Writes not flushed.
 Client v3: commit + individual connxns
 Client v4: single connxn + retry for server crash
-	: Locks for the write caches
+        : Locks for the write caches
 
 Design
 -------
 FUSE Client
-	Per FUSE method, one entry in RPCGateway/RPCClient
+        Per FUSE method, one entry in RPCGateway/RPCClient
 RPC Gateway - serialization + convert method params to RPC compatible types.
 RPC Client - sends the messages
 RPC Server - recvs the messaages
 RPC Gateway - deserializes + converts param types back to FUSE types
 NFS Server - executes the method on the underlying FS
+WriteCache - thread safe wrapper of vector<WriteCacheEntry>
+WriteCacheEntry - all the info in a write FUSE/syscall
 
 NOTE:
-write FUSE call returns int, and buf passed is filled.
+e.g. - write FUSE call returns int, and the passed buf is filled.
 Hence the RPCGateway will have to convert to GRPC Request/Response types.
 
 
