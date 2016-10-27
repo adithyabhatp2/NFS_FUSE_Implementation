@@ -115,7 +115,7 @@ service NfsRpc {
     thrift_readdir_reply xmp_readdir(1:string tpath, 2:i64 offset, 3:thrift_fuse_file_info tfi);
 
     thrift_statfs_reply xmp_statfs(1:string tpath, 2:thrift_statvfs tstbuf);
-    
+
     thrift_open_reply xmp_open(1:string tpath, 2:thrift_fuse_file_info tfi);
     i32 xmp_access(1:string tpath, 2:i32 mask);
     i32 xmp_mknod(1:string tpath, 2:i32 mode, 3:i64 rdev);

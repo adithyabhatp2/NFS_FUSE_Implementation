@@ -11,11 +11,12 @@
 
 class WriteCache {
 public:
+    WriteCache(RPCGateway rpcg);
     RPCGateway rpcGateway;
     std::vector<WriteCacheEntry> entries;
     int writeAll();
     void insert(WriteCacheEntry entry);
-    int writeNumForPath(std::string path, int num);
+    int writeNumForPath(const char * path, int num);
 };
 
 

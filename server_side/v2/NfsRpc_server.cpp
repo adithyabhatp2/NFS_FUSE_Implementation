@@ -188,14 +188,16 @@ public:
         return rpcGateway.xmp_truncate(pathPrefix+tpath, size);
     }
 
-    int32_t xmp_release(const std::string& tpath, const thrift_fuse_file_info& tfi) {
+    int32_t xmp_release(const std::string& tpath, const thrift_fuse_file_info& tfi, const int32_t num) {
         // Your implementation goes here
         printf("xmp_release: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
-        return rpcGateway.xmp_release(pathPrefix+tpath, tfi2);
+        return rpcGateway.xmp_release(pathPrefix+tpath, tfi2); // does nothing
+
+//        return writeCache.writeNumForPath(pathPrefix+tpath, num); // flushes
     }
 
-    void xmp_fsync(thrift_fsync_reply& _return, const std::string& tpath, const int32_t isdatasync, const thrift_fuse_file_info& tfi) {
+    void xmp_fsync(thrift_fsync_reply& _return, const std::string& tpath, const int32_t isdatasync, const thrift_fuse_file_info& tfi, const int32_t num) {
         // Your implementation goes here
         printf("xmp_fsync: %s\n", (pathPrefix+tpath).c_str());
         thrift_fuse_file_info tfi2(tfi);
@@ -204,12 +206,13 @@ public:
 //        _return.isdatasync = isdatasync;
 //        _return.__set_tfi(tfi2);
 
-        writeCache.writeAll();
+//        writeCache.writeAll();
+
+        writeCache.rpcGateway = rpcGateway;
+        int retVal = writeCache.writeNumForPath(pathPrefix+tpath, num);
         _return.isdatasync = isdatasync;
         _return.__set_tfi(tfi2);
-        _return.retVal = 1;
-
-        //        int retVal = rpcGateway.xmp_write(pathPrefix + tpath, tbuf2, size, offset, tfi2);
+        _return.retVal = retVal;
 
     }
     

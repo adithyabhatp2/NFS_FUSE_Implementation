@@ -2683,6 +2683,7 @@ class NfsRpc_xmp_fsync_presult {
 
 class NfsRpcClient : virtual public NfsRpcIf {
  public:
+    NfsRpcClient() {}
   NfsRpcClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
