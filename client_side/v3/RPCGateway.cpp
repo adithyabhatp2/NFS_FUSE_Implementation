@@ -139,11 +139,22 @@ RPCGateway::RPCGateway(char *serverHost, unsigned long serverPort) {
         cout << "RPCGateway Client Constructor: " << serverHost << "\t" << serverPort << endl;
     }
 
-    this->rpcClient = ThriftNfsRpc_Client(serverHost, serverPort);
+    this->host = strdup(serverHost);
+    this->port = serverPort;
+    this->rpcClient = ThriftNfsRpc_Client(this->host, this->port);
+//    this->rpcClient.transport->open();
 }
 
-
 RPCGateway::RPCGateway() {}
+
+void RPCGateway::resetRpcClient(){
+    this->rpcClient.transport->close();
+    this->rpcClient.socket->close();
+
+
+    this->rpcClient = ThriftNfsRpc_Client(this->host, this->port);
+    this->rpcClient.transport->open();
+}
 
 
 int RPCGateway::xmp_create(const char *path, mode_t mode, struct fuse_file_info *fi)
@@ -167,7 +178,17 @@ int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {
     string tpath(path);
     thrift_stat tstbuf;
     copyToThrift_stat(stbuf, tstbuf);
-    retVal = rpcClient.xmp_getattr(tpath, tstbuf); //TODO fix
+
+//    try {
+    retVal = rpcClient.xmp_getattr(tpath, tstbuf);
+//    }
+//
+//    catch (TException &tx) {
+//        cout << "RPCGateway : ERROR: " << tx.what() << endl;
+//        resetRpcClient();
+//        retVal = rpcClient.xmp_getattr(tpath, tstbuf);
+//    }
+
     if(retVal > -1) {
         copyFromthrift_stat(stbuf, tstbuf);
     }

@@ -31,6 +31,15 @@ Protobuf on GC
 sudo apt-get install autoconf automake libtool curl make g++ unzip
 https://github.com/google/protobuf/blob/master/src/README.md
 
+FileBench on GC
+----------------
+sudo apt-get install libtool byacc flex
+https://github.com/filebench/filebench
+Libraries have been installed in:
+   /usr/local/share/filebench/cvars
+export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/share/filebench/cvars"
+
+
 FUSE on Google cloud
 ---------------------
 apt-cache search fuse

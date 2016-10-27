@@ -10,7 +10,7 @@ using namespace std;
 #define DEBUGLEVEL 1
 
 
-void copyThriftStat(thrift_stat& first, thrift_stat& other) {
+void copyThriftStat(thrift_stat &first, thrift_stat &other) {
     first.st_dev = other.st_dev;
     first.st_ino = other.st_ino;
     first.st_mode = other.st_mode;
@@ -31,7 +31,7 @@ void copyThriftStat(thrift_stat& first, thrift_stat& other) {
     first.__isset = other.__isset;
 }
 
-void copyThriftStatvfs(thrift_statvfs& first, thrift_statvfs& other) {
+void copyThriftStatvfs(thrift_statvfs &first, thrift_statvfs &other) {
     first.f_bsize = other.f_bsize;
     first.f_frsize = other.f_frsize;
     first.f_blocks = other.f_blocks;
@@ -52,7 +52,7 @@ void copyThriftStatvfs(thrift_statvfs& first, thrift_statvfs& other) {
     first.__isset = other.__isset;
 }
 
-void copyThriftFuseFileInfo(thrift_fuse_file_info& first, const thrift_fuse_file_info& other) {
+void copyThriftFuseFileInfo(thrift_fuse_file_info &first, const thrift_fuse_file_info &other) {
     first.flags = other.flags;
     first.fh_old = other.fh_old;
     first.writepage = other.writepage;
@@ -92,7 +92,7 @@ ThriftNfsRpc_Client::ThriftNfsRpc_Client() {
 int ThriftNfsRpc_Client::xmp_create(string path, mode_t mode, thrift_fuse_file_info &fi) {
     int retVal = -1;
 
-    transport->open();
+	transport->open();
     retVal = client.xmp_create(path, mode, fi);
     transport->close();
 
@@ -105,14 +105,10 @@ int ThriftNfsRpc_Client::xmp_unlink(string path) {
 
     int retVal = -1;
 
-    try {
-        transport->open();
-        retVal = client.xmp_unlink(path);
-        transport->close();
+	transport->open();
+    retVal = client.xmp_unlink(path);
+    transport->close();
 
-    } catch (TException &tx) {
-        cout << "ERROR: " << tx.what() << endl;
-    }
     return retVal;
 }
 
@@ -121,9 +117,11 @@ int ThriftNfsRpc_Client::xmp_getattr(string path, thrift_stat &stbuf) {
 
     thrift_getattr_reply reply;
 
+
     transport->open();
     client.xmp_getattr(reply, path, stbuf);
     transport->close();
+
 
     copyThriftStat(stbuf, reply.tstbuf);
     return reply.retVal;
@@ -131,17 +129,21 @@ int ThriftNfsRpc_Client::xmp_getattr(string path, thrift_stat &stbuf) {
 
 int ThriftNfsRpc_Client::xmp_setattr(string path, thrift_stat &stbuf) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_setattr(path, stbuf);
     transport->close();
+
+
     return retVal;
 }
 
 int ThriftNfsRpc_Client::xmp_read(string path, string &buf, long int size, long int offset,
                                   thrift_fuse_file_info &fi) {
     thrift_read_reply reply;
+
     transport->open();
-    client.xmp_read(reply, path, buf, size, offset, fi );
+    client.xmp_read(reply, path, buf, size, offset, fi);
     transport->close();
 
     buf.assign(reply.tbuf);
@@ -152,45 +154,57 @@ int ThriftNfsRpc_Client::xmp_read(string path, string &buf, long int size, long 
 int ThriftNfsRpc_Client::xmp_write(string path, string &buf, long int size, long int offset,
                                    thrift_fuse_file_info &fi) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_write(path, buf, size, offset, fi);
     transport->close();
+
     return retVal;
 }
 
 int ThriftNfsRpc_Client::xmp_rename(string fromName, string to) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_rename(fromName, to);
     transport->close();
+
     return retVal;
 }
 
 int ThriftNfsRpc_Client::xmp_mkdir(string path, int mode) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_mkdir(path, mode);
     transport->close();
+
     return retVal;
 }
 
 int ThriftNfsRpc_Client::xmp_rmdir(string path) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_rmdir(path);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_readdir(std::string tpath, int64_t offset, thrift_fuse_file_info &tfi, thrift_readdir_reply &reply) {
+int ThriftNfsRpc_Client::xmp_readdir(std::string tpath, int64_t offset, thrift_fuse_file_info &tfi,
+                                     thrift_readdir_reply &reply) {
+
     transport->open();
     client.xmp_readdir(reply, tpath, offset, tfi);
     transport->close();
+
     return reply.retVal;
 }
 
 int ThriftNfsRpc_Client::xmp_statfs(string path, thrift_statvfs &stbuf) {
     thrift_statfs_reply reply;
+
     transport->open();
     client.xmp_statfs(reply, path, stbuf);
     transport->close();
@@ -202,99 +216,115 @@ int ThriftNfsRpc_Client::xmp_statfs(string path, thrift_statvfs &stbuf) {
 int ThriftNfsRpc_Client::xmp_open(string path, thrift_fuse_file_info &fi) {
 
     thrift_open_reply open_reply;
+	transport->open();
+    client.xmp_open(open_reply, path, fi);
+    transport->close();
 
-    try {
+    copyThriftFuseFileInfo(fi, open_reply.tfi);
 
-        transport->open();
-        client.xmp_open(open_reply, path, fi);
-        transport->close();
 
-        copyThriftFuseFileInfo(fi, open_reply.tfi);
-
-    } catch (TException &tx) {
-        cout << "ERROR: " << tx.what() << endl;
-    }
     return open_reply.retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_access(std::string &tpath, int mask){
+int ThriftNfsRpc_Client::xmp_access(std::string &tpath, int mask) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_access(tpath, mask);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_mknod(std::string &tpath, int mode, int64_t rdev){
+int ThriftNfsRpc_Client::xmp_mknod(std::string &tpath, int mode, int64_t rdev) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_mknod(tpath, mode, rdev);
     transport->close();
+
     return retVal;
 }
 
-void ThriftNfsRpc_Client::xmp_readlink(thrift_readlink_reply& _return, std::string& tpath, std::string& tbuf, int64_t size){
-
+void
+ThriftNfsRpc_Client::xmp_readlink(thrift_readlink_reply &_return, std::string &tpath, std::string &tbuf,
+                                  int64_t size) {
+    
     transport->open();
     client.xmp_readlink(_return, tpath, tbuf, size);
     transport->close();
+
 }
 
-int ThriftNfsRpc_Client::xmp_symlink(std::string& tfrom, std::string& tto){
+int ThriftNfsRpc_Client::xmp_symlink(std::string &tfrom, std::string &tto) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_symlink(tfrom, tto);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_link(std::string& tfrom, std::string& tto){
+int ThriftNfsRpc_Client::xmp_link(std::string &tfrom, std::string &tto) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_link(tfrom, tto);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_chmod(std::string& tpath, int mode){
+int ThriftNfsRpc_Client::xmp_chmod(std::string &tpath, int mode) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_chmod(tpath, mode);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_chown(std::string& tpath, int uid, int gid){
+int ThriftNfsRpc_Client::xmp_chown(std::string &tpath, int uid, int gid) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_chown(tpath, uid, gid);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_truncate(std::string& tpath, int64_t size){
+int ThriftNfsRpc_Client::xmp_truncate(std::string &tpath, int64_t size) {
     int retVal = -1;
+
     transport->open();
     retVal = client.xmp_truncate(tpath, size);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_release(std::string& tpath, thrift_fuse_file_info& tfi, int32_t num){
+int ThriftNfsRpc_Client::xmp_release(std::string &tpath, thrift_fuse_file_info &tfi, int32_t num) {
     int retVal = -1;
+
 
     transport->open();
     retVal = client.xmp_release(tpath, tfi, num);
     transport->close();
+
     return retVal;
 }
 
-int ThriftNfsRpc_Client::xmp_fsync(std::string& tpath, int isdatasync, thrift_fuse_file_info& tfi, int32_t num){
+int ThriftNfsRpc_Client::xmp_fsync(std::string &tpath, int isdatasync, thrift_fuse_file_info &tfi, int32_t num) {
 
     thrift_fsync_reply reply;
+
     transport->open();
     client.xmp_fsync(reply, tpath, isdatasync, tfi, num);
     transport->close();
+
 
     copyThriftFuseFileInfo(tfi, reply.tfi);
     return reply.retVal;

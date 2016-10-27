@@ -40,9 +40,13 @@ using namespace std;
 class RPCGateway {
 public:
 
+    char * host;
+    unsigned long port;
+
     RPCGateway();
     RPCGateway(char *, unsigned long);
-//    RPCGateway(ThriftNfsRpc_Client);
+
+    void resetRpcClient();
 
     ThriftNfsRpc_Client rpcClient;
 
