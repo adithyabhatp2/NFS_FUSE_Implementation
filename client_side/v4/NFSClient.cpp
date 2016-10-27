@@ -39,7 +39,7 @@
 using namespace std;
 
 // init from a config file later
-static RPCGateway rpcGateway("localhost", 9090);
+static RPCGateway rpcGateway("instance-2.c.quick-elixir-137423.internal", 9090);
 
 static int outstanding_writes=0;
 
