@@ -52,6 +52,7 @@ void write_and_fsync_file(char *pathToFile, int size) {
 
     const char * buf = msg.c_str();
 
+
     int fd = open(pathToFile, O_CREAT | O_WRONLY, S_IRWXO|S_IRWXG | S_IRWXU);
 
     cout << "FD : "<< fd << endl;
@@ -67,6 +68,8 @@ void write_and_fsync_file(char *pathToFile, int size) {
         cout << "Now will fsync and close" << endl;
     }
 
+
+    write(fd, "\n", 1);
     fsync(fd);
     close(fd);
 

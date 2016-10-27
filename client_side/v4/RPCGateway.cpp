@@ -218,6 +218,8 @@ int RPCGateway::xmp_unlink(const char *path) {
             return -1;
         }
     }
+
+    return retVal;
 }
 
 int RPCGateway::xmp_getattr(const char *path, struct stat *stbuf) {

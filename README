@@ -2,6 +2,9 @@
 
 You'll be building a simple distributed file system. The file system will assume an NFS-like protocol; Your file system will integrate into the Linux client side using FUSE.
 
+Client v3: commit + individual connxns
+Client v4: single connxn + retry for server crash
+	: Locks for the write caches
 
 Design
 -------
