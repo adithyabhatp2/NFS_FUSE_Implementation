@@ -1,8 +1,16 @@
 # NFS_FUSE_Implementation
 
-You'll be building a simple distributed file system. The file system will assume an NFS-like protocol; Your file system will integrate into the Linux client side using FUSE.
+Objective :
+Build a simple distributed file system. 
+The file system will assume an NFS-like protocol. 
+The file system will integrate into the Linux client side using FUSE.
 
 https://github.com/adithyabhatp2/NFS_FUSE_Implementation
+
+
+Status:
+vim - sometimes errors out during closing
+Issue - gettimens not implemented. SETATTR hangs, the only dependency not implemented is gettimens.
 
 To Run
 ------
